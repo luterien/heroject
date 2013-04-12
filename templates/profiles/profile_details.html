@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+Welcome , {{ profile }}
+
+<div>
+{% for project in profile.projects %}
+
+<div>
+	<a href="{% url project_details project.id project.slug %}">{{ project.title }}</a>
+</div>
+
+{% endfor %}
+</div>
+
+{% endblock %}

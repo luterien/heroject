@@ -1,0 +1,24 @@
+/*  
+    Flat UI Custom CSS
+    Author : Erhan Basa
+    Last Update : 09.04.2013
+*/
+
+/*   For Lower Spaces */
+.demo-headline            {padding: 73px 0 60px;}
+.demo-headline.onuser     {padding: 0 0 20px;}
+.demo-headline a          {color: #34495e; text-decoration: none;}
+
+/*  For Center and Triangle  */
+.login-form               {padding-right: 38px; float: none; margin: 0 auto;}
+.login-form:before        {left: 50%; top: -18px; width: 0; -webkit-transform: rotate(90deg);}
+
+/* For Margin Reset */
+.wellcomebtn              {margin-left: 0; margin-top: 20px;}
+.wellcomebtn:hover a      {color: white;}
+
+/* For Rregister Centering	*/
+.register-link			  {text-align: center; display: block; padding: 10px 0 0;}
+
+/* For Footer Spaces 	*/
+footer					  {margin-top: 50px;}

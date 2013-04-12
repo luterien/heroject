@@ -1,0 +1,192 @@
+{% extends "admin/base_site.html" %}
+{% load i18n admin_modify adminmedia %}
+{% load url from future %}
+{% load admin_static %}
+{% load custom_tags %}
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'admin/css/jquery-ui-1.8.16.custom.css' %}" type="text/css" />
+{% endblock %}
+{% block javascripts %}
+{% izin_varmi %}
+{% url 'admin:jsi18n' as jsi18nurl %}
+<!--<script type="text/javascript" src="{{ jsi18nurl|default:"../../../jsi18n/" }}"></script>-->
+
+<!-- django dependencies -->
+<script type="text/javascript" src="{% static 'admin/js/inlines.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/related-object-lookups.js' %}"></script>
+
+<!-- bootstrap plugins -->
+<script type="text/javascript" src="{% static 'admin/js/bootstrap-typeahead-fork.js' %}"></script>
+
+<!-- newadmin & tacirnet extensions -->
+<script type="text/javascript" src="{% static 'admin/js/newadmin.autocomplete.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/newadmin.linked-selects.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/newadmin.focus-error.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/newadmin.sync-field.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/newadmin.urlify.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/newadmin.m2m.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/tacirnet.category-manager.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/tacirnet.nitelik-manager.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/newadmin.raw_id.js' %}"></script>
+
+<!-- DatetimePicker  -->
+
+<script type="text/javascript" src="{% static 'admin/js/jquery-ui-datetime-slider.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/jquery-ui-sliderAccess.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/jquery-ui-timepicker-addon.js' %}"></script>
+
+<!-- custom javascripts -->
+<script type="text/javascript" src="{% static 'admin/js/newadmin.change_form.custom.js' %}"></script>
+<script type="text/javascript">
+    $(function($){
+        <!-- DatetimePicker Active -->
+        $('input[data-type="datetime"]').datetimepicker({
+            dateFormat: 'dd/mm/yy',
+            timeFormat: 'hh:mm',
+            addSliderAccess: true
+        });
+
+
+        // sayfa yenilendiğinde tekrar aynı sekmede göstermek için
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.nav-tabs a[href=#'+url.split('#')[1]+']').tab('show') ;
+        }
+        $('.nav-tabs a').on('click', function (e) {
+            window.location.hash = e.target.hash;
+        });
+
+        $(window).bind('hashchange', function() {
+            var hash = window.location.hash;
+            $("a[href="+hash+"]").click();
+        });
+
+        /*//////// Inline Sil buttonları////////////*/
+        var inline_delete_box = $(".inline-table .delete");
+        var inline_checkbox_check = $("input",inline_delete_box);
+        $.each(inline_checkbox_check.filter(":checked"),function (i,checkbox){
+            $(checkbox).prev().text("Geri Al").addClass("btn-danger").css("color","#fff");
+            $(checkbox).prev().addClass("active");
+        });
+
+        $(".inline-delete",inline_delete_box).click(function () {
+            var parent_td = $(this).parents('.delete');
+            var parent_width = $(parent_td).width();
+            $(parent_td).width(parent_width);//buton aktif olunca td taglarında kayma oluyor bunu önlemek için...
+            var checkbox_sil = $(this).next();
+            if ($(checkbox_sil).attr("checked")){
+                $(this).text("Sil").removeClass("btn-danger").removeAttr("style");
+                $(checkbox_sil).attr("checked",false);
+            }else{
+                $(checkbox_sil).attr("checked",true);
+                $(this).text("Geri Al").addClass("btn-danger").css("color","#fff");
+                $(checkbox_sil).removeClass("active");
+            }
+
+        });
+
+    });
+</script>
+
+
+
+{% endblock %}
+
+
+
+{% block coltype %}{% if ordered_objects %}colMS{% else %}colM{% endif %}{% endblock %}
+
+{% block bodyclass %}{{ opts.app_label }}-{{ opts.object_name.lower }} change-form{% endblock %}
+
+{% block breadcrumbs %}{% if not is_popup %}
+    <ul class="breadcrumb">
+    {% for title, location in breadcrumbs %}
+    <li> 
+      {% if location %}<a href="{{ location }}">{{ title }}</a>{% else %}{{title}}{% endif %}<b> >></b>
+    </li>
+    {% endfor %}
+
+     {% if add %}<li>{% trans "Add" %} {{ opts.verbose_name }}</li>{% else %}<li><a href="{{request.path}}">{{ original|truncatewords:"18" }}</a></li>{% endif %}
+    </ul>
+{% endif %}{% endblock %}
+
+
+
+{% block content %}
+
+<div id="content-main">
+        <form {% if has_file_field %}enctype="multipart/form-data" {% endif %}action="{{ form_url }}" method="post" id="{{ opts.module_name }}_form" class="form-horizontal">{% csrf_token %}{% block form_top %}{% endblock %}
+<div>
+{% if is_popup %}<input type="hidden" name="_popup" value="1" />{% endif %}
+{% if save_on_top %}{% submit_row %}{% endif %}
+{% if errors %}
+    <p class="alert alert-error">
+    <a class="close" data-dismiss="alert">×</a>
+    {% blocktrans count errors|length as counter %}Please correct the error below.{% plural %}Please correct the errors below.{% endblocktrans %}
+    </p>
+    {{ adminform.form.non_field_errors }}
+
+{% endif %}
+
+
+
+<ul class="nav nav-tabs">
+
+    {% for fieldset in adminform %}
+        <li class="{% if forloop.first %}active{% endif %}">
+            <a data-toggle="tab"
+           href="#{{ fieldset.name|default:"Genel"|slugify }}">{{ fieldset.name|default:"Genel" }}</a>
+        </li>
+    {% endfor %}
+    {% for inline_admin_formset in inline_admin_formsets %}
+        <li>
+            <a data-toggle="tab"
+               href="#{{ inline_admin_formset.opts.verbose_name_plural|slugify }}">{{ inline_admin_formset.opts.verbose_name_plural|title }}</a>
+        </li>
+    {% endfor %}
+      {% block objecttabs %}
+        {% if original %}
+        <ul class="manipulatedcform nav nav-pills pull-right">
+          {% if "xxx" %}
+          <li>
+            <a href="delete"><i class="icon-trash"></i> {% trans "Delete" %}</a>
+          </li>
+      {% endif %}
+          <li>
+            <a href="history"><i class="icon-book"></i> Geçmiş</a>
+          </li>
+        </ul>
+        {% endif %}
+      {% endblock %}
+</ul>
+
+<div class="tab-content">
+
+    {% for fieldset in adminform %}
+        <div class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ fieldset.name|default:"Genel"|slugify }}">
+            {% include "admin/includes/fieldset.html" %}
+        </div>
+    {% endfor %}
+    
+    {% for inline_admin_formset in inline_admin_formsets %}
+    <div class="tab-pane" id="{{ inline_admin_formset.opts.verbose_name_plural|slugify }}">
+        {% include inline_admin_formset.opts.template %}
+    </div>
+    {% endfor %}
+
+</div>
+
+    {% block after_related_objects %}{% if request.META.HTTP_REFERER %}<input type="hidden" name="_go_to_on_save" value="{{ request.META.HTTP_REFERER }}" />{% endif %}{% endblock %}
+
+{% block butonlar %}
+{% submit_row %}
+{% endblock butonlar %}
+
+{% if adminform and add %}
+   <script type="text/javascript">document.getElementById("{{ adminform.first_field.id_for_label }}").focus();</script>
+{% endif %}
+
+
+</div>
+</form></div>
+{% endblock %}

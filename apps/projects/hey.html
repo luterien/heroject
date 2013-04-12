@@ -1,0 +1,34 @@
+<fieldset class="module aligned">
+    {% if fieldset.description %}
+        <div class="description">{{ fieldset.description|safe }}</div>
+    {% endif %}
+    {% for line in fieldset %}
+        <div class="form-row{% if line.fields|length_is:'1' and line.errors %} error{% endif %}{% for field in line %} {{ field.field.name }}{% endfor %}">
+            {% for field in line %}
+            <div {% if not line.fields|length_is:'1' %} class="{% if field.field.field.required %}warning{% endif %} {% if line.fields|length_is:'2' %}six manipule-row{% endif %}{% if line.fields|length_is:'3' %}four manipulerow{% endif %}{% if line.fields|length_is:'4' %}three manipule-row{% endif %} field-box control-group {% if not field.is_readonly and field.errors %} error {% endif %}"{% else %} class="control-group {% if field.errors %} error{% endif %} {% if field.field.field.required %}warning{% endif %} {% if field.field.field.required %}warning{% endif %}"{% endif %}>
+                {% if not line.fields|length_is:'1' and not field.is_readonly %}{{ field.errors }}{% endif %}
+                <label for="id_{{ field.field.html_name }}" class="control-label">{{ field.field.label }}</label>
+                    
+                <div class="controls">    
+                    {% if field.is_readonly %}
+                        <p class="help-block">{{ field.contents }}</p>
+                    {% else %}
+                        {% if field.is_checkbox %}<label class='checkbox'>{% endif %}
+                        {{ field.field }}
+                        {% if field.is_checkbox %}
+                        {% if field.field.help_text %}<span class="help-inline">{{ field.field.help_text|safe }}</span>{% endif %}
+                        </label>
+                        {% endif %}
+                    {% endif %}
+                    {% for err in field.field.errors %}
+                        <span class="help-inline">{{ err }}</span>
+                    {% endfor %}
+                    {% if field.field.help_text and not field.is_checkbox %}
+                        <span class="help-inline">{{ field.field.help_text|safe }}</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</fieldset>

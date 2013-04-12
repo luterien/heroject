@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+Project name : {{ project }}
+<br /><br />
+Discussions <br />
+{% for discussion in project.discussion_list %}
+	<div><a href="{% url discussion_details discussion.id discussion.slug %}">{{ discussion }}</a></div>
+{% endfor %}
+<br /><br />
+ToDos <br />
+{% for todo in project.todo_list %}
+	<div><a href="{% url todo_details todo.id todo.slug %}">{{ todo }}</a></div>
+{% endfor %}
+
+{% endblock %}
