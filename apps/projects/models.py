@@ -4,6 +4,8 @@ from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
+
+
 class Project(models.Model):
     title = models.CharField(_("Title"), max_length=100)
     slug = models.SlugField()
@@ -16,8 +18,9 @@ class Project(models.Model):
     def __unicode__(self):
         return u"%s" % (self.title)
 
+    @models.permalink
     def get_absolute_url(self):
-        return reverse('project_details')
+        return ('project_details', (), {'pk': self.pk, 'slug': self.slug})
 
     def todo_list(self):
         return self.todolist_set.all()
@@ -26,7 +29,9 @@ class Project(models.Model):
         return self.discussion_set.all()
 
     def progress(self):
-        pass
+        todo_count = project.todolist_set.all().count()
+        done_count = project.todolist_set.filter(is_done=True).count()
+        return {'done':done_count, 'total':todo_count}
 
 
 class Discussion(models.Model):
@@ -42,8 +47,9 @@ class Discussion(models.Model):
     def __unicode__(self):
         return u"%s" % (self.title)
 
+    @models.permalink
     def get_absolute_url(self):
-        return reverse('discussion_details')
+        return ('discussion_details', (), {'pk': self.pk, 'slug': self.slug})
 
     def comments(self):
         return self.discussioncomment_set.all()
@@ -67,8 +73,9 @@ class ToDoList(models.Model):
     def __unicode__(self):
         return u"%s" % (self.title)
 
+    @models.permalink
     def get_absolute_url(self):
-        return reverse('todo_details')
+        return ('todo_details', (), {'pk': self.pk, 'slug': self.slug})
 
     def comments(self):
         return self.todocomment_set.all()
@@ -79,6 +86,9 @@ class ToDoList(models.Model):
     def completed_tasks(self):
         return self.tasks().filter(is_done=True)
 
+    def active_tasks(self):
+        return self.tasks().filter(is_done=False)
+
 
 
 class Task(models.Model):
@@ -88,7 +98,7 @@ class Task(models.Model):
     content = models.TextField(_("Content"), null=True, blank=True)
     ordering = models.IntegerField(_("Ordering"))
     deadline = models.DateTimeField(_("Deadline"), null=True, blank=True)
-    is_done = models.BooleanField(_("Is completed ?"), default=False)
+    is_done = models.BooleanField(_("Is completed"), default=False)
 
     people = models.ManyToManyField(Profile, verbose_name=_("People"))
 
@@ -101,7 +111,7 @@ class Task(models.Model):
         return u"%s" % (self.title)
 
     def get_absolute_url(self):
-        return reverse('task_details')
+        return ('task_details', (), {})
 
 
 

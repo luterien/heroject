@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from apps.profiles.models import *
 from apps.utils import get_or_none
 from apps.profiles.forms import *
-
+from apps.projects.forms import NewProjectForm
 
 def index(request, template="index.html"):
     return render_to_response(template, {}, context_instance=RequestContext(request))
@@ -87,14 +87,15 @@ def logout_user(request, logout_success_url="/"):
 
 @login_required
 def profile_details(request, template="profiles/profile_details.html"):
-	profile = Profile.objects.from_request(request)
+    profile = Profile.objects.from_request(request)
+    form = NewProjectForm()
+    ctx = {'profile': profile,
+          'form' : form }
 
-	ctx = {'profile': profile}
-
-	return render(request, template, ctx)
+    return render(request, template, ctx)
 
 
 @login_required
 def organization_details(request, template=""):
-	pass
+    pass
 

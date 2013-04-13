@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.simple import direct_to_template
-from apps.projects.views import project_details, task_details, discussion_details, todo_details, discussion_list
-from apps.profiles.views import profile_details, organization_details, login_user, register_user, logout_user, index
+from apps.projects.views import *
+from apps.profiles.views import *
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -20,17 +20,19 @@ urlpatterns = patterns('',
     #url(r'^$',                              direct_to_template, {'template': 'home/index.html'}),
 
     # Profile urls
-    url(r'^$',                                      login_user,         name="login"),
-    url(r'^register/$',                             register_user,      name="register"),
-    url(r'^logout/$',                               logout_user,        name="logout"),
-    url(r'^profile/$',                              profile_details,    name="profile_details"),
-    url(r'^index/$',                                index,              name="index"),
+    url(r'^$',                                           login_user,         name="login"),
+    url(r'^register/$',                                  register_user,      name="register"),
+    url(r'^logout/$',                                    logout_user,        name="logout"),
+    url(r'^profile/$',                                   profile_details,    name="profile_details"),
+    url(r'^index/$',                                     index,              name="index"),
 
 
     # Project urls
-    url(r'^project/([-\d]+)/([-\w]+)/$',            project_details,    name="project_details"),
-    url(r'^project/discussion/([-\d]+)/([-\w]+)/$', discussion_details, name="discussion_details"),
-    url(r'^project/todo/([-\d]+)/([-\w]+)/$',       todo_details,       name="todo_details"),
+    url(r'^project/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',                 project_details,          name="project_details"),
+    url(r'^project/discussion/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',      discussion_details,       name="discussion_details"),
+    url(r'^project/todo/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',            todo_details,             name="todo_details"),
+    url(r'^project/create/$',                                          create_project,           name="create_project"),
+    url(r'^project/update/(?P<pk>\d+)/$',                              UpdateProject.as_view(),  name='project_update'),
     #url(r'', 'discussion_list'),
     #url(r'', 'organization_details'),
     #url(r'', 'todo_details'),

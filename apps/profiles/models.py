@@ -46,7 +46,7 @@ class Profile(models.Model):
         return u"%s" % (self.user)
 
     def get_absolute_url(self):
-        return reverse('profile_details')
+        return ('profile_details', (), {})
 
     @property
     def projects(self):
@@ -56,4 +56,4 @@ class Profile(models.Model):
     @property
     def tasks(self):
     	""" return the list of Task objects which are assigned to the user """
-    	pass
+    	return self.task_set.all()
