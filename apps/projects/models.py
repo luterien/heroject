@@ -25,6 +25,9 @@ class Project(models.Model):
     def discussion_list(self):
         return self.discussion_set.all()
 
+    def progress(self):
+        pass
+
 
 class Discussion(models.Model):
     project = models.ForeignKey(Project, verbose_name=_("Project"))
@@ -56,6 +59,11 @@ class ToDoList(models.Model):
     date_started = models.DateTimeField(_("Date Started"), default=datetime.now)
     description = models.TextField(_("Description"), null=True, blank=True)
 
+    class Meta:
+        verbose_name = _("ToDo List")
+        verbose_name_plural = _("ToDo Lists")
+        ordering = ('ordering',)
+
     def __unicode__(self):
         return u"%s" % (self.title)
 
@@ -64,6 +72,13 @@ class ToDoList(models.Model):
 
     def comments(self):
         return self.todocomment_set.all()
+
+    def tasks(self):
+        return self.task_set.all()
+
+    def completed_tasks(self):
+        return self.tasks().filter(is_done=True)
+
 
 
 class Task(models.Model):
@@ -77,14 +92,17 @@ class Task(models.Model):
 
     people = models.ManyToManyField(Profile, verbose_name=_("People"))
 
+    class Meta:
+        verbose_name = _("Task")
+        verbose_name_plural = _("Tasks")
+        ordering = ('ordering',)
+
     def __unicode__(self):
         return u"%s" % (self.title)
 
     def get_absolute_url(self):
-        pass
+        return reverse('task_details')
 
-    def progress(self):
-        pass
 
 
 class BaseComment(models.Model):
@@ -105,8 +123,6 @@ class DiscussionComment(BaseComment):
     def __unicode__(self):
         return u"%s" % (self.title)
 
-    def get_absolute_url(self):
-        pass
 
 
 class ToDoComment(BaseComment):
@@ -115,6 +131,4 @@ class ToDoComment(BaseComment):
     def __unicode__(self):
         return u"%s" % (self.title)
 
-    def get_absolute_url(self):
-        pass
 
