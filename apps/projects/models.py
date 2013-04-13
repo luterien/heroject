@@ -34,6 +34,9 @@ class Project(models.Model):
         return {'done':done_count, 'total':todo_count}
 
 
+## TODO
+## refactor model methods later
+
 class Discussion(models.Model):
     project = models.ForeignKey(Project, verbose_name=_("Project"))
     started_by = models.ForeignKey(Profile, verbose_name=_("Started by"))
@@ -51,8 +54,11 @@ class Discussion(models.Model):
     def get_absolute_url(self):
         return ('discussion_details', (), {'pk': self.pk, 'slug': self.slug})
 
-    def comments(self):
+    def posts(self):
         return self.discussioncomment_set.all()
+
+    def latest_post(self):
+        pass#return self.discussioncomment_set.order_by('-date_started')
 
 
 class ToDoList(models.Model):
@@ -62,7 +68,7 @@ class ToDoList(models.Model):
 
     project = models.ForeignKey(Project, verbose_name=_("Project"))
 
-    date_started = models.DateTimeField(_("Date Started"), default=datetime.now)
+    date_started = models.DateTimeField(_("Date Started"), default=datetime.now())
     description = models.TextField(_("Description"), null=True, blank=True)
 
     class Meta:
@@ -121,7 +127,7 @@ class BaseComment(models.Model):
     title = models.CharField(_("Title"), max_length=100)
     slug = models.SlugField()
 
-    date_started = models.DateTimeField(_("Date Started"), default=datetime.now)
+    date_started = models.DateTimeField(_("Date Started"), default=datetime.now())
 
     class Meta:
         abstract = True
@@ -132,7 +138,6 @@ class DiscussionComment(BaseComment):
 
     def __unicode__(self):
         return u"%s" % (self.title)
-
 
 
 class ToDoComment(BaseComment):

@@ -2,10 +2,10 @@ from django.shortcuts import render, get_object_or_404, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, CreateView
 
 from apps.utils import get_or_none
-from apps.projects.forms import NewProjectForm
+from apps.projects.forms import *
 from apps.projects.models import *
 
 @login_required
@@ -16,65 +16,78 @@ def project_details(request, pk, slug, template="projects/project_details.html")
 
 @login_required
 def task_details(request, pk, slug, template=""):
-	task = get_or_none(Task, {'pk':pk, 'slug':slug})
+    task = get_or_none(Task, {'pk':pk, 'slug':slug})
 
-	ctx = {'task':task}
+    ctx = {'task':task}
 
-	return render(request, template, ctx)
+    return render(request, template, ctx)
 
 @login_required
 def discussion_details(request, pk, slug, template="projects/discussion_details.html"):
-	discussion = get_object_or_404(Discussion, pk=pk, slug=slug)
+    discussion = get_object_or_404(Discussion, pk=pk, slug=slug)
 
-	ctx = {'discussion':discussion}
+    ctx = {'discussion':discussion}
 
-	return render(request, template, ctx)
+    return render(request, template, ctx)
 
 @login_required
 def todo_details(request, pk, slug, template="projects/todo_details.html"):
-	""" returns the list of todo lists for the given project"""
-	todo = get_object_or_404(ToDoList, pk=pk, slug=slug)
+    """ returns the list of todo lists for the given project"""
+    todo = get_object_or_404(ToDoList, pk=pk, slug=slug)
 
-	ctx = {'todo':todo}
+    ctx = {'todo':todo}
 
-	return render(request, template, ctx)
+    return render(request, template, ctx)
 
 @login_required
 def discussion_list(request, template=""):
-	""" returns the list of discussions for the given project"""
-	pass
+    """ returns the list of discussions for the given project"""
+    pass
 
 
 @login_required
 def create_project(request, template="new_project.html"):
-	if request.method == "POST":
-		form = NewProjectForm(request.POST)
-		
-		if form.is_valid():
-			title = request.POST.get('title')
-			desc  = request.POST.get('description')
+    if request.method == "POST":
+        form = NewProjectForm(request.POST)
+        
+        if form.is_valid():
+            title = request.POST.get('title')
+            desc  = request.POST.get('description')
 
-			prj = Project(title=title, description=desc, slug="tempfix")
+            prj = Project(title=title, description=desc, slug="tempfix")
 
-			if prj:
-				prj.save()
-				return HttpResponseRedirect(prj.get_absolute_url())
+            if prj:
+                prj.save()
+                return HttpResponseRedirect(prj.get_absolute_url())
 
-	else:
-		form = NewProjectForm()
+    else:
+        form = NewProjectForm()
 
-	ctx = {'form': form}
+    ctx = {'form': form}
 
-	return render_to_response(template, ctx, context_instance=RequestContext(request))
+    return render_to_response(template, ctx, context_instance=RequestContext(request))
 
 
 
 class UpdateProject(UpdateView):
     template_name = "edit_project.html"
     model = Project
-	
+    form_class = UpdateProjectForm
+    
     def get_success_url(self):
-    	return reverse('project_update', kwargs={'pk':self.object.pk })
+        return reverse('update_project', kwargs={'pk':self.object.pk })
 
 
+class CreateDiscussion(CreateView):
+    template_name = "create_discussion.html"
+    model = Discussion
+    form_class = CreateDiscussionForm
 
+
+## TODO
+## create the 'starter post' when a discussion is created 
+
+
+class CreateDiscussionComment(CreateView):
+    template_name = "create_post.html"
+    model = DiscussionComment

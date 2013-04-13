@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block Content %}
 
 Discussion : {{ discussion }}
+
+<br />
+
+{% for post in discussion.posts %}
+	{{ post }}
+{% endfor %}
 
 {% endblock %}
