@@ -37,6 +37,7 @@ class Project(models.Model):
 ## TODO
 ## refactor model methods later
 
+
 class Discussion(models.Model):
     project = models.ForeignKey(Project, verbose_name=_("Project"))
     started_by = models.ForeignKey(Profile, verbose_name=_("Started by"))

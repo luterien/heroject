@@ -40,6 +40,7 @@ urlpatterns = patterns('',
 
     # todo urls
     url(r'^project/todo/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',            todo_details,               name="todo_details"),
+    url(r'^project/todo/create/$',                                     CreateTodo.as_view(),       name="create_todo"),
 
     # post urls
     url(r'^discussion/post/create/$',                                  CreateDiscussionComment.as_view(),    name="create_post"),

@@ -91,3 +91,7 @@ class CreateDiscussion(CreateView):
 class CreateDiscussionComment(CreateView):
     template_name = "create_post.html"
     model = DiscussionComment
+
+class CreateTodo(CreateView):
+    template_name = "create_todo.html"
+    model = ToDoList
