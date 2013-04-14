@@ -5,7 +5,7 @@
           <div class="demo-text-box prl index">
             <h3 class="demo-panel-title">Wellcome to PROJECTBONUS</h3>
             <h4>Projects are waiting for you! Or 
-              <strong class="crt-project"><a href="/project/create/">Create New Project</a></strong>
+              <strong class="crt-project"><a href="{% url create_project %}">Create New Project</a></strong>
             </h4>
             {% for project in projects %}
               <ul class="project-todos">
@@ -39,7 +39,7 @@
                   {% endfor %}
             {% endfor %}
             <div class="span3 wellcomebtn">
-              <a href="/project/create/" class="btn btn-large btn-block btn-info">Create Project</a>
+              <a href="{% url create_project %}" class="btn btn-large btn-block btn-info">Create Project</a>
             </div>
           </div>
     {% else %}
@@ -50,7 +50,7 @@
               your links, they are an important <a href="#">visual marker</a> for users.</p>
             <p>Also, to attract attention you can mark some&nbsp;important words using <strong>bold weights</strong>.</p>
             <div class="span3 wellcomebtn">
-              <a href="/project/create/" class="btn btn-large btn-block btn-info">Create Project</a>
+              <a href="{% url create_project %}" class="btn btn-large btn-block btn-info">Create Project</a>
             </div>
           </div>
     {% endif %}

@@ -5,7 +5,7 @@
 
 {% block Content %}
 <div class="login-form first span4">
-<form action="/register/" method="POST">{% csrf_token %}
+<form action="{% url register %}" method="POST">{% csrf_token %}
 
 	{% for f in form %}
 			<div class="control-group">
