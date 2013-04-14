@@ -8,7 +8,7 @@
           <img src="{{ STATIC_URL }}images/illustrations/clipboard.png" class="big-illustration-pusher">
           </span>
         </div>
-			<form class="span7 pull-right" action="/project/create/" method="POST">{% csrf_token %}
+			<form class="span7 pull-right" action="{% url create_project %}" method="POST">{% csrf_token %}
 			{{ form.as_p }}
         <div class="span3 wellcomebtn">
            <button href="#" class="btn btn-large btn-block btn-info">Create Project</button>

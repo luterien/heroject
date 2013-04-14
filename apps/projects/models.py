@@ -1,10 +1,14 @@
 from django.db import models
-from apps.profiles.models import Profile
 from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import slugify
 
+from apps.profiles.models import Profile
+from apps.fields import AutoSlugField
 
+## TODO
+## Project permissions
 
 class Project(models.Model):
     title = models.CharField(_("Title"), max_length=100)
@@ -22,13 +26,17 @@ class Project(models.Model):
     def get_absolute_url(self):
         return ('project_details', (), {'pk': self.pk, 'slug': self.slug})
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Project, self).save(*args, **kwargs)
+
     def completed_tasks(self):
         return self.task_set.filter(is_done=True)
 
     def active_tasks(self):
         return self.task_set.filter(is_done=False)
 
-    def discussion_list(self):
+    def discussions(self):
         return self.discussion_set.all()
 
     def progress(self):
@@ -38,8 +46,6 @@ class Project(models.Model):
             return done_count*100/todo_count
         except ZeroDivisionError:
             return None    
-
-
 
 
 ## TODO
@@ -62,6 +68,10 @@ class Discussion(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('discussion_details', (), {'pk': self.pk, 'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Discussion, self).save(*args, **kwargs)
 
     def posts(self):
         return self.discussioncomment_set.all()
@@ -92,6 +102,10 @@ class Task(models.Model):
     def get_absolute_url(self):
         return ('task_details', (), {'pk':self.pk})
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Task, self).save(*args, **kwargs)
+
     def deadline_status(self):
         pass
 
@@ -117,6 +131,10 @@ class BaseComment(models.Model):
 
     class Meta:
         abstract = True
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(BaseComment, self).save(*args, **kwargs)
 
 
 class DiscussionComment(BaseComment):

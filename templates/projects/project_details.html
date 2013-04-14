@@ -11,6 +11,25 @@
           </div>  
           {% endif %}
         </div>
+
+        <ul class="project-todos">
+
+            <h4>Discussions on this project</h4>
+
+            {% for discussion in project.discussions %}
+              <a href="{% url discussion_details discussion.pk discussion.slug %}">{{ discussion.title }}</a>
+              <a class="todo-comment" href="">{{discussion.comment_count}} Replies</a>
+            {% endfor %}
+
+            <!-- gecici link..sonra sen style falan biseyler koyarsın @erhan -->
+            <a href="{% url create_discussion project.pk %}">Add new discussion</a>
+
+            <li>
+              <span class="fui-plus-16"></span>
+              <input class="add-todo" placeholder="Add Discussion">
+            </li>                        
+        </ul>
+
         <ul class="project-todos">
             <h4>To-do List</h4>
           	{% for task in project.active_tasks %}
@@ -34,6 +53,7 @@
               <input class="add-todo" placeholder="Add to-do!">
             </li>                        
         </ul>
+
         <ul class="project-todos complete-list">
             <h4>Complete List</h4>
             {% for task in project.completed_tasks %}

@@ -36,7 +36,7 @@ urlpatterns = patterns('',
 
     # discussion urls
     url(r'^project/discussions/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',     discussion_details,         name="discussion_details"),
-    url(r'^project/discussions/create/$',                              CreateDiscussion.as_view(), name="create_discussion"),
+    url(r'^project/(?P<project_id>[-\d]+)/discussions/create/$',       CreateDiscussion.as_view(), name="create_discussion"),
 
     # todo urls
     #url(r'^project/todo/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',            todo_details,               name="todo_details"),

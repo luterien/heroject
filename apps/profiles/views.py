@@ -13,6 +13,7 @@ from apps.projects.forms import NewProjectForm
 
 def index(request, template="index.html"):
     profile = Profile.objects.from_request(request)
+    
     ctx = {'projects':profile.projects}
 
     return render_to_response(template, ctx, context_instance=RequestContext(request))
