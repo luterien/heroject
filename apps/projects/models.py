@@ -5,7 +5,6 @@ from django.core.urlresolvers import reverse
 from django.template.defaultfilters import slugify
 
 from apps.profiles.models import Profile
-from apps.fields import AutoSlugField
 
 ## TODO
 ## Project permissions
