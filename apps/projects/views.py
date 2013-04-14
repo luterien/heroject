@@ -38,7 +38,8 @@ def task_details(request, pk,template="projects/task_details.html"):
 @login_required
 def discussion_details(request, pk, slug, template="projects/discussion_details.html"):
     discussion = get_object_or_404(Discussion, pk=pk, slug=slug)
-    ctx = {'discussion':discussion}
+    ctx = {'discussion':discussion,
+           'new_post_form':CreateDiscussionCommentForm}
     if not _has_project_access(request, discussion.project):
         return HttpResponseRedirect(reverse('index'))
 
@@ -113,7 +114,19 @@ class CreateDiscussion(CreateView):
 class CreateDiscussionComment(CreateView):
     template_name = "create_post.html"
     model = DiscussionComment
+    form_class = CreateDiscussionCommentForm
 
+    def get_success_url(self):
+        return reverse('discussion_details', kwargs={'pk':self.object.discussion.pk, 'slug': self.object.discussion.slug })
+
+    def form_valid(self, form):
+        self.object = form.instance
+        self.object.discussion_id = self.kwargs['discussion_id']
+        # started by
+        profile = Profile.objects.from_request(self.request)
+        self.object.started_by = profile
+        self.object.save()
+        return super(CreateDiscussionComment, self).form_valid(form)
 
 ## TODO
 ## create the 'starter post' when a discussion is created 

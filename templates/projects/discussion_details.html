@@ -5,9 +5,16 @@
 Discussion : {{ discussion }}
 
 <br />
-
+<br />
 {% for post in discussion.posts %}
-	{{ post }}
+	<div>{{ post.title }}</div>
+	<div>{{ post.content }}</div>
+	------------------------------
 {% endfor %}
+
+<form action="{% url create_post discussion.pk %}" method="POST">{% csrf_token %}
+{{ new_post_form.as_p }}
+<input type="submit" value="create" />
+</form>
 
 {% endblock %}

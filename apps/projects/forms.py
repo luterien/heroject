@@ -22,3 +22,9 @@ class CreateDiscussionForm(forms.ModelForm):
         model = Discussion
         fields = ('title', 'content', )
 
+
+class CreateDiscussionCommentForm(forms.ModelForm):
+	class Meta:
+		model = DiscussionComment
+		fields = ('title', 'content', )
+

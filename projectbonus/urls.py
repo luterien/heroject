@@ -30,25 +30,25 @@ urlpatterns = patterns('',
     url(r'^index/$',                                     index,              name="index"),
 
     # project urls
-    url(r'^project/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',                 project_details,            name="project_details"),
-    url(r'^project/create/$',                                          create_project,             name="create_project"),
-    url(r'^project/update/(?P<pk>\d+)/$',                              UpdateProject.as_view(),    name='update_project'),
+    url(r'^project/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',                  project_details,            name="project_details"),
+    url(r'^project/create/$',                                           create_project,             name="create_project"),
+    url(r'^project/update/(?P<pk>\d+)/$',                               UpdateProject.as_view(),    name='update_project'),
 
     # discussion urls
-    url(r'^project/discussions/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',     discussion_details,         name="discussion_details"),
-    url(r'^project/(?P<project_id>[-\d]+)/discussions/create/$',       CreateDiscussion.as_view(), name="create_discussion"),
+    url(r'^project/discussions/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',      discussion_details,         name="discussion_details"),
+    url(r'^project/(?P<project_id>[-\d]+)/discussions/create/$',        CreateDiscussion.as_view(), name="create_discussion"),
 
     # todo urls
     #url(r'^project/todo/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',            todo_details,               name="todo_details"),
     #url(r'^project/todo/create/$',                                     CreateTodo.as_view(),       name="create_todo"),
 
     # post urls
-    url(r'^discussion/post/create/$',                                  CreateDiscussionComment.as_view(),    name="create_post"),
+    url(r'^discussion/(?P<discussion_id>[-\d]+)/post/create/$',         CreateDiscussionComment.as_view(),    name="create_post"),
     #url(r'', 'discussion_list'),
     #url(r'', 'organization_details'),
     #url(r'', 'todo_details'),
 
-    url(r'^project/task/(?P<pk>[-\d]+)/$',                             task_details,                name="task_details"),
+    url(r'^project/task/(?P<pk>[-\d]+)/$',                              task_details,                name="task_details"),
 
 
 )
