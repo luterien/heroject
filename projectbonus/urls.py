@@ -39,12 +39,16 @@ urlpatterns = patterns('',
     url(r'^project/discussions/create/$',                              CreateDiscussion.as_view(), name="create_discussion"),
 
     # todo urls
-    url(r'^project/todo/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',            todo_details,               name="todo_details"),
-    url(r'^project/todo/create/$',                                     CreateTodo.as_view(),       name="create_todo"),
+    #url(r'^project/todo/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',            todo_details,               name="todo_details"),
+    #url(r'^project/todo/create/$',                                     CreateTodo.as_view(),       name="create_todo"),
 
     # post urls
     url(r'^discussion/post/create/$',                                  CreateDiscussionComment.as_view(),    name="create_post"),
     #url(r'', 'discussion_list'),
     #url(r'', 'organization_details'),
     #url(r'', 'todo_details'),
+
+    url(r'^project/task/(?P<pk>[-\d]+)/$',                             task_details,                name="task_details"),
+
+
 )

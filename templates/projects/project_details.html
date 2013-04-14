@@ -2,16 +2,56 @@
 
 {% block Content %}
 
-Project name : {{ project }}
-<br /><br />
-Discussions <br />
-{% for discussion in project.discussion_list %}
-	<div><a href="{% url discussion_details discussion.id discussion.slug %}">{{ discussion }}</a></div>
-{% endfor %}
-<br /><br />
-ToDos <br />
-{% for todo in project.todo_list %}
-	<div><a href="{% url todo_details todo.id todo.slug %}">{{ todo }}</a></div>
-{% endfor %}
+        <div class="project-head">
+          <h3>{{ project }}</h3>
+          <p>{{ project.description }}</p>
+          {% if project.progress %}
+          <div class="progress">
+            <div class="bar" style="width: {{ project.progress }}%;"></div>
+          </div>  
+          {% endif %}
+        </div>
+        <ul class="project-todos">
+            <h4>To-do List</h4>
+          	{% for task in project.active_tasks %}
+          	<li>
+  				<label class="checkbox" for="checkbox1">
+  					<span class="icon"></span>
+  					<span class="icon-to-fade"></span>
+                	<input type="checkbox" value="" id="checkbox1">
+              	</label>
+              	<a href="{% url task_details task.id %}">
+          		{{ task.title }}
+          		</a>
+                <a class="todo-comment" href="{% url task_details task.id %}">{{task.comment_count}} Comments</a>
+                {% for people in task.assigned_people %}
+                <span>({{ people }})</span>
+                {% endfor %}
+          	</li>
+          	{% endfor %}
+            <li>
+              <span class="fui-plus-16"></span>
+              <input class="add-todo" placeholder="Add to-do!">
+            </li>                        
+        </ul>
+        <ul class="project-todos complete-list">
+            <h4>Complete List</h4>
+            {% for task in project.completed_tasks %}
+          	<li>
+				<label class="checkbox checked" for="checkbox2">
+                  <span class="icon"></span>
+                  <span class="icon-to-fade"></span>
+                  <input type="checkbox" checked="checked" value="" id="checkbox2">
+              	</label>
+              	<a href="{% url task_details task.id %}">
+          		{{ task.title }}
+          		</a>
+                <a class="todo-comment" href="{% url task_details task.id %}">{{task.comment_count}} Comments</a>
+                {% for people in task.assigned_people %}
+                <span>({{ people }})</span>
+                {% endfor %}
+          	</li>
+          	{% endfor %}
+        </ul>
 
 {% endblock %}

@@ -5,10 +5,13 @@
 */
 
 /*   For Lower Spaces */
-.demo-headline            {padding: 73px 0 60px;}
+/* .demo-headline            {padding: 73px 0 60px;} */
+.demo-headline            {padding: 0 0 20px 0;}
 .demo-headline.onuser     {padding: 0 0 20px;}
 .demo-headline a          {color: #34495e; text-decoration: none;}
 
+.index .demo-panel-title  {margin: 0;}
+.index .crt-project a 	  {text-decoration: none; margin-left: 4px; display: inline-block;}
 /*  For Center and Triangle  */
 .login-form               {padding-right: 38px; float: none; margin: 0 auto;}
 .login-form:before        {left: 50%; top: -18px; width: 0; -webkit-transform: rotate(90deg);}
@@ -22,3 +25,29 @@
 
 /* For Footer Spaces 	*/
 footer					  {margin-top: 50px;}
+
+/*	Create Form  */
+.well  					  {overflow: hidden;}
+.well label 			  {font: bold 14px/3.231 "Lato", sans-serif; float: left; width: 160px;}
+.well .radio			  {font: bold 14px/1.231 "Lato", sans-serif; width: auto; margin-right: 30px;}
+.well .control-group	  {width: 100%; float: left;}
+
+.create-project-icon 	  {display: block; padding: 45px; background: #ececec; border-radius: 500px;}
+.create-project-text 	  {width: 100%; text-align: center; margin:20px 0; font-size: 20px; color: #ccc;}
+
+/*	Project Todos	*/
+.project-title a		  {text-decoration: none; color: #34495e;}
+.progress-cnt 	  	 	  {width: 100%; float: left;}
+.progress-cnt .progress   {width: 500px; margin: 10px 0; float: left;}
+.progress-cnt strong	  {color: #1abc9c; float: left; margin-left: 20px; font-size: 20px; margin-top: -5px;}
+.project-todos  		  {margin: 0; margin-top: 20px; float: left; width: 100%;}
+.project-todos .checkbox  {float: left; margin: auto 0;}
+.project-todos li 		  {list-style: none; width: 100%; float: left; margin-bottom: 10px;}
+.project-todos li a 	  {color: #34495e; font: 14px/1.231 "Lato", sans-serif; text-decoration: none;}
+.project-todos li a:hover {color: #1abc9c;}
+.add-todo				  {border: 0; width: 90%; margin-left: 10px;}
+
+.complete-list li a 	  {text-decoration: line-through;}
+
+.todo-comment 			  {background: #1abc9c; color: #fff!important; padding: 3px 8px; border-radius: 4px;  margin-left: 12px; margin-right: 4px;}
+.complete-list .todo-comment 	{text-decoration: none; margin-left: 12px; margin-right: 4px;}

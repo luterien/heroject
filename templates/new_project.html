@@ -1,10 +1,21 @@
 {% extends "base.html" %}
 
 {% block Content %}
+      <div class="well">
+        <div class="span3">
+          <p class="create-project-text">Let's Create Project</p>
+          <span class="create-project-icon">
+          <img src="{{ STATIC_URL }}images/illustrations/clipboard.png" class="big-illustration-pusher">
+          </span>
+        </div>
+			<form class="span7 pull-right" action="/project/create/" method="POST">{% csrf_token %}
+			{{ form.as_p }}
+        <div class="span3 wellcomebtn">
+           <button href="#" class="btn btn-large btn-block btn-info">Create Project</button>
+        </div>
 
-<form action="/project/create/" method="POST">{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="create" />
-</form>
+			</form>
+        </div>
+
 
 {% endblock %}

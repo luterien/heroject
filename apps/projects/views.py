@@ -15,8 +15,8 @@ def project_details(request, pk, slug, template="projects/project_details.html")
     return render(request, template, ctx)
 
 @login_required
-def task_details(request, pk, slug, template=""):
-    task = get_or_none(Task, {'pk':pk, 'slug':slug})
+def task_details(request, pk,template="projects/task_details.html"):
+    task = get_object_or_404(Task, pk=pk)
 
     ctx = {'task':task}
 
@@ -30,14 +30,6 @@ def discussion_details(request, pk, slug, template="projects/discussion_details.
 
     return render(request, template, ctx)
 
-@login_required
-def todo_details(request, pk, slug, template="projects/todo_details.html"):
-    """ returns the list of todo lists for the given project"""
-    todo = get_object_or_404(ToDoList, pk=pk, slug=slug)
-
-    ctx = {'todo':todo}
-
-    return render(request, template, ctx)
 
 @login_required
 def discussion_list(request, template=""):
@@ -92,6 +84,3 @@ class CreateDiscussionComment(CreateView):
     template_name = "create_post.html"
     model = DiscussionComment
 
-class CreateTodo(CreateView):
-    template_name = "create_todo.html"
-    model = ToDoList

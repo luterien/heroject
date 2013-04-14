@@ -1,6 +1,48 @@
 {% extends "base.html" %}
 
 {% block Content %}
+    {% if projects %}
+          <div class="demo-text-box prl index">
+            <h3 class="demo-panel-title">Wellcome to PROJECTBONUS</h3>
+            <h4>Projects are waiting for you! Or 
+              <strong class="crt-project"><a href="/project/create/">Create New Project</a></strong>
+            </h4>
+            {% for project in projects %}
+              <ul class="project-todos">
+                  <h3 class="project-title">
+                    <a href="{% url project_details project.pk project.slug %}">
+                      {{ project.title }}
+                    </a>
+                    <div class="progress-cnt">
+                    <div class="progress">
+                        <div class="bar" style="width: {{ project.progress }}%;"></div>
+                    </div>  
+                    <strong>%{{ project.progress }} Completed!</strong>
+                    </div>  
+                  </h3>
+                  {% for task in project.active_tasks %}
+                  <li>
+                <label class="checkbox" for="checkbox1">
+                  <span class="icon"></span>
+                  <span class="icon-to-fade"></span>
+                        <input type="checkbox" value="" id="checkbox1">
+                      </label>
+                      <a href="{% url task_details task.id %}">
+                      {{ task.title }} 
+                      </a>
+                    <a class="todo-comment" href="{% url task_details task.id %}">{{task.comment_count}} Comments</a>
+                    {% for people in task.assigned_people %}
+                    <span>({{ people }})</span>
+                    {% endfor %}
+                  </li>
+                </ul>
+                  {% endfor %}
+            {% endfor %}
+            <div class="span3 wellcomebtn">
+              <a href="/project/create/" class="btn btn-large btn-block btn-info">Create Project</a>
+            </div>
+          </div>
+    {% else %}
           <div class="demo-text-box prl">
             <h3 class="demo-panel-title">Wellcome to PROJECTBONUS</h3>
             <p><strong>Lato</strong> is free web-font designed by <strong>Lukasz&nbsp;Dziedzic</strong> from Warsaw.</p>
@@ -8,7 +50,8 @@
               your links, they are an important <a href="#">visual marker</a> for users.</p>
             <p>Also, to attract attention you can mark some&nbsp;important words using <strong>bold weights</strong>.</p>
             <div class="span3 wellcomebtn">
-              <a href="#" class="btn btn-large btn-block btn-info">Create Project</a>
+              <a href="/project/create/" class="btn btn-large btn-block btn-info">Create Project</a>
             </div>
           </div>
+    {% endif %}
 {% endblock %}

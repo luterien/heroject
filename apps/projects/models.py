@@ -22,16 +22,24 @@ class Project(models.Model):
     def get_absolute_url(self):
         return ('project_details', (), {'pk': self.pk, 'slug': self.slug})
 
-    def todo_list(self):
-        return self.todolist_set.all()
+    def completed_tasks(self):
+        return self.task_set.filter(is_done=True)
+
+    def active_tasks(self):
+        return self.task_set.filter(is_done=False)
 
     def discussion_list(self):
         return self.discussion_set.all()
 
     def progress(self):
-        todo_count = project.todolist_set.all().count()
-        done_count = project.todolist_set.filter(is_done=True).count()
-        return {'done':done_count, 'total':todo_count}
+        todo_count = self.task_set.all().count()
+        done_count = self.task_set.filter(is_done=True).count()
+        try:
+            return done_count*100/todo_count
+        except ZeroDivisionError:
+            return None    
+
+
 
 
 ## TODO
@@ -62,44 +70,8 @@ class Discussion(models.Model):
         pass#return self.discussioncomment_set.order_by('-date_started')
 
 
-class ToDoList(models.Model):
-    title = models.CharField(_("Title"), max_length=100, null=True, blank=True)
-    slug = models.SlugField()
-    ordering = models.IntegerField(_("Ordering"))
-
-    project = models.ForeignKey(Project, verbose_name=_("Project"))
-
-    date_started = models.DateTimeField(_("Date Started"), default=datetime.now())
-    description = models.TextField(_("Description"), null=True, blank=True)
-
-    class Meta:
-        verbose_name = _("ToDo List")
-        verbose_name_plural = _("ToDo Lists")
-        ordering = ('ordering',)
-
-    def __unicode__(self):
-        return u"%s" % (self.title)
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ('todo_details', (), {'pk': self.pk, 'slug': self.slug})
-
-    def comments(self):
-        return self.todocomment_set.all()
-
-    def tasks(self):
-        return self.task_set.all()
-
-    def completed_tasks(self):
-        return self.tasks().filter(is_done=True)
-
-    def active_tasks(self):
-        return self.tasks().filter(is_done=False)
-
-
-
 class Task(models.Model):
-    todolist = models.ForeignKey(ToDoList, verbose_name=_("ToDo List"))
+    project = models.ForeignKey(Project, verbose_name=_("Project"))
     title = models.CharField(_("Title"), max_length=200, null=True, blank=True)
     slug = models.SlugField()
     content = models.TextField(_("Content"), null=True, blank=True)
@@ -118,7 +90,20 @@ class Task(models.Model):
         return u"%s" % (self.title)
 
     def get_absolute_url(self):
-        return ('task_details', (), {})
+        return ('task_details', (), {'pk':self.pk})
+
+    def deadline_status(self):
+        pass
+
+    def comments(self):
+        return self.todocomment_set.all()
+
+    def comment_count(self):
+        return self.todocomment_set.count()
+
+    def assigned_people(self):
+        return self.people.all()
+
 
 
 
