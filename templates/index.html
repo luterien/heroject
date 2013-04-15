@@ -20,7 +20,7 @@
                     <strong>%{{ project.progress }} Completed!</strong>
                     </div>  
                   </h3>
-                  {% for task in project.active_tasks %}
+                  <!--{% for task in project.active_tasks %}
                   <li>
                 <label class="checkbox" for="checkbox1">
                   <span class="icon"></span>
@@ -36,7 +36,7 @@
                     {% endfor %}
                   </li>
                 </ul>
-                  {% endfor %}
+                  {% endfor %}-->
             {% endfor %}
             <div class="span3 wellcomebtn">
               <a href="{% url create_project %}" class="btn btn-large btn-block btn-info">Create Project</a>

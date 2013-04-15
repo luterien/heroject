@@ -47,10 +47,6 @@ class Project(models.Model):
             return None    
 
 
-## TODO
-## refactor model methods later
-
-
 class Discussion(models.Model):
     project = models.ForeignKey(Project, verbose_name=_("Project"))
     started_by = models.ForeignKey(Profile, verbose_name=_("Started by"))
@@ -83,12 +79,14 @@ class Task(models.Model):
     project = models.ForeignKey(Project, verbose_name=_("Project"))
     title = models.CharField(_("Title"), max_length=200, null=True, blank=True)
     slug = models.SlugField()
-    content = models.TextField(_("Content"), null=True, blank=True)
+    content = models.TextField(_("Content"), null=True, blank=True) ## remove this field
     ordering = models.IntegerField(_("Ordering"))
     deadline = models.DateTimeField(_("Deadline"), null=True, blank=True)
     is_done = models.BooleanField(_("Is completed"), default=False)
 
-    people = models.ManyToManyField(Profile, verbose_name=_("People"))
+    started_by = models.ForeignKey(Profile, verbose_name=_("Started by"))
+
+    people = models.ManyToManyField(Profile, verbose_name=_("People"), related_name="assigned_people")
 
     class Meta:
         verbose_name = _("Task")
@@ -109,14 +107,13 @@ class Task(models.Model):
         pass
 
     def comments(self):
-        return self.todocomment_set.all()
+        return self.taskcomment_set.all()
 
     def comment_count(self):
-        return self.todocomment_set.count()
+        return self.taskcomment_set.count()
 
-    def assigned_people(self):
+    def assigned_peoples(self):
         return self.people.all()
-
 
 
 
@@ -143,8 +140,8 @@ class DiscussionComment(BaseComment):
         return u"%s" % (self.title)
 
 
-class ToDoComment(BaseComment):
-    todo = models.ForeignKey(Task, verbose_name=_("ToDO"))
+class TaskComment(BaseComment):
+    task = models.ForeignKey(Task, verbose_name=_("Task"))
 
     def __unicode__(self):
         return u"%s" % (self.title)

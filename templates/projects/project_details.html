@@ -48,6 +48,12 @@
                 {% endfor %}
           	</li>
           	{% endfor %}
+
+            <form action="{% url create_task project.id %}" method="POST">{% csrf_token %}
+                {{ new_task_form.as_p }}
+                <input type="submit" value="add" />
+            </form>
+
             <li>
               <span class="fui-plus-16"></span>
               <input class="add-todo" placeholder="Add to-do!">

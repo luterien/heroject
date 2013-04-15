@@ -4,8 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from apps.projects.models import *
 from apps.profiles.models import *
 
-## TODO
-## continue later
+
 
 class NewProjectForm(forms.Form):
     title = forms.CharField(label=_("Project Title"))
@@ -15,7 +14,8 @@ class NewProjectForm(forms.Form):
 class UpdateProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        #fields = ('title', 'description', )
+        fields = ('title', 'description', )
+
 
 class CreateDiscussionForm(forms.ModelForm):
     class Meta:
@@ -24,7 +24,19 @@ class CreateDiscussionForm(forms.ModelForm):
 
 
 class CreateDiscussionCommentForm(forms.ModelForm):
-	class Meta:
-		model = DiscussionComment
-		fields = ('title', 'content', )
+    class Meta:
+        model = DiscussionComment
+        fields = ('title', 'content', )
+
+
+class CreateTaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ('title',)
+
+
+class CreateTaskCommentForm(forms.ModelForm):
+    class Meta:
+        model = TaskComment
+        fields = ('content', )
 

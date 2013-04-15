@@ -7,7 +7,6 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 
 from apps.profiles.models import *
-from apps.utils import get_or_none
 from apps.profiles.forms import *
 from apps.projects.forms import NewProjectForm
 

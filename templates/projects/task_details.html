@@ -2,8 +2,15 @@
 
 {% block Content %}
 	<h6><strong><a href="{% url project_details task.project.id task.project.slug %}">{{ task.project.title }}</a></strong><h6>
-	<h4>- {{ task}}</h4>
+	<h4>{{ task}}</h4>
+
 	{% for comment in task.comments %}
-		<h3>{{comment}}</h3>
+		<h3>{{comment.content}}</h3>
 	{% endfor %}
+
+	<form action="{% url create_task_comment task.id %}" method="POST">{% csrf_token %}
+	{{ task_comment_form.as_p }}
+	<input type="submit" value="create" />
+	</form>
+
 {% endblock %}

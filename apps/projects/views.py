@@ -5,11 +5,13 @@ from django.http import HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from django.views.generic.edit import UpdateView, CreateView
 
-from apps.utils import get_or_none
 from apps.projects.forms import *
 from apps.projects.models import *
 
+## TODO
+## refactor all views
 
+# check if the current user has access to project
 def _has_project_access(request, project):
     profile = Profile.objects.from_request(request)
     return project in profile.projects
@@ -18,21 +20,27 @@ def _has_project_access(request, project):
 @login_required
 def project_details(request, pk, slug, template="projects/project_details.html"):
     project = get_object_or_404(Project, pk=pk, slug=slug)
-    ctx = {'project':project}
+
+    ctx = {'project':project,
+           'new_task_form':CreateTaskForm}
+
     if not _has_project_access(request, project):
         return HttpResponseRedirect(reverse('index'))
 
-    return render(request, template, ctx)
+    return render_to_response(template, ctx, context_instance=RequestContext(request))
 
 
 @login_required
 def task_details(request, pk,template="projects/task_details.html"):
     task = get_object_or_404(Task, pk=pk)
-    ctx = {'task':task}
+    
+    ctx = {'task':task,
+           'task_comment_form':CreateTaskCommentForm}
+
     if not _has_project_access(request, task.project):
         return HttpResponseRedirect(reverse('index'))
 
-    return render(request, template, ctx)
+    return render_to_response(template, ctx, context_instance=RequestContext(request))
 
 
 @login_required
@@ -127,6 +135,47 @@ class CreateDiscussionComment(CreateView):
         self.object.started_by = profile
         self.object.save()
         return super(CreateDiscussionComment, self).form_valid(form)
+
+
+class CreateTask(CreateView):
+    template_name = "create_task.html"
+    model = Task
+    form_class = CreateTaskForm
+
+    def get_success_url(self):
+        prj = Project.objects.get(id=self.kwargs["project_id"])
+        return reverse('project_details', kwargs={'pk':prj.pk, 'slug':prj.slug})
+
+    def form_valid(self, form):
+        self.object = form.instance
+        self.object.project_id = self.kwargs['project_id']
+        # started by
+        profile = Profile.objects.from_request(self.request)
+        self.object.started_by = profile
+        self.object.ordering = 1 # temporary fix
+        self.object.save()
+        return super(CreateTask, self).form_valid(form)
+
+
+class CreateTaskComment(CreateView):
+    template_name = "create_task_comment.html"
+    model = TaskComment
+    form_class = CreateTaskCommentForm
+
+    def get_success_url(self):
+        prj = Task.objects.get(id=self.kwargs["task_id"])
+        return reverse('task_details', kwargs={'pk':prj.pk})
+
+    def form_valid(self, form):
+        self.object = form.instance
+        self.object.task_id = self.kwargs['task_id']
+        # started by
+        profile = Profile.objects.from_request(self.request)
+        self.object.started_by = profile
+        self.object.save()
+        return super(CreateTaskComment, self).form_valid(form)
+
+
 
 ## TODO
 ## create the 'starter post' when a discussion is created 

@@ -47,8 +47,12 @@ urlpatterns = patterns('',
     #url(r'', 'discussion_list'),
     #url(r'', 'organization_details'),
     #url(r'', 'todo_details'),
-
-    url(r'^project/task/(?P<pk>[-\d]+)/$',                              task_details,                name="task_details"),
-
+    
+    # task
+    url(r'^project/(?P<project_id>[-\d]+)/task/create/$',               CreateTask.as_view(),         name="create_task"),
+    url(r'^project/tasks/(?P<pk>[-\d]+)/$',                             task_details,                 name="task_details"),
+    
+    # task comment
+    url(r'^project/tasks/(?P<task_id>[-\d]+)/comments/',                CreateTaskComment.as_view(),  name="create_task_comment"),
 
 )
