@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
 ORG_CHOICES = (
-        ('', ''),
+        ('test', 'test'),
         ('', '')
     )
 
@@ -13,15 +13,21 @@ class Organization(models.Model):
     title = models.CharField(_("Title"), max_length=100, null=True, blank=True)
     description = models.TextField(_("Description"), null=True, blank=True)
 
-    org_type = models.CharField(_("Organization Type"), max_length=60, choices=ORG_CHOICES)
+    logo = models.ImageField(("Logo"), upload_to="/", null=True, blank=True)
 
-    people = models.ManyToManyField('Profile', verbose_name=(u"People"))
+    org_type = models.CharField(_("Organization Type"), max_length=60, choices=ORG_CHOICES, null=True, blank=True)
+
+    is_approved = models.BooleanField(default=False)
+
+    people = models.ManyToManyField('Profile', verbose_name=_("People"), related_name="members", null=True, blank=True)
+
+    admins = models.ManyToManyField('Profile', verbose_name=_("Admins"), null=True, blank=True)
 
     def __unicode__(self):
-        return u"%s" % (self.user)
+        return u"%s" % (self.title)
 
     def get_absolute_url(self):
-        pass
+        return ('organization_details', (), {'pk':self.pk})
 
 
 class ProfileManager(models.Manager):
@@ -32,6 +38,7 @@ class ProfileManager(models.Manager):
             usr = None
 
         return usr
+
 
 class Profile(models.Model):
     user = models.ForeignKey(User, verbose_name=_("User"))
