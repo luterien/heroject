@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from apps.profiles.models import Profile
+from projectbonus.utils import slugify
 
 
 # NOTE

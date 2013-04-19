@@ -2,8 +2,7 @@ from django.db import models
 from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
-from django.template.defaultfilters import slugify
-
+from projectbonus.utils import slugify
 from apps.profiles.models import Profile
 
 ## TODO
@@ -26,7 +25,7 @@ class Project(models.Model):
         return ('project_details', (), {'pk': self.pk, 'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = slugify(self.title, instance=self)
         super(Project, self).save(*args, **kwargs)
 
     def completed_tasks(self):
@@ -65,7 +64,7 @@ class Discussion(models.Model):
         return ('discussion_details', (), {'pk': self.pk, 'slug': self.slug})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = slugify(self.title, instance=self)
         super(Discussion, self).save(*args, **kwargs)
 
     def posts(self):
@@ -100,7 +99,7 @@ class Task(models.Model):
         return ('task_details', (), {'pk':self.pk})
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = slugify(self.title, instance=self)
         super(Task, self).save(*args, **kwargs)
 
     def deadline_status(self):
@@ -129,7 +128,7 @@ class BaseComment(models.Model):
         abstract = True
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = slugify(self.title, instance=self)
         super(BaseComment, self).save(*args, **kwargs)
 
 
