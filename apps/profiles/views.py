@@ -5,6 +5,8 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import UpdateView, CreateView
+from django.views.generic.detail import DetailView
 
 from apps.profiles.models import *
 from apps.profiles.forms import *
@@ -98,7 +100,8 @@ def profile_details(request, template="profiles/profile_details.html"):
     return render(request, template, ctx)
 
 
-@login_required
-def organization_details(request, template=""):
-    pass
-
+class OrganizationDetails(DetailView):
+    template = "profiles/organization_details.html"
+    template_name_suffix = "_details"
+    model = Organization
+    pk_url_kwarg = "pk"
