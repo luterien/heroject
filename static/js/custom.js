@@ -57,6 +57,7 @@ function update_task_status(that){
 
 		$('#project-active-tasks').load(' #project-active-tasks', function(){$(this).children().unwrap()});
 		$('#project-completed-tasks').load(' #project-completed-tasks', function(){$(this).children().unwrap()});
+		$('.progress').load(' .progress', function(){$(this).children().unwrap()});
 
 	})
 };
