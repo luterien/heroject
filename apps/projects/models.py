@@ -22,7 +22,7 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('project_details', (), {'pk': self.pk, 'slug': self.slug})
+        return ('project_details', (), {'slug': self.slug})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, instance=self)
@@ -61,7 +61,7 @@ class Discussion(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('discussion_details', (), {'pk': self.pk, 'slug': self.slug})
+        return ('discussion_details', (), {'slug': self.slug})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, instance=self)

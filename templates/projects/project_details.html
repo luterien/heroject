@@ -17,7 +17,7 @@
             <h4>Discussions on this project</h4>
 
             {% for discussion in project.discussions %}
-              <a href="{% url discussion_details discussion.pk discussion.slug %}">{{ discussion.title }}</a>
+              <a href="{% url discussion_details discussion.slug %}">{{ discussion.title }}</a>
               <a class="todo-comment" href="">{{discussion.comment_count}} Replies</a>
             {% endfor %}
 
