@@ -32,12 +32,12 @@ urlpatterns = patterns('',
     url(r'^organization/(?P<pk>[-\d]+)/$',             OrganizationDetails.as_view() , name="organization_details"),
 
     # project urls
-    url(r'^project/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',                  project_details,            name="project_details"),
+    url(r'^project/(?P<slug>[-\w\d]+)/$',                  project_details,            name="project_details"),
     url(r'^project/create/$',                                           create_project,             name="create_project"),
     url(r'^project/update/(?P<pk>\d+)/$',                               UpdateProject.as_view(),    name='update_project'),
 
     # discussion urls
-    url(r'^project/discussions/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',      discussion_details,         name="discussion_details"),
+    url(r'^project/discussions/(?P<slug>[-\w\d]+)/$',      discussion_details,         name="discussion_details"),
     url(r'^project/(?P<project_id>[-\d]+)/discussions/create/$',        CreateDiscussion.as_view(), name="create_discussion"),
 
     # todo urls

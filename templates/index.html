@@ -10,7 +10,7 @@
             {% for project in projects %}
               <ul class="project-todos">
                   <h3 class="project-title">
-                    <a href="{% url project_details project.pk project.slug %}">
+                    <a href="{% url project_details project.slug %}">
                       {{ project.title }}
                     </a>
                     <div class="progress-cnt">

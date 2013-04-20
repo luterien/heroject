@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block Content %}
-	<h6><strong><a href="{% url project_details task.project.id task.project.slug %}">{{ task.project.title }}</a></strong><h6>
+	<h6><strong><a href="{% url project_details task.project.slug %}">{{ task.project.title }}</a></strong><h6>
 	<h4>{{ task}}</h4>
 
 	{% for comment in task.comments %}

@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404, render_to_response
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
@@ -18,8 +18,8 @@ def _has_project_access(request, project):
 
 
 @login_required
-def project_details(request, pk, slug, template="projects/project_details.html"):
-    project = get_object_or_404(Project, pk=pk, slug=slug)
+def project_details(request, slug, template="projects/project_details.html"):
+    project = get_object_or_404(Project, slug=slug)
 
     ctx = {'project':project,
            'new_task_form':CreateTaskForm}
@@ -27,7 +27,7 @@ def project_details(request, pk, slug, template="projects/project_details.html")
     if not _has_project_access(request, project):
         return HttpResponseRedirect(reverse('index'))
 
-    return render_to_response(template, ctx, context_instance=RequestContext(request))
+    return render(request,template, ctx)
 
 
 @login_required
@@ -40,12 +40,12 @@ def task_details(request, pk,template="projects/task_details.html"):
     if not _has_project_access(request, task.project):
         return HttpResponseRedirect(reverse('index'))
 
-    return render_to_response(template, ctx, context_instance=RequestContext(request))
+    return render(request, template, ctx)
 
 
 @login_required
-def discussion_details(request, pk, slug, template="projects/discussion_details.html"):
-    discussion = get_object_or_404(Discussion, pk=pk, slug=slug)
+def discussion_details(request, slug, template="projects/discussion_details.html"):
+    discussion = get_object_or_404(Discussion, slug=slug)
     ctx = {'discussion':discussion,
            'new_post_form':CreateDiscussionCommentForm}
     if not _has_project_access(request, discussion.project):
@@ -86,7 +86,7 @@ def create_project(request, template="new_project.html"):
 
     ctx = {'form': form}
 
-    return render_to_response(template, ctx, context_instance=RequestContext(request))
+    return render(request, template, ctx)
 
 
 class UpdateProject(UpdateView):
@@ -125,7 +125,7 @@ class CreateDiscussionComment(CreateView):
     form_class = CreateDiscussionCommentForm
 
     def get_success_url(self):
-        return reverse('discussion_details', kwargs={'pk':self.object.discussion.pk, 'slug': self.object.discussion.slug })
+        return reverse('discussion_details', kwargs={'slug': self.object.discussion.slug })
 
     def form_valid(self, form):
         self.object = form.instance
@@ -144,7 +144,7 @@ class CreateTask(CreateView):
 
     def get_success_url(self):
         prj = Project.objects.get(id=self.kwargs["project_id"])
-        return reverse('project_details', kwargs={'pk':prj.pk, 'slug':prj.slug})
+        return reverse('project_details', kwargs={'slug':prj.slug})
 
     def form_valid(self, form):
         self.object = form.instance
