@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from django.views.generic.edit import UpdateView, CreateView

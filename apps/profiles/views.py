@@ -1,7 +1,6 @@
 
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render
 from django.contrib.auth import logout,login,authenticate
-from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
@@ -17,7 +16,7 @@ def index(request, template="index.html"):
     
     ctx = {'projects':profile.projects}
 
-    return render_to_response(template, ctx, context_instance=RequestContext(request))
+    return render(request, template, ctx)
 
 def login_user(request,
                logged_in_url="/index/",
@@ -40,9 +39,7 @@ def login_user(request,
     else:
         form = AuthenticationForm()
     
-    return render_to_response(template,
-                              {'form' : form },
-                              context_instance=RequestContext(request)) 
+    return render(request, template, {'form' : form }) 
             
 
 def register_user(request,
@@ -79,9 +76,7 @@ def register_user(request,
     else:
         form = RegistrationForm()
     
-    return render_to_response(template,
-                              {'form' : form },
-                              context_instance=RequestContext(request)) 
+    return render(request, template, {'form' : form })
 
 
 @login_required
