@@ -33,8 +33,8 @@ urlpatterns = patterns('',
     url(r'^organization/(?P<pk>[-\d]+)/$',             OrganizationDetails.as_view() , name="organization_details"),
 
     # project urls
-    url(r'^project/(?P<slug>[-\w\d]+)/$',                  project_details,            name="project_details"),
     url(r'^project/create/$',                                           create_project,             name="create_project"),
+    url(r'^project/(?P<slug>[-\w\d]+)/$',                  project_details,            name="project_details"),
     url(r'^project/update/(?P<pk>\d+)/$',                               UpdateProject.as_view(),    name='update_project'),
 
     # discussion urls
