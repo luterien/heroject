@@ -1,9 +1,10 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.simple import direct_to_template
+
 from apps.projects.views import *
 from apps.profiles.views import *
+from apps.projects.ajax import update_task_status
 
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
@@ -40,10 +41,6 @@ urlpatterns = patterns('',
     url(r'^project/discussions/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',      discussion_details,         name="discussion_details"),
     url(r'^project/(?P<project_id>[-\d]+)/discussions/create/$',        CreateDiscussion.as_view(), name="create_discussion"),
 
-    # todo urls
-    #url(r'^project/todo/(?P<pk>[-\d]+)/(?P<slug>[-\w]+)/$',            todo_details,               name="todo_details"),
-    #url(r'^project/todo/create/$',                                     CreateTodo.as_view(),       name="create_todo"),
-
     # post urls
     url(r'^discussion/(?P<discussion_id>[-\d]+)/post/create/$',         CreateDiscussionComment.as_view(),    name="create_post"),
     #url(r'', 'discussion_list'),
@@ -53,6 +50,7 @@ urlpatterns = patterns('',
     # task
     url(r'^project/(?P<project_id>[-\d]+)/task/create/$',               CreateTask.as_view(),         name="create_task"),
     url(r'^project/tasks/(?P<pk>[-\d]+)/$',                             task_details,                 name="task_details"),
+    url(r'^tasks/update_status/$',                                      update_task_status,           name="update_task_status"),
     
     # task comment
     url(r'^project/tasks/(?P<task_id>[-\d]+)/comments/',                CreateTaskComment.as_view(),  name="create_task_comment"),
