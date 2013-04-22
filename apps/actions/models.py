@@ -1,7 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext as _
+from django.utils.encoding import smart_unicode
 
 from apps.profiles.models import Profile
 from projectbonus.utils import slugify
@@ -14,7 +16,7 @@ class ActionType(models.Model):
     name = models.CharField(_('Action name'), max_length=30)
     verb = models.CharField(_('Verb'), max_length=40)
 
-    preposition = models.CharField(_('preposition'), null=True, blank=True)
+    preposition = models.CharField(_('Preposition'), max_length=20, null=True, blank=True)
 
     def __unicode__(self):
         return u"%s" % (self.name)
@@ -22,16 +24,19 @@ class ActionType(models.Model):
 
 class ActionManager(models.Manager):
 
-    def new_action(self, user, content_type, object_id, action_type, target_content_type, target_object_id):
+    def new_action(self, user, actor_object, action_type, target_object=None):
         """
             Create an action
         """
         action = self.model(user=user,
-                            content_type=content_type,
-                            object_id=object_id,
-                            action_type=action_type,
-                            target_content_type=target_content_type,
-                            target_object_id=target_object_id)
+                            actor_content_type=ContentType.objects.get_for_model(actor_object.__class__),
+                            actor_object_id=smart_unicode(actor_object.id),
+                            action_type=action_type)
+
+        if target_object:
+            action.target_content_type = ContentType.objects.get_for_model(target_object.__class__),
+            action.target_object_id = smart_unicode(target_object.id)
+
         action.save()
 
 
@@ -50,24 +55,24 @@ class Action(models.Model):
     action_time = models.DateTimeField(_("action time"), auto_now=True)
     user = models.ForeignKey(User, verbose_name=_("user"), blank=True, null=True, on_delete=models.SET_NULL)
 
-    ip_address = models.CharField(_("IP address"), blank=True, null=True)
+    ip_address = models.CharField(_("IP address"), max_length=20, blank=True, null=True)
 
-    content_type = models.ForeignKey(ContentType, blank=True, null=True)
-    object_id = models.TextField(_('object id'), blank=True, null=True)
-    content_object = models.GenericForeignKey('content_type', 'object_id')
+    actor_content_type = models.ForeignKey(ContentType, related_name="actor_object", blank=True, null=True)
+    actor_object_id = models.TextField(_('object id'), blank=True, null=True)
+    actor_content_object = generic.GenericForeignKey('actor_content_type', 'actor_object_id')
 
     action_type = models.ForeignKey(ActionType, verbose_name=_('action type'))
 
-    target_content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    target_content_type = models.ForeignKey(ContentType, related_name="target_object", blank=True, null=True)
     target_object_id = models.TextField(_('object id'), blank=True, null=True)
-    target_content_object = models.GenericForeignKey('target_content_type', 'target_object_id')
+    target_content_object = generic.GenericForeignKey('target_content_type', 'target_object_id')
 
     objects = ActionManager()
 
     class Meta:
         verbose_name = _("User Action")
         verbose_name_plural = _("User Actions")
-        ordering = ('-action_time')
+        #ordering = ('-action_time')
 
     def __unicode__(self):
         return self._construct_action_message()
@@ -80,9 +85,9 @@ class Action(models.Model):
         target_obj = self.target_content_object
 
         if prep and target_obj:
-            msg = "%s has %s %s %s %s" % (self.user, self.action_type.verb, self.content_object, prep, target_obj)
+            msg = "%s has %s %s %s %s" % (self.user, self.action_type.verb, self.actor_content_object, prep, target_obj)
         else:
-            msg = "%s has %s %s" % (self.user, self.action_type.verb, self.content_object)
+            msg = "%s has %s %s" % (self.user, self.action_type.verb, self.actor_content_object)
 
         return _(msg)
 
@@ -93,13 +98,13 @@ class Notification(models.Model):
 
     action_time = models.DateTimeField(_("Action time"), auto_now=True)
 
-    receiver = models.ForeignKey(Profile, verbose_name="Receiver")
+    receiver = models.ForeignKey(Profile, verbose_name="Receiver", related_name="receiver_object")
     sender = models.ForeignKey(Profile, verbose_name="Sender", null=True, blank=True)
 
     class Meta:
         verbose_name = _('Notification')
         verbose_name_plural = _('Notifications')
-        ordering = ('-action_time',)
+        #ordering = ('-action_time',)
 
     def __unicode__(self):
         pass
