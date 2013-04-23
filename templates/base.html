@@ -2,95 +2,68 @@
 <html id="{% block id %}{% endblock %}" lang="tr">
   <head>
     <meta charset="utf-8">
-    <title>Flat UI</title>
+    <title>Project Bonus</title>
+
+    <!-- Metas  -->
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="project, todo list, management project" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Loading Bootstrap -->
-    <link href="{{ STATIC_URL }}css/bootstrap.css" rel="stylesheet">
-
-    <!-- Loading Flat UI -->
-    <link href="{{ STATIC_URL }}css/flat-ui.css" rel="stylesheet">
+    <!-- Loading CSS -->
     <link href="{{ STATIC_URL }}css/style.css" rel="stylesheet">
-    <link rel="shortcut icon" href="images/favicon.ico">
+    
+    <!-- Loading JS -->
+    <script src="{{ STATIC_URL }}js/jquery-1.9.1.min.js"></script>
+    <script src="{{ STATIC_URL }}js/jquery.placeholder.js"></script>
+    <script src="{{ STATIC_URL }}js/custom.js"></script>
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
-    <!--[if lt IE 9]>
-      <script src="js/html5shiv.js"></script>
-    <![endif]-->
   </head>
 <body>
-	<section id="container" class="container">
-
-<header class="container">
+<header id="header" class="full-block">
+<div class="container">
 {% block Header %}
-      <div class="demo-headline">
-        <h1 class="demo-logo">
-          <a href="#">
-          PROJECTBONUS
-          <small>BONUS FOR PROJECTS</small>
-          </a>
-        </h1>
-      </div> <!-- /demo-headline -->
+  <h1 id="logo">
+    <a href="/">
+      PROJECTBONUS
+      <small>BONUS FOR PROJECTS</small>
+    </a>
+  </h1>
 {% endblock %}
+</div>
 </header>
 
-<nav class="container">
-{% block Nav %}
+{% if user.is_authenticated %}
+  <nav id="nav" class="full-block">
+    {% block Nav %}
+      <ul class="container">
+        <li>
+            <a href="{% url index %}">PROJECTS</a>
+        </li>                    
+        <li>
+            <a href="{% url profile_details %}">ONLY ME</a>
+        </li>
+        <li>
+          <a href="{% url logout %}">Logout</a>
+        </li>
+      </ul>
+    {% endblock %}
+  </nav>  
+{% endif %}
 
-  {% if user.is_authenticated %}
-          <div class="navbar navbar-inverse">
-            <div class="navbar-inner">
-                <div class="nav-collapse collapse">
-                  <ul class="nav">
-                    <li>
-                        <a href="{% url index %}">Home</a>
-                    </li>                    
-                    <li>
-                        <a href="{% url profile_details %}">Profile</a>
-                    </li>
-                    <li class="active">
-                      <a href="#">
-                        Notifications
-                        <span class="navbar-unread">1</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="{% url logout %}">Logout</a>
-                    </li>
-                  </ul>
-                </div><!--/.nav-collapse -->
-            </div>
-          </div>
-  {% endif %}
-{% endblock %}
-</nav>  
-
-<section class="container">
+<div id="content" class="full-block">
+  <div class="container">
 {% block Content %}
-
 {% endblock %}
-</section>
+  </div>
+</div>
 
-<footer class="container">
+<footer id="footer">
+<div class="container">  
 {% block Footer %}
 {% endblock %}
+</div>
 </footer>
 
-	</section>
-    <!-- Load JS here for greater good =============================-->
-    <script src="{{ STATIC_URL }}js/jquery-1.8.2.min.js"></script>
-    <script src="{{ STATIC_URL }}js/jquery-ui-1.10.0.custom.min.js"></script>
-    <script src="{{ STATIC_URL }}js/jquery.dropkick-1.0.0.js"></script>
-    <script src="{{ STATIC_URL }}js/custom_checkbox_and_radio.js"></script>
-    <script src="{{ STATIC_URL }}js/custom_radio.js"></script>
-    <script src="{{ STATIC_URL }}js/jquery.tagsinput.js"></script>
-    <script src="{{ STATIC_URL }}js/bootstrap-tooltip.js"></script>
-    <script src="{{ STATIC_URL }}js/jquery.placeholder.js"></script>
-    <script src="{{ STATIC_URL }}js/application.js"></script>
-    <script src="{{ STATIC_URL }}js/custom.js"></script>
-    <!--[if lt IE 8]>
-      <script src="js/icon-font-ie7.js"></script>
-      <script src="js/icon-font-ie7-24.js"></script>
-    <![endif]-->
-  </body>
+
+</body>
 </html>

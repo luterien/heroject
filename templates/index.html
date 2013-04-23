@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
 {% block Content %}
+{% include "inc/left_side.html" %}
+<section id="main">
     {% if projects %}
           <div class="demo-text-box prl index">
             <h3 class="demo-panel-title">Wellcome to PROJECTBONUS</h3>
@@ -43,15 +45,33 @@
             </div>
           </div>
     {% else %}
-          <div class="demo-text-box prl">
-            <h3 class="demo-panel-title">Wellcome to PROJECTBONUS</h3>
-            <p><strong>Lato</strong> is free web-font designed by <strong>Lukasz&nbsp;Dziedzic</strong> from Warsaw.</p>
-            <p>Here you can feel the color, size, line height and margins between paragraphs. Don’t forget to underline 
-              your links, they are an important <a href="#">visual marker</a> for users.</p>
-            <p>Also, to attract attention you can mark some&nbsp;important words using <strong>bold weights</strong>.</p>
-            <div class="span3 wellcomebtn">
-              <a href="{% url create_project %}" class="btn btn-large btn-block btn-info">Create Project</a>
-            </div>
+          <div class="notproject">
+            <h4>WELLCOME <strong>PROJECTBONUS!</strong>
+              <span>Your first to-do list:</span>
+            </h4>
+            <ul>
+              <li>
+                <span><i class="icon people"></i></span>
+                <span>Edit your profile.</span>
+              </li>
+              <li>
+                <span><i class="icon plus"></i></span>
+                <span>Create project.</span>
+              </li>
+              <li>
+                <span><i class="icon addpeople"></i></span>
+                <span>Invite friends your project.</span>
+              </li>
+              <li>
+                <span><i class="icon list"></i></span>
+                <span>Create to-do items.</span>
+              </li>
+              <li>
+                <span><i class="icon share"></i></span>
+                <span>Share!</span>
+              </li>
+            </ul>
           </div>
     {% endif %}
+</section>
 {% endblock %}

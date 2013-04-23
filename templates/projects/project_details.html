@@ -1,80 +1,64 @@
 {% extends "base.html" %}
 
 {% block Content %}
-
-        <div class="project-head">
-          <h3>{{ project }}</h3>
-          <p>{{ project.description }}</p>
-          {% if project.progress %}
-          <div class="progress">
-            <div class="bar" style="width: {{ project.progress }}%;"></div>
-          </div>  
-          {% endif %}
+{% include "inc/left_side.html" %}
+<section id="main">
+        <div class="p-head">
+          <div class="top full-block">
+            <h2>{{ project }}</h2>
+            <form>
+              <span>Invite Friend</span>
+              <input placeholder="friend@mail.com">
+              <button><i class="icon mail"></i></button>
+            </form>
+          </div>
+          <div class="bottom full-block">
+            {% if project.progress %}
+            <span><strong>{{ project }}</strong>'s progress :</span>
+              <div class="progress">
+                <div class="bar" style="width: {{ project.progress }}%;"></div>
+              </div>  
+              <span class="prg-cnt"><strong>%{{project.progress}}</strong></span>
+            {% endif %}
+          </div>
         </div>
-
-        <ul class="project-todos">
-
-            <h4>Discussions on this project</h4>
-
-            {% for discussion in project.discussions %}
-              <a href="{% url discussion_details discussion.slug %}">{{ discussion.title }}</a>
-              <a class="todo-comment" href="">{{discussion.comment_count}} Replies</a>
-            {% endfor %}
-
-            <!-- gecici link..sonra sen style falan biseyler koyarsın @erhan -->
-            <a href="{% url create_discussion project.pk %}">Add new discussion</a>
-
-            <li>
-              <span class="fui-plus-16"></span>
-              <input class="add-todo" placeholder="Add Discussion">
-            </li>                        
-        </ul>
-
+        <div class="p-cont">
         <ul class="project-todos" id="project-active-tasks">
-            <h4>To-do List</h4>
-
+            <h4>To-do List :</h4>
             {% for task in project.active_tasks %}
             <li>
-              <label class="checkbox" for="checkbox{{ task.id }}">
-                <span class="icon"></span>
-                <span class="icon-to-fade"></span>
-                <input type="checkbox" value="{{ task.id }}" id="checkbox{{task.id}}">
-              </label>
+              <label class="checkbox" for="checkbox{{ task.id }}"></label>
+              <input type="checkbox" value="{{ task.id }}" id="checkbox{{task.id}}">
 
+              <div class="todo-cnt">
               <a href="{% url task_details task.id %}">
               {{ task.title }}
               </a>
 
+              <a class="todo-people">Hacı abi</a>
+              <a class="todo-date">7 May</a>
               <a class="todo-comment" href="{% url task_details task.id %}">{{task.comment_count}} Comments</a>
 
               {% for people in task.assigned_people %}
                 <span>({{ people }})</span>
               {% endfor %}
+              </div>
             </li>
             {% endfor %}
 
             <form action="{% url create_task project.id %}" method="POST">{% csrf_token %}
                 {{ new_task_form.as_p }}
-                <input type="submit" value="add" />
-            </form>
-
-            <li>
-              <span class="fui-plus-16"></span>
-              <input class="add-todo" placeholder="Add to-do!">
-            </li>                        
+                <button type="submit">add</button>
+            </form>                  
         </ul>
 
         <ul class="project-todos complete-list" id="project-completed-tasks">
-            <h4>Complete List</h4>
+            <h4>Complete List :</h4>
 
             {% for task in project.completed_tasks %}
               <li>
-                <label class="checkbox checked" for="checkbox{{ task.id }}">
-                  <span class="icon"></span>
-                  <span class="icon-to-fade"></span>
-                  <input type="checkbox" checked="checked" value="{{ task.id }}" id="checkbox{{ task.id }}">
-                </label>
-
+                <label class="checkbox checked" for="checkbox{{ task.id }}"></label>
+                <input type="checkbox" value="{{ task.id }}" id="checkbox{{task.id}}">
                 <a href="{% url task_details task.id %}">
                 {{ task.title }}
                 </a>
@@ -86,5 +70,7 @@
             {% endfor %}
 
         </ul>
+        </div>
+</section>
 
 {% endblock %}

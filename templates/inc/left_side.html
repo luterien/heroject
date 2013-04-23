@@ -1,0 +1,25 @@
+<aside id="leftside">
+      {% if projects %}
+        <ul>
+        {% for project in projects %}
+        <li>
+              <h3 class="project-title">
+                <a href="{% url project_details project.slug %}">
+                  {{ project.title }}
+                  <span class="act-todo">234</span>
+                </a>
+              </h3>
+        </li>
+        {% endfor %}
+        </ul>
+        <div class="notproject">
+          <span>You have 4 project</span>
+          <a href="{% url create_project %}" class="btn">CREATE PROJECT</a>
+        </div>
+      {% else %}
+      <div class="notproject">
+        <span>You do not have any project</span>
+        <a href="{% url create_project %}" class="btn">CREATE PROJECT</a>
+      </div>
+      {% endif %}
+</aside>

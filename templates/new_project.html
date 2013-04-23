@@ -1,20 +1,46 @@
 {% extends "base.html" %}
 
 {% block Content %}
-      <div class="well">
-        <div class="span3">
-          <p class="create-project-text">Let's Create Project</p>
-          <span class="create-project-icon">
-          <img src="{{ STATIC_URL }}images/illustrations/clipboard.png" class="big-illustration-pusher">
-          </span>
+<aside id="leftside">
+  <div class="notproject">
+  <form action="{% url create_project %}" method="POST">{% csrf_token %}
+  	{{ form.as_p }}
+    <button class="btn">CREATE</button>
+    </div>
+  </form>
+</aside>
+<section id="main">
+    {% if projects %}
+        <div>
         </div>
-  			<form class="span7 pull-right" action="{% url create_project %}" method="POST">{% csrf_token %}
-  			{{ form.as_p }}
-          <div class="span3 wellcomebtn">
-             <button href="#" class="btn btn-large btn-block btn-info">Create Project</button>
+    {% else %}
+          <div class="notproject">
+            <h4>WELLCOME <strong>PROJECTBONUS!</strong>
+              <span>Your first to-do list:</span>
+            </h4>
+            <ul>
+              <li>
+                <span><i class="icon people"></i></span>
+                <span>Edit your profile.</span>
+              </li>
+              <li>
+                <span><i class="icon plus"></i></span>
+                <span>Create project.</span>
+              </li>
+              <li>
+                <span><i class="icon addpeople"></i></span>
+                <span>Invite friends your project.</span>
+              </li>
+              <li>
+                <span><i class="icon list"></i></span>
+                <span>Create to-do items.</span>
+              </li>
+              <li>
+                <span><i class="icon share"></i></span>
+                <span>Share!</span>
+              </li>
+            </ul>
           </div>
-  			</form>
-      </div>
-
-
+    {% endif %}
+</section>
 {% endblock %}

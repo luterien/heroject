@@ -1,53 +1,125 @@
-/*  
-    Flat UI Custom CSS
-    Author : Erhan Basa
-    Last Update : 09.04.2013
+/*	
+
+	Project Bonus CSS
+	Author : Erhan Basa
+	Create Date : 22 April 2013
+	Last Update : 23 April 2013 (Erhan Basa)
+
 */
 
-/*   For Lower Spaces */
-/* .demo-headline            {padding: 73px 0 60px;} */
-.demo-headline            {padding: 0 0 20px 0;}
-.demo-headline.onuser     {padding: 0 0 20px;}
-.demo-headline a          {color: #34495e; text-decoration: none;}
+/*		Resets		*/
+*		{margin: 0; padding: 0;}
+li		{list-style: none;}
+a		{text-decoration: none; color: #333;}
+a:hover	{color: #777;}
 
-.index .demo-panel-title  {margin: 0;}
-.index .crt-project a 	  {text-decoration: none; margin-left: 4px; display: inline-block;}
-/*  For Center and Triangle  */
-.login-form               {padding-right: 38px; float: none; margin: 0 auto;}
-.login-form:before        {left: 50%; top: -18px; width: 0; -webkit-transform: rotate(90deg);}
+/*		Fonts		*/
+@font-face {font-family: 'font100';src: url('../fonts/font100.eot');src: url('../fonts/font100.eot?#iefix') format('embedded-opentype'),url('../fonts/font100.svg#museo_sans_100regular') format('svg'),url('../fonts/font100.woff') format('woff'),url('../fonts/font100.ttf') format('truetype');font-weight: normal;font-style: normal;}
+@font-face {font-family: 'font300';src: url('../fonts/font300.eot');src: url('../fonts/font300.eot?#iefix') format('embedded-opentype'),url('../fonts/font300.svg#museo_sans_300regular') format('svg'),url('../fonts/font300.woff') format('woff'),url('../fonts/font300.ttf') format('truetype');font-weight: normal;font-style: normal;}
+@font-face {font-family: 'font500';src: url('../fonts/font500.eot');src: url('../fonts/font500.eot?#iefix') format('embedded-opentype'),url('../fonts/font500.svg#museo_sans_500regular') format('svg'),url('../fonts/font500.woff') format('woff'),url('../fonts/font500.ttf') format('truetype');font-weight: normal;font-style: normal;}
+@font-face {font-family: 'font500';font-weight:bold;src: url('../fonts/font700.eot');src: url('../fonts/font700.eot?#iefix') format('embedded-opentype'),url('../fonts/font700.svg#museo_sans_700regular') format('svg'),url('../fonts/font700.woff') format('woff'),url('../fonts/font700.ttf') format('truetype');font-style: normal;}
 
-/* For Margin Reset */
-.wellcomebtn              {margin-left: 0; margin-top: 20px;}
-.wellcomebtn:hover a      {color: white;}
+/*		Icons		*/
+.icon 		{background-image: url(../img/sprite.png); display: inline-block;}
+.icon.facebook 	{background-position: 0 0; width: 11px; height: 25px;}
+.icon.twitter 	{background-position: -14px 0; width: 26px; height: 22px;}
+.icon.people 	{background-position: -42px 0; width: 18px; height: 21px;}
+.icon.plus 		{background-position: -61px 0; width: 20px; height: 20px;}
+.icon.list 		{background-position: -83px 0; width: 17px; height: 19px;}
+.icon.addpeople	{background-position: -102px 0; width: 21px; height: 24px;}
+.icon.share		{background-position: -124px 0; width: 20px; height: 20px;}
+.icon.mail		{background-position: 0 -27px; width: 15px; height: 12px;}
 
-/* For Rregister Centering	*/
-.register-link			  {text-align: center; display: block; padding: 10px 0 0;}
+/*		Globals		*/
+.container 	{width: 940px; margin: 0 auto;}
+.full-block 	{width: 100%; float: left;}
+.btn 		{width: 100%; height: 40px; border:1px solid #ccc; font-weight: bold; font-size: 18px; background: #f47238; display: inline-block; border-radius: 3px;  font-family: 'font500',sans-serif; color: #fff; text-align: center; line-height: 44px; cursor: pointer; box-sizing:initial;}
+.btn:hover 	{opacity: .8; color: #fff;}
+.btn:active 	{box-shadow: inset 0 0 5px rgba(0,0,0,.5);}
 
-/* For Footer Spaces 	*/
-footer					  {margin-top: 50px;}
+.checkbox 	{background: url(../img/sprite.png) no-repeat -17px -24px; width: 25px; height: 25px; float: left;}
+.checkbox.checked 	{background-position: -43px -24px;}
+input[type="checkbox"] {display: none;}
 
-/*	Create Form  */
-.well  					  {overflow: hidden;}
-.well label 			  {font: bold 14px/3.231 "Lato", sans-serif; float: left; width: 160px;}
-.well .radio			  {font: bold 14px/1.231 "Lato", sans-serif; width: auto; margin-right: 30px;}
-.well .control-group	  {width: 100%; float: left;}
+.mt5 		{margin-top: 5px;}
+.mt10 		{margin-top: 10px;}
 
-.create-project-icon 	  {display: block; padding: 45px; background: #ececec; border-radius: 500px;}
-.create-project-text 	  {width: 100%; text-align: center; margin:20px 0; font-size: 20px; color: #ccc;}
+#nav .container 		{background: #ecebeb; height: 50px; border-bottom: 1px solid #fff; position: relative; border-radius: 3px 3px 0 0;}
+#nav ul li  			{float: left;}
+#nav ul li a  			{font-weight: bold; padding: 0 35px; line-height: 50px; border-left: 1px solid #ccc; border-right: 1px solid #fff; display: block;}
+#nav ul li:first-child a 	{padding: 0 83px 0 84px; border-left: 0; }
+#nav ul li:last-child a 	{border-right: 0;}
 
-/*	Project Todos	*/
-.project-title a		  {text-decoration: none; color: #34495e;}
-.progress-cnt 	  	 	  {width: 100%; float: left;}
-.progress-cnt .progress   {width: 500px; margin: 10px 0; float: left;}
-.progress-cnt strong	  {color: #1abc9c; float: left; margin-left: 20px; font-size: 20px; margin-top: -5px;}
-.project-todos  		  {margin: 0; margin-top: 20px; float: left; width: 100%;}
-.project-todos .checkbox  {float: left; margin: auto 0;}
-.project-todos li 		  {list-style: none; width: 100%; float: left; margin-bottom: 10px;}
-.project-todos li a 	  {color: #34495e; font: 14px/1.231 "Lato", sans-serif; text-decoration: none;}
-.project-todos li a:hover {color: #1abc9c;}
-.add-todo				  {border: 0; width: 90%; margin-left: 10px;}
+#content .container 	{background: #fff; border-radius: 0 0 3px 3px; border-top: 1px solid #ccc; overflow: hidden;}
+#content #leftside 		{width: 238px; height: 450px; background: #e7ebf0; float: left; border-right: 1px solid #fff;}
+#content #main 			{width: 700px; height: 450px; float: left; border-left: 1px solid #ccc; background: #f5f5f5;}
 
-.complete-list li a 	  {text-decoration: line-through;}
+/*		Style is Coming 	*/
+body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; background: url(../img/body-bg.jpg) no-repeat center center fixed;  -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; }
 
-.todo-comment 			  {background: #1abc9c; color: #fff!important; padding: 3px 8px; border-radius: 4px;  margin-left: 12px; margin-right: 4px;}
-.complete-list .todo-comment 	{text-decoration: none; margin-left: 12px; margin-right: 4px;}
+#logo  		{text-align: center; margin: 20px 0;}
+#logo a 	{color: #fff; font-size: 36px;}
+#logo small {font-size: 18px; font-family: 'font100',sans-serif; display: block;}
+
+/*		Page : Login - Register 		*/
+#login-register #content .container 	{background: transparent;  border: 0;}
+#lrform 	{width: 300px; background: #f5f5f5; margin: 0 auto; border-radius: 3px; padding: 20px;}
+#lrform input  {width: 100%; height: 40px; margin-bottom: 10px; border-radius: 3px; text-indent: 10px; border: 1px solid #ccc;}
+#lrform .btn.login 	{background: #489eff;  margin-bottom: 10px;}
+
+#lrform .sociallogin  {width: 302px; margin-bottom: 7px;}
+#lrform .sociallogin a 	{width: 140px; margin-left: 14px; font-size: 14px; background: #11cdfb;}
+#lrform .sociallogin a:first-child 	{margin-left: 0; background: #3b5997;}
+#lrform .sociallogin span  {float: left; margin-left: 15px;}
+#lrform .sociallogin .icon  {float: left; margin-left: 5px; margin-top: 5px;}
+#lrform .sociallogin .icon.twitter  {margin-top: 8px;}
+
+#lrform p 		{color: #8d99a7; font-size: 14px; font-weight: bold;}
+#lrform p em 	{width: 100%; text-align: center;display: block; margin-bottom: 7px; position: relative;}
+#lrform p em:before 	{width: 50px; height: 1px; background: #cccccc; position: absolute; left: 85px; top: 8px; content: '';}
+#lrform p em:after 	{width: 50px; height: 1px; background: #cccccc; position: absolute; right: 85px; top: 8px; content: '';}
+
+#lrform .lost-pass 	{width: 100%; text-align: center; display: block; margin: 10px 0; color: #8d99a7;}
+#lrform .lost-pass:hover 	{color: #777;}
+
+/*		Page : Index 	*/
+#leftside li a {width: 218px; padding: 10px; display:block; font-weight: normal; border-bottom: 1px solid #ccc; border-top: 1px solid #fff; font-size: 14px;}
+#leftside li:first-child a {border-top: 0;}
+#leftside li .act-todo {float: right; background: #c9d2dd; color: #495a6b; padding: 5px; font-size: 10px; border: 1px solid #ccc; border-radius: 3px; margin-top: -4px;}
+
+#leftside .notproject 		{width: 200px; margin: 0 auto; text-align: center; margin-top: 30px;}
+#leftside .notproject .btn 	{height: 30px; line-height: 34px; font-size: 14px; margin-top: 10px;}
+
+#main .notproject 			{padding: 30px 30px 0;}
+#main .notproject h4 		{font-weight: normal; font-size: 18px;}
+#main .notproject h4 span 	{width: 100%; display: block; margin-bottom: 10px;}
+#main .notproject ul li 	{width: 100%; float: left; margin: 8px 0;}
+#main .notproject ul span 		{display: block; font-family: 'font300',sans-serif; margin-left: 10px; margin-top:13px; float: left;}
+#main .notproject ul span:first-child	{width: 40px; height: 40px; background-color: #fc9e75; border-radius: 40px; line-height: 52px; text-align: center; float: left; margin: 0;}
+
+/*		Page : Project	*/
+#main .p-head .top 		{ background: #565658; padding: 10px 0; border-bottom: 1px solid #ccc;}
+#main .p-head .top h2 	{ width: 440px; float: left; color: #fff; font-size: 14px; text-indent: 10px; padding-top: 5px;}
+#main .p-head .top form {width: 260px; float:right;}
+#main .p-head .top form span {float: left; font-family: 'font300',sans-serif; color: #fff; margin-top: 8px; margin-right: 8px;}
+#main .p-head .top form input {height: 23px; border-radius: 3px; border: 0; text-indent: 10px;}
+#main .p-head .top form button {background: #f47238; border: 0; padding: 5px; border-radius: 3px;}
+
+#main .p-head .bottom 		{padding: 10px 0; background: #ecebeb; border-top: 1px solid #fff; border-bottom: 1px solid #ccc;}
+#main .p-head .bottom span 	{margin-left: 10px; float: left;}
+
+.progress 		{width: 200px; height: 12px; background: #fff; border: 1px solid #ccc; border-radius: 20px; float: left; margin-left: 10px;}
+.progress .bar 	{background: #f47238; height: 12px; border-radius: 20px 0 0 20px;}
+.prg-cnt 		{font-size: 18px;}
+
+.p-cont 		{ padding: 20px; width: 660px; float: left;}
+.p-cont .project-todos h4 	{font-size: 16px;}
+.p-cont .project-todos li 	{width: 100%; float: left;}
+
+.project-todos .checkbox {margin-right: 10px;}
+.project-todos li 	{margin: 3px 0;}
+.project-todos li a {font-family: 'font300',sans-serif; margin-top: 5px;  float: left; margin-right: 5px;}
+.project-todos .todo-cnt 	{float: left; width: 92%; }
+.project-todos .todo-cnt .todo-comment 	{background: #a3b8d2; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #fff;}
+.project-todos .todo-cnt .todo-date 	{background: #f0ab8d; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #fff;}
+.project-todos .todo-cnt .todo-people 	{background: #ecebeb; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #333;}
