@@ -34,7 +34,7 @@ class ActionManager(models.Manager):
                             action_type=action_type)
 
         if target_object:
-            action.target_content_type = ContentType.objects.get_for_model(target_object.__class__),
+            action.target_content_type = ContentType.objects.get_for_model(target_object.__class__)
             action.target_object_id = smart_unicode(target_object.id)
 
         action.save()
@@ -93,13 +93,15 @@ class Action(models.Model):
 
 
 class Notification(models.Model):
-    title = models.CharField(_("Title"), max_length=60)
+
     message = models.CharField(_("Message"), max_length=300)
 
     action_time = models.DateTimeField(_("Action time"), auto_now=True)
 
-    receiver = models.ForeignKey(Profile, verbose_name="Receiver", related_name="receiver_object")
+    receiver = models.ForeignKey(Profile, verbose_name="Receiver", related_name="received_notifications")
     sender = models.ForeignKey(Profile, verbose_name="Sender", null=True, blank=True)
+
+    is_read = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = _('Notification')
@@ -107,22 +109,33 @@ class Notification(models.Model):
         #ordering = ('-action_time',)
 
     def __unicode__(self):
-        pass
+        return u"%s" % (self.message)
 
-    def _construct_notification_message(action):
-        pass
+    def _construct_notification_message(self, action):
+        """
+            Contruct the notification message from the given action
+        """
+        msg = "%s has %s %s %s %s" % (action.user, action.action_type.verb, "you", action.action_type.preposition,
+                                      action.target_content_object)
+
+        self.message = msg
+        self.save()
 
 
-def send_notification(type, subject, receiver, sender=None):
+def send_system_notification():
+    pass
 
-    title = "" # generate title
-    message = "" # generate message
 
-    notification = Notification(title = title,
-                                message = message,
-                                receiver = receiver)
-    if sender:
-        notification.sender = sender
+def send_user_notification(action):
+    """
+        Create a notification from the given action
+    """
+    sender = Profile.objects.get(user=action.user)
+
+    notification = Notification(receiver = action.actor_content_object,
+                                sender = sender)
+
+    notification._construct_notification_message(action)
 
     notification.save()
 
@@ -136,3 +149,5 @@ def get_ip_address(request):
         ip_addr = None
 
     return ip_addr
+
+

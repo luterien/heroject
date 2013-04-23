@@ -65,3 +65,11 @@ class Profile(models.Model):
     def tasks(self):
     	""" return the list of Task objects which are assigned to the user """
     	return self.task_set.all()
+
+    @property
+    def unread_notifications(self):
+        return self.received_notifications.filter(is_read=False)
+
+    @property
+    def read_notifications(self):
+        return self.received_notifications.filter(is_read=True)
