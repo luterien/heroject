@@ -2,6 +2,7 @@ from django.db import models
 from datetime import datetime
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+
 from projectbonus.utils import slugify
 from apps.profiles.models import Profile
 
@@ -143,6 +144,6 @@ class TaskComment(BaseComment):
     task = models.ForeignKey(Task, verbose_name=_("Task"))
 
     def __unicode__(self):
-        return u"%s" % (self.title)
+        return u"%s" % (self.content)
 
 

@@ -6,6 +6,7 @@ from django.views.generic.edit import UpdateView, CreateView
 
 from apps.projects.forms import *
 from apps.projects.models import *
+from apps.actions.models import action
 
 ## TODO
 ## refactor all views
@@ -77,6 +78,9 @@ def create_project(request, template="new_project.html"):
             prj.save()
 
             prj.people.add(profile)
+
+            if prj:
+                action(request.user, prj, "create")
             
             return HttpResponseRedirect(prj.get_absolute_url())
 
@@ -115,6 +119,8 @@ class CreateDiscussion(CreateView):
         profile = Profile.objects.from_request(self.request)
         self.object.started_by = profile
         self.object.save()
+        # create an action
+        action(self.request.user, self.object, "create")
         return super(CreateDiscussion, self).form_valid(form)
 
 
@@ -133,6 +139,8 @@ class CreateDiscussionComment(CreateView):
         profile = Profile.objects.from_request(self.request)
         self.object.started_by = profile
         self.object.save()
+        # create an action
+        action(self.request.user, self.object, "comment")
         return super(CreateDiscussionComment, self).form_valid(form)
 
 
@@ -153,6 +161,8 @@ class CreateTask(CreateView):
         self.object.started_by = profile
         self.object.ordering = 1 # temporary fix
         self.object.save()
+        # create an action
+        action(self.request.user, self.object, "create")
         return super(CreateTask, self).form_valid(form)
 
 
@@ -172,6 +182,8 @@ class CreateTaskComment(CreateView):
         profile = Profile.objects.from_request(self.request)
         self.object.started_by = profile
         self.object.save()
+        # create an action
+        action(self.request.user, self.object, "comment")
         return super(CreateTaskComment, self).form_valid(form)
 
 

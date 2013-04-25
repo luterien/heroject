@@ -24,13 +24,15 @@ class ActionType(models.Model):
 
 class ActionManager(models.Manager):
 
-    def new_action(self, user, actor_object, action_type, target_object=None):
+    def new_action(self, user, action_object, action_key, target_object=None):
         """
             Create an action
         """
+        action_type = ActionType.objects.get(name=action_key)
+
         action = self.model(user=user,
-                            actor_content_type=ContentType.objects.get_for_model(actor_object.__class__),
-                            actor_object_id=smart_unicode(actor_object.id),
+                            action_content_type=ContentType.objects.get_for_model(action_object.__class__),
+                            action_object_id=smart_unicode(action_object.id),
                             action_type=action_type)
 
         if target_object:
@@ -38,6 +40,8 @@ class ActionManager(models.Manager):
             action.target_object_id = smart_unicode(target_object.id)
 
         action.save()
+
+        return action
 
 
 class Action(models.Model):
@@ -57,9 +61,9 @@ class Action(models.Model):
 
     ip_address = models.CharField(_("IP address"), max_length=20, blank=True, null=True)
 
-    actor_content_type = models.ForeignKey(ContentType, related_name="actor_object", blank=True, null=True)
-    actor_object_id = models.TextField(_('object id'), blank=True, null=True)
-    actor_content_object = generic.GenericForeignKey('actor_content_type', 'actor_object_id')
+    action_content_type = models.ForeignKey(ContentType, related_name="action_object", blank=True, null=True)
+    action_object_id = models.TextField(_('object id'), blank=True, null=True)
+    action_content_object = generic.GenericForeignKey('action_content_type', 'action_object_id')
 
     action_type = models.ForeignKey(ActionType, verbose_name=_('action type'))
 
@@ -85,11 +89,11 @@ class Action(models.Model):
         target_obj = self.target_content_object
 
         if prep and target_obj:
-            msg = "%s has %s %s %s %s" % (self.user, self.action_type.verb, self.actor_content_object, prep, target_obj)
+            msg = "%s has %s %s %s %s" % (self.user, self.action_type.verb, self.action_content_object, prep, target_obj)
         else:
-            msg = "%s has %s %s" % (self.user, self.action_type.verb, self.actor_content_object)
+            msg = "%s has %s %s %s" % (self.user, self.action_type.verb, prep, self.action_content_object)
 
-        return _(msg)
+        return _(msg.strip())
 
 
 class Notification(models.Model):
@@ -132,7 +136,7 @@ def send_user_notification(action):
     """
     sender = Profile.objects.get(user=action.user)
 
-    notification = Notification(receiver = action.actor_content_object,
+    notification = Notification(receiver = action.action_content_object,
                                 sender = sender)
 
     notification._construct_notification_message(action)
@@ -149,5 +153,16 @@ def get_ip_address(request):
         ip_addr = None
 
     return ip_addr
+
+
+
+def action(user, action_object, action_key, target_object=None, send_notification=False):
+    """ 
+        create a new action and send a notification if needed
+    """
+    action = Action.objects.new_action(user, action_object, action_key, target_object)
+
+    if send_notification == True:
+        send_user_notification(action)
 
 
