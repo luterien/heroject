@@ -1,16 +1,25 @@
 {% extends "base.html" %}
 
 {% block Content %}
-	<h6><strong><a href="{% url project_details task.project.slug %}">{{ task.project.title }}</a></strong><h6>
-	<h4>{{ task}}</h4>
+<div class="task-detail">
+	<div class="p-head">
+	<h3 class="top">
+		<strong>
+			<a href="{% url project_details task.project.slug %}">{{ task.project.title }}</a>
+		</strong>
+	</h3>
+	<h4 class="bottom">{{ task}}</h4>
+	</div>
 
+	<div class="comment-list">
 	{% for comment in task.comments %}
-		<h3>{{comment.content}}</h3>
+		<p>" {{comment.content}} "</p>
 	{% endfor %}
+	</div>
 
 	<form action="{% url create_task_comment task.id %}" method="POST">{% csrf_token %}
 	{{ task_comment_form.as_p }}
-	<input type="submit" value="create" />
+	<input type="submit" class="btn" value="create" />
 	</form>
-
+</div>
 {% endblock %}

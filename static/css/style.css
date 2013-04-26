@@ -51,8 +51,10 @@ input[type="checkbox"] {display: none;}
 #nav ul li:last-child a 	{border-right: 0;}
 
 #content .container 	{background: #fff; border-radius: 0 0 3px 3px; border-top: 1px solid #ccc; overflow: hidden;}
-#content #leftside 		{width: 238px; height: 450px; background: #e7ebf0; float: left; border-right: 1px solid #fff;}
-#content #main 			{width: 700px; height: 450px; float: left; border-left: 1px solid #ccc; background: #f5f5f5;}
+#content #leftside 		{width: 238px; min-height: 450px; background: #e7ebf0; float: left; border-right: 1px solid #fff;}
+#content #main 			{width: 700px; min-height: 450px; float: left; border-left: 1px solid #ccc; background: #f5f5f5;}
+
+
 
 /*		Style is Coming 	*/
 body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; background: url(../img/body-bg.jpg) no-repeat center center fixed;  -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; }
@@ -97,18 +99,23 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 #main .notproject ul span 		{display: block; font-family: 'font300',sans-serif; margin-left: 10px; margin-top:13px; float: left;}
 #main .notproject ul span:first-child	{width: 40px; height: 40px; background-color: #fc9e75; border-radius: 40px; line-height: 52px; text-align: center; float: left; margin: 0;}
 
+#main .index-cnt 			{width: 660px; padding: 20px;}
+#main .index-cnt h4 strong a 	{color: #f47238;}
+#main .index-cnt .progress 	{margin-left: 0;  margin-right: 10px;}
+#main .index-cnt .project-title 	{margin-top: 20px; margin-bottom: 5px; float: left; width: 100%;}
+
 /*		Page : Project	*/
-#main .p-head .top 		{ background: #565658; padding: 10px 0; border-bottom: 1px solid #ccc;}
-#main .p-head .top h2 	{ width: 440px; float: left; color: #fff; font-size: 14px; text-indent: 10px; padding-top: 5px;}
-#main .p-head .top form {width: 260px; float:right;}
-#main .p-head .top form span {float: left; font-family: 'font300',sans-serif; color: #fff; margin-top: 8px; margin-right: 8px;}
-#main .p-head .top form input {height: 23px; border-radius: 3px; border: 0; text-indent: 10px;}
-#main .p-head .top form button {background: #f47238; border: 0; padding: 5px; border-radius: 3px;}
+.p-head .top 		{ background: #565658; padding: 10px 0; border-bottom: 1px solid #ccc;}
+.p-head .top h2 	{ width: 440px; float: left; color: #fff; font-size: 14px; text-indent: 10px; padding-top: 5px;}
+.p-head .top form {width: 260px; float:right;}
+.p-head .top form span {float: left; font-family: 'font300',sans-serif; color: #fff; margin-top: 8px; margin-right: 8px;}
+.p-head .top form input {height: 23px; border-radius: 3px; border: 0; text-indent: 10px;}
+.p-head .top form button {background: #f47238; border: 0; padding: 5px; border-radius: 3px;}
 
-#main .p-head .bottom 		{padding: 10px 0; background: #ecebeb; border-top: 1px solid #fff; border-bottom: 1px solid #ccc;}
-#main .p-head .bottom span 	{margin-left: 10px; float: left;}
+.p-head .bottom 		{padding: 10px 0; background: #ecebeb; border-top: 1px solid #fff; border-bottom: 1px solid #ccc;}
+.p-head .bottom span 	{margin-left: 10px; float: left;}
 
-.progress 		{width: 200px; height: 12px; background: #fff; border: 1px solid #ccc; border-radius: 20px; float: left; margin-left: 10px;}
+.progress 		{width: 200px; height: 12px; background: #fff; border: 1px solid #ccc; border-radius: 20px; float: left; margin-left: 10px; overflow: hidden;}
 .progress .bar 	{background: #f47238; height: 12px; border-radius: 20px 0 0 20px;}
 .prg-cnt 		{font-size: 18px;}
 
@@ -123,3 +130,9 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .project-todos .todo-cnt .todo-comment 	{background: #a3b8d2; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #fff;}
 .project-todos .todo-cnt .todo-date 	{background: #f0ab8d; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #fff;}
 .project-todos .todo-cnt .todo-people 	{background: #ecebeb; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #333;}
+
+.task-detail .p-head h3 a 	{color: #fff; display: block; text-indent: 20px;}
+.task-detail .p-head h4 	{text-indent: 20px;}
+
+.comment-list p 	{text-indent: 20px; padding-left: 20px; position: relative; padding: 10px 0; border-bottom: 1px solid #ccc; position: relative;}
+

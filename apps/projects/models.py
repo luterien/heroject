@@ -35,6 +35,9 @@ class Project(models.Model):
     def active_tasks(self):
         return self.task_set.filter(is_done=False)
 
+    def active_tasks_count(self):
+        return self.active_tasks().count()
+
     def discussions(self):
         return self.discussion_set.all()
 

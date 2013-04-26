@@ -21,8 +21,11 @@ def _has_project_access(request, project):
 def project_details(request, slug, template="projects/project_details.html"):
     project = get_object_or_404(Project, slug=slug)
 
+    profile = Profile.objects.from_request(request)
+
     ctx = {'project':project,
-           'new_task_form':CreateTaskForm}
+           'new_task_form':CreateTaskForm,
+           'projects':profile.projects}
 
     if not _has_project_access(request, project):
         return HttpResponseRedirect(reverse('index'))

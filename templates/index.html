@@ -4,8 +4,8 @@
 {% include "inc/left_side.html" %}
 <section id="main">
     {% if projects %}
-          <div class="demo-text-box prl index">
-            <h3 class="demo-panel-title">Wellcome to PROJECTBONUS</h3>
+          <div class="index-cnt">
+            <h3>Wellcome to PROJECTBONUS</h3>
             <h4>Projects are waiting for you! Or 
               <strong class="crt-project"><a href="{% url create_project %}">Create New Project</a></strong>
             </h4>
@@ -15,13 +15,13 @@
                     <a href="{% url project_details project.slug %}">
                       {{ project.title }}
                     </a>
-                    <div class="progress-cnt">
+                  </h3>
+                  <div class="progress-cnt">
                     <div class="progress">
                         <div class="bar" style="width: {{ project.progress }}%;"></div>
                     </div>  
                     <strong>%{{ project.progress }} Completed!</strong>
-                    </div>  
-                  </h3>
+                  </div>  
                   <!--{% for task in project.active_tasks %}
                   <li>
                 <label class="checkbox" for="checkbox1">
@@ -40,9 +40,6 @@
                 </ul>
                   {% endfor %}-->
             {% endfor %}
-            <div class="span3 wellcomebtn">
-              <a href="{% url create_project %}" class="btn btn-large btn-block btn-info">Create Project</a>
-            </div>
           </div>
     {% else %}
           <div class="notproject">
