@@ -13,13 +13,15 @@
 
 	<div class="comment-list">
 	{% for comment in task.comments %}
-		<p>" {{comment.content}} "</p>
+		<p>" {{comment.content}} " <a href="#" class="comment-people">Bunu yazan tosun.</a></p>
 	{% endfor %}
 	</div>
 
-	<form action="{% url create_task_comment task.id %}" method="POST">{% csrf_token %}
+	<form class="comment-form" action="{% url create_task_comment task.id %}" method="POST">{% csrf_token %}
 	{{ task_comment_form.as_p }}
-	<input type="submit" class="btn" value="create" />
+	<button class="btn">
+		Add <strong>Comment</strong>
+	</button>
 	</form>
 </div>
 {% endblock %}
