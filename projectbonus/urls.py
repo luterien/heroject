@@ -31,8 +31,8 @@ urlpatterns = patterns('',
     url(r'^profile/$',                                   profile_details,    name="profile_details"),
     url(r'^index/$',                                     index,              name="index"),
 
-    url(r'^organization/(?P<pk>[-\d]+)/$',             OrganizationDetails.as_view() , name="organization_details"),
     url(r'^organization/create/$',             CreateOrganization.as_view() , name="create_organization"),
+    url(r'^organization/(?P<slug>[-\w]+)/$',             OrganizationDetails.as_view() , name="organization_details"),
 
     # project urls
     url(r'^project/create/$',                                           create_project,             name="create_project"),

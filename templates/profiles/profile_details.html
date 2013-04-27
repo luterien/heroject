@@ -5,18 +5,31 @@
 Welcome , {{ profile }}
 
 <div>
-{% for project in profile.projects %}
 
-<div>
-	<a href="{% url project_details project.slug %}">{{ project.title }}</a>
+	<h3>Projects</h3>
+	{% if profile.projects %}
+		{% for project in profile.projects %}
+		<div>
+			<a href="{% url project_details project.slug %}">{{ project.title }}</a>
+		</div>
+		{% endfor %}
+	{% else %}
+		<div>You do not have any projects</div>
+	{% endif %}
+
+	<h3>Organizations</h3>
+	{% if profile.organizations %}
+		{% for organization in profile.organizations %}
+		<div>
+			<a href="{% url organization_details organization.slug %}">{{ organization.title }}</a>
+		</div>
+		{% endfor %}
+	{% else %}
+		<div>You are not a member of any organizations. Create one <a href="{% url create_organization %}">here</a></div>
+	{% endif %}
+
 </div>
 
-{% endfor %}
-</div>
 
-<form action="/project/create/" method="POST">{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="create" />
-</form>
 
 {% endblock %}

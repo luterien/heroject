@@ -9,13 +9,7 @@ from apps.profiles.models import *
 class NewProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ('title', 'description', )
-
-    def __init__(self, *args, **kwargs):
-        super(NewProjectForm, self).__init__(*args, **kwargs)
-
-        self.fields['description'].required = False
-        self.fields['description'].widget = forms.TextInput()
+        fields = ('title', )
 
 
 class UpdateProjectForm(forms.ModelForm):

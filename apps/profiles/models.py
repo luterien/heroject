@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
@@ -17,7 +18,9 @@ class Organization(models.Model):
     """
         Store organization details
     """
-    title = models.CharField(_("Title"), max_length=100)
+    title = models.CharField(_("Title"), max_length=50)
+    slug = models.SlugField()
+
     description = models.TextField(_("Description"), null=True, blank=True)
 
     logo = models.ImageField(("Logo"), upload_to="/", null=True, blank=True)
@@ -26,15 +29,24 @@ class Organization(models.Model):
 
     is_approved = models.BooleanField(default=False)
 
-    people = models.ManyToManyField('Profile', verbose_name=_("People"), related_name="members", null=True, blank=True)
+    people = models.ManyToManyField('Profile', verbose_name=_("People"), related_name="organization_list", null=True, blank=True)
 
     admins = models.ManyToManyField('Profile', verbose_name=_("Admins"), null=True, blank=True)
+
+    class Meta:
+        verbose_name = _("Organization")
+        verbose_name_plural = _("Organizations")
+        ordering = ('title',)
 
     def __unicode__(self):
         return u"%s" % (self.title)
 
     def get_absolute_url(self):
-        return ('organization_details', (), {'pk':self.pk})
+        return ('organization_details', (), {'slug':self.slug})
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title, instance=self)
+        super(Organization, self).save(*args, **kwargs)
 
 
 class ProfileManager(models.Manager):
@@ -81,6 +93,18 @@ class Profile(models.Model):
     def read_notifications(self):
         return self.received_notifications.filter(is_read=True)
 
+    @property
+    def invitations_received(self):
+        pass
+
+    @property
+    def invitations_sent(self):
+        pass
+
+    @property
+    def organizations(self):
+        return Organization.objects.filter(Q(people__in=[self,])|Q(admins__in=[self,]))
+
 
 
 class InvitationManager(models.Manager):
@@ -90,6 +114,7 @@ class InvitationManager(models.Manager):
             active/unread invitations
         """
         return self.filter(is_read=False)
+
 
     def new(self, sender, object, receiver=None):
         """
@@ -118,9 +143,14 @@ class Invitation(models.Model):
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
     object_id = models.TextField(_('object id'), blank=True, null=True)
 
-    # date_sent = models.DateTimeField(auto_now=True)
+    date_sent = models.DateTimeField(auto_now=True)
 
     objects = InvitationManager()
+
+    class Meta:
+        verbose_name = _("Invitation")
+        verbose_name_plural = _("Invitations")
+        ordering = ('-date_sent',)
 
     def __unicode__(self):
         return "%s : %s -> %s" % (self.content_type, self.sender, self.receiver)
