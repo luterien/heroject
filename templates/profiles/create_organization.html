@@ -1,10 +1,20 @@
 {% extends "base.html" %}
 
 {% block Content %}
-
-            <form action="." method="POST">{% csrf_token %}
+<div class="profile-cnt">
+	<div class="profile-top">
+		<div class="prfi-cnt">
+			<div class="profile-img mt10">
+				<img src="http://www.bonus.com.tr/images/alisveris_sigortasi.png" />
+			</div>
+			<input class="mt10" type="file" name="pic" accept="image/*">
+		</div>
+		<div class="profile-infos">
+            <form class="add-org" action="." method="POST">{% csrf_token %}
             {{ form.as_p }}
-            <input type="submit" value="create" />
+            <button class="btn">CREATE</button>
             </form>
-
+		</div>
+	</div>
+</div>
 {% endblock %}

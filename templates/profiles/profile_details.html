@@ -1,35 +1,39 @@
 {% extends "base.html" %}
 
 {% block Content %}
-
-Welcome , {{ profile }}
-
-<div>
-
-	<h3>Projects</h3>
-	{% if profile.projects %}
-		{% for project in profile.projects %}
-		<div>
-			<a href="{% url project_details project.slug %}">{{ project.title }}</a>
+<div class="profile-cnt">
+	<div class="profile-top">
+		<div class="profile-img">
+			<img src="http://gravatar.com/avatar/5c97a64567584813be76bbecfc0a6baa?s=512" />
 		</div>
-		{% endfor %}
-	{% else %}
-		<div>You do not have any projects</div>
-	{% endif %}
-
-	<h3>Organizations</h3>
-	{% if profile.organizations %}
-		{% for organization in profile.organizations %}
-		<div>
-			<a href="{% url organization_details organization.slug %}">{{ organization.title }}</a>
+		<div class="profile-infos">
+			<h2>{{ profile }}</h2>
+			<h3>Organizations :</h3>
+			{% if profile.organizations %}
+				<div class="organizations">
+				{% for organization in profile.organizations %}
+					<div><a href="{% url organization_details organization.slug %}">{{ organization.title }}</a></div>
+				{% endfor %}
+				</div>
+				<p>Or create <strong><a href="{% url create_organization %}">new organization</a></strong></p>
+			{% else %}
+				<div>You are not a member of any organizations. Create one <a href="{% url create_organization %}">here</a></div>
+			{% endif %}
 		</div>
-		{% endfor %}
-	{% else %}
-		<div>You are not a member of any organizations. Create one <a href="{% url create_organization %}">here</a></div>
-	{% endif %}
-
+	</div>
+	<div class="profile-main">
+		<!--
+		<h3>Projects</h3>
+		{% if profile.projects %}
+			{% for project in profile.projects %}
+			<div>
+				<a href="{% url project_details project.slug %}">{{ project.title }}</a>
+			</div>
+			{% endfor %}
+		{% else %}
+			<div>You do not have any projects</div>
+		{% endif %}
+		-->
+	</div>
 </div>
-
-
-
 {% endblock %}

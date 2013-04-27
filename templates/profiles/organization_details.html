@@ -1,9 +1,29 @@
 {% extends "base.html" %}
 
 {% block Content %}
+<div class="profile-cnt">
+	<div class="profile-top">
+		<div class="profile-img">
+			<img src="http://www.bonus.com.tr/images/alisveris_sigortasi.png" />
+		</div>
+		<div class="profile-infos">
+			<h2>{{ organization.title }}</h2>
+			{% if organization.description %}
+				<h3>Description :</h3>
+				<div>{{ organization.description }}</div>
+			{% endif %}
+			<h3 class="mt10">Members :</h3>
+			<ul>
+				<li><a href="#">ahmet</a></li>
+				<li><a href="#">mehmet</a></li>
+				<li><a href="#">hasan</a></li>
+				<li><a href="#">hüseyin</a></li>
+			</ul>
+			<h3 class="mt10">Invite People : <input placeholder="friend@mail.com"></h3>
+		</div>
+	</div>
+</div>
 
-Organization Title : {{ organization.title }}
 
-Organization Description : {{ organization.description }}
 
 {% endblock %}

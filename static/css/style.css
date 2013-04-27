@@ -43,12 +43,19 @@ input[type="checkbox"] {display: none;}
 
 .mt5 		{margin-top: 5px;}
 .mt10 		{margin-top: 10px;}
+.br0 		{border-right: 0!important;}
 
 #nav .container 		{background: #ecebeb; height: 50px; border-bottom: 1px solid #fff; position: relative; border-radius: 3px 3px 0 0;}
 #nav ul li  			{float: left;}
 #nav ul li a  			{font-weight: bold; padding: 0 35px; line-height: 50px; border-left: 1px solid #ccc; border-right: 1px solid #fff; display: block;}
 #nav ul li:first-child a 	{padding: 0 83px 0 84px; border-left: 0; }
 #nav ul li:last-child a 	{border-right: 0;}
+#nav .user-nav			{float: right; position: relative; padding-right: 28px; margin-top: 6px;}
+#nav .user-nav:after	{position: absolute; content: ''; right: 10px; top: 16px; width: 0px; height: 0px; border-style: solid; border-width: 7px 6.5px 0 6.5px; border-color: #4a4a4a transparent transparent transparent; }
+#nav .user-nav a			{padding: 0 10px; border: 0; margin-top: 8px; height: 40px;}
+#nav .user-nav span			{float: left; display: block; line-height: 20px; padding: 10px 0;}
+#nav .user-nav .mini-img	{width: 36px; float: left; display: block; height: 36px; border-radius: 36px; overflow: hidden; margin-right: 10px; padding: 0; border: 1px solid #abaaaa; } 
+#nav .user-nav .mini-img img	{max-width: 100%;}
 
 #content .container 	{background: #fff; border-radius: 0 0 3px 3px; border-top: 1px solid #ccc; overflow: hidden;}
 #content #leftside 		{width: 238px; min-height: 450px; background: #e7ebf0; float: left; border-right: 1px solid #fff;}
@@ -153,6 +160,30 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .phb-left 		{width: 570px; float: left;}
 .phb-right 		{width: 120px; float: right;}
 
-.show-user .user-list 	{ display:none; position: absolute; background: #fff; border: 1px solid #ccc; padding: 10px; padding-bottom: 0; margin-left: -20px; border-radius: 3px;}
-.show-user .user-list li 	{ padding: 8px 5px; border-top: 1px solid #ccc; }
-.show-user .user-list li:first-child 	{border-top: 0; padding-top: 0;}
+.show-menu				{position: relative;}
+.show-menu .menu-list 	{ display:none; position: absolute; background: #fff; border: 1px solid #ccc; padding: 10px; padding-bottom: 0; margin-left: -20px; border-radius: 3px;}
+.show-menu .menu-list li 	{ padding: 8px 5px; border-top: 1px solid #ccc; }
+.show-menu .menu-list li:first-child 	{border-top: 0; padding-top: 0;}
+
+#nav .user-nav .show-menu .menu-list 	{top: 40px; z-index: 100; padding-top: 0;}
+#nav .user-nav .show-menu .menu-list li  	{display: block; width: 140px; padding: 0;}
+#nav .user-nav .show-menu .menu-list li a 	{padding: 0 10px; margin: 0; width: 120px;}
+
+/*		Page: Profile	*/
+.profile-cnt 	{padding: 20px; width: 900px; overflow: hidden;}
+.prfi-cnt 		{width: 230px; float: left;}
+.profile-cnt .profile-img 	{padding: 4px; border: 1px solid #ccc; border-radius: 3px; width: 200px; float: left; margin-right: 10px;}
+.profile-cnt .profile-img img 	{max-width: 100%; height: auto;}
+
+.profile-cnt .profile-infos 	{width: 670px; float: left;}
+.profile-cnt .profile-infos h2 	{font-size: 24px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;}
+
+.profile-main 		{width: 100%; float: left; margin-top: 20px;}
+
+.organizations div 	{padding-bottom: 10px;}
+.organizations div:first-child 	{padding-top: 10px;}
+.add-org label 		{width: 100%; float: left; margin-bottom: 5px; margin-top: 10px;}
+.add-org textarea,
+.add-org input,
+.add-org .btn 		{width: 400px; height: 40px; padding: 0 10px;}
+.add-org textarea	{height: 80px; padding: 10px;}

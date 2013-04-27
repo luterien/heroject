@@ -5,7 +5,7 @@ $(document).ready(function(){
 		$(this).toggleClass('checked');
 	});
 
-	$('.show-user').hover(function(){
-		$(this).find('.user-list').toggle();
+	$('.show-menu').hover(function(){
+		$(this).find('.menu-list').toggle();
 	});
 });
