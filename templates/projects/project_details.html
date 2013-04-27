@@ -24,7 +24,7 @@
         </div>
         <div class="p-cont">
         <ul class="project-todos" id="project-active-tasks">
-            <h4>To-do List :</h4>
+            <h4>To-do list :</h4>
             {% for task in project.active_tasks %}
             <li>
               <label class="checkbox" for="checkbox{{ task.id }}"></label>
@@ -46,14 +46,14 @@
             </li>
             {% endfor %}
 
-            <form action="{% url create_task project.id %}" method="POST">{% csrf_token %}
+            <form class="add-todo-form full-block" action="{% url create_task project.id %}" method="POST">{% csrf_token %}
                 {{ new_task_form.as_p }}
-                <button type="submit">add</button>
+                <button class="btn" type="submit">+</button>
             </form>                  
         </ul>
 
         <ul class="project-todos complete-list" id="project-completed-tasks">
-            <h4>Complete List :</h4>
+            <h4>Complete list :</h4>
 
             {% for task in project.completed_tasks %}
               <li>

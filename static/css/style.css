@@ -3,7 +3,7 @@
 	Project Bonus CSS
 	Author : Erhan Basa
 	Create Date : 22 April 2013
-	Last Update : 23 April 2013 (Erhan Basa)
+	Last Update : 27 April 2013 (Erhan Basa)
 
 */
 
@@ -101,7 +101,7 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 
 #main .index-cnt 			{width: 660px; padding: 20px;}
 #main .index-cnt h4 strong a 	{color: #f47238;}
-#main .index-cnt .progress 	{margin-left: 0;  margin-right: 10px;}
+#main .index-cnt .progress 	{margin-left: 0;  margin-right: 10px; width: 300px;}
 #main .index-cnt .project-title 	{margin-top: 20px; margin-bottom: 5px; float: left; width: 100%;}
 
 /*		Page : Project	*/
@@ -119,6 +119,7 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .progress .bar 	{background: #f47238; height: 12px; border-radius: 20px 0 0 20px;}
 .prg-cnt 		{font-size: 18px;}
 
+
 .p-cont 		{ padding: 20px; width: 660px; float: left;}
 .p-cont .project-todos h4 	{font-size: 16px;}
 .p-cont .project-todos li 	{width: 100%; float: left;}
@@ -133,6 +134,12 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 
 .task-detail .p-head h3 a 	{color: #fff; display: block; text-indent: 20px;}
 .task-detail .p-head h4 	{text-indent: 20px;}
+
+.add-todo-form 		{margin-top: 15px; margin-bottom: 15px;}
+.add-todo-form p 	{ width: 230px; float: left;}	
+.add-todo-form input 	{ width: 220px; height: 26px; text-indent: 10px; font-size: 14px; color: #333; }	
+.add-todo-form label 	{ display: none; }	
+.add-todo-form button 	{ background: #f47238; width:20px; height:22px; line-height: 24px; border: 0; padding: 10px;padding: 4px 6px; border-radius: 3px;  color: #fff; font-size: 19px; font-weight: bold;}	
 
 .comment-list p 	{text-indent: 20px; padding-left: 20px; position: relative; padding: 10px 0; border-bottom: 1px solid #ccc; position: relative;}
 
