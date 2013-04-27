@@ -17,13 +17,31 @@
             </form>
           </div>
           <div class="bottom full-block">
-            {% if project.progress %}
-            <span><strong>{{ project }}</strong>'s progress :</span>
-              <div class="progress">
-                <div class="bar" style="width: {{ project.progress }}%;"></div>
-              </div>  
-              <span class="prg-cnt"><strong>%{{project.progress}}</strong></span>
-            {% endif %}
+            <div class="phb-left">
+            <span>
+              <strong>{{ project }}</strong>'s progress :
+            </span>
+            <div class="progress">
+              <div class="bar" style="width: {{ project.progress }}%;"></div>
+            </div>  
+            <span class="prg-cnt"><strong>
+              {% if project.progress %} 
+              %{{project.progress}}
+              {% endif %}
+            </strong>
+            </span>
+            </div>
+            <div class="phb-right">
+              <span class="show-user">
+                <strong>5</strong> user
+                <ul class="user-list">
+                  <li><a>uguryrk</a></li>
+                  <li><a>erhanbasa</a></li>
+                  <li><a>uguryrk</a></li>
+                  <li><a>erhanbasa</a></li>
+                </ul>
+              </span>
+            </div>
           </div>
         </div>
         <div class="p-cont">
@@ -63,10 +81,14 @@
               <li>
                 <label class="checkbox checked" for="checkbox{{ task.id }}"></label>
                 <input type="checkbox" value="{{ task.id }}" id="checkbox{{task.id}}">
+                <div class="todo-cnt">
                 <a href="{% url task_details task.id %}">
                 {{ task.title }}
                 </a>
+                <a class="todo-people">Hacı abi</a>
+                <a class="todo-date">7 May</a>
                 <a class="todo-comment" href="{% url task_details task.id %}">{{task.comment_count}} Comments</a>
+                </div>
                 {% for people in task.assigned_people %}
                 <span>({{ people }})</span>
                 {% endfor %}
