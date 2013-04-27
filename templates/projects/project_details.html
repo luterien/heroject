@@ -6,10 +6,14 @@
         <div class="p-head">
           <div class="top full-block">
             <h2>{{ project }}</h2>
-            <form>
+            <!--<form>
               <span>Invite Friend</span>
               <input placeholder="friend@mail.com">
               <button><i class="icon mail"></i></button>
+            </form>-->
+            <form action="{% url invite_to_project project.id %}" method="POST">{% csrf_token %}
+            {{ project_invitation_form.receiver }}
+            <input type="submit" value="invite" />
             </form>
           </div>
           <div class="bottom full-block">

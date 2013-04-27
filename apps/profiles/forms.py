@@ -1,6 +1,10 @@
+
+import re
+
 from django import forms
 from django.contrib.auth.models import User
-import re
+from apps.profiles.models import Invitation, Organization
+
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(label=u"Username", max_length=30)
@@ -27,3 +31,19 @@ class RegistrationForm(forms.Form):
             return username
         
         raise forms.ValidationError('Username is already taken.')
+
+
+
+class InvitationForm(forms.ModelForm):
+
+    class Meta:
+        model = Invitation
+        fields = ('receiver',)
+
+
+class OrganizationForm(forms.ModelForm):
+
+    class Meta:
+        model = Organization
+        fields = ('title', 'description', )
+

@@ -2,6 +2,9 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+from django.contrib.contenttypes.models import ContentType
+from django.utils.encoding import smart_unicode
+
 from projectbonus.utils import slugify
 
 ORG_CHOICES = (
@@ -11,7 +14,10 @@ ORG_CHOICES = (
 
 
 class Organization(models.Model):
-    title = models.CharField(_("Title"), max_length=100, null=True, blank=True)
+    """
+        Store organization details
+    """
+    title = models.CharField(_("Title"), max_length=100)
     description = models.TextField(_("Description"), null=True, blank=True)
 
     logo = models.ImageField(("Logo"), upload_to="/", null=True, blank=True)
@@ -32,6 +38,7 @@ class Organization(models.Model):
 
 
 class ProfileManager(models.Manager):
+
     def from_request(self, request, *args, **kwargs):
         try:
             usr = self.get(user=request.user)
@@ -63,8 +70,8 @@ class Profile(models.Model):
 
     @property
     def tasks(self):
-    	""" return the list of Task objects which are assigned to the user """
-    	return self.task_set.all()
+        """ return the list of Task objects which are assigned to the user """
+        return self.task_set.all()
 
     @property
     def unread_notifications(self):
@@ -73,3 +80,51 @@ class Profile(models.Model):
     @property
     def read_notifications(self):
         return self.received_notifications.filter(is_read=True)
+
+
+
+class InvitationManager(models.Manager):
+
+    def active(self):
+        """ 
+            active/unread invitations
+        """
+        return self.filter(is_read=False)
+
+    def new(self, sender, object, receiver=None):
+        """
+            create a new invitation
+        """
+        inv = self.model(sender=sender,
+                         receiver=receiver,
+                         content_type=ContentType.objects.get_for_model(object.__class__),
+                         object_id=smart_unicode(object.id))
+        inv.save()
+
+        return inv
+
+
+class Invitation(models.Model):
+    """
+        Store project, organization invitations
+    """
+    sender = models.ForeignKey(Profile, verbose_name="Sender")
+
+    receiver = models.ForeignKey(Profile, verbose_name=_("Receiver"), null=True, blank=True, related_name="invitation_receiver")
+
+    is_read = models.BooleanField(default=False)
+    is_accepted = models.BooleanField(default=False)
+
+    content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    object_id = models.TextField(_('object id'), blank=True, null=True)
+
+    # date_sent = models.DateTimeField(auto_now=True)
+
+    objects = InvitationManager()
+
+    def __unicode__(self):
+        return "%s : %s -> %s" % (self.content_type, self.sender, self.receiver)
+
+    def _type(self):
+        pass
+

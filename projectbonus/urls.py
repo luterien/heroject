@@ -10,6 +10,7 @@ admin.autodiscover()
 
 ## TODO
 ## i simply used random url names,fix them later
+## also fix indentation
 
 urlpatterns = patterns('',
     # Examples:
@@ -31,6 +32,7 @@ urlpatterns = patterns('',
     url(r'^index/$',                                     index,              name="index"),
 
     url(r'^organization/(?P<pk>[-\d]+)/$',             OrganizationDetails.as_view() , name="organization_details"),
+    url(r'^organization/create/$',             CreateOrganization.as_view() , name="create_organization"),
 
     # project urls
     url(r'^project/create/$',                                           create_project,             name="create_project"),
@@ -54,5 +56,9 @@ urlpatterns = patterns('',
     
     # task comment
     url(r'^project/tasks/(?P<task_id>[-\d]+)/comments/',                CreateTaskComment.as_view(),  name="create_task_comment"),
+
+    # invitations
+    url(r'^project/(?P<project_id>[-\d]+)/invite/',         InviteToProject.as_view() ,   name="invite_to_project"),
+    url(r'^organization/(?P<organization_id>[-\d]+)/invite/',         InviteToOrganization.as_view() ,   name="invite_to_organization")
 
 )

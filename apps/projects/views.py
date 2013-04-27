@@ -5,6 +5,7 @@ from django.core.exceptions import PermissionDenied
 from django.views.generic.edit import UpdateView, CreateView
 
 from apps.projects.forms import *
+from apps.profiles.forms import *
 from apps.projects.models import *
 from apps.actions.models import action
 
@@ -25,7 +26,8 @@ def project_details(request, slug, template="projects/project_details.html"):
 
     ctx = {'project':project,
            'new_task_form':CreateTaskForm,
-           'projects':profile.projects}
+           'projects':profile.projects,
+           'project_invitation_form':InvitationForm}
 
     if not _has_project_access(request, project):
         return HttpResponseRedirect(reverse('index'))

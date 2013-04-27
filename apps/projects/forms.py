@@ -6,9 +6,16 @@ from apps.profiles.models import *
 
 
 
-class NewProjectForm(forms.Form):
-    title = forms.CharField(label=_("Project Title"))
-    description = forms.CharField(label=_("Description"))
+class NewProjectForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ('title', 'description', )
+
+    def __init__(self, *args, **kwargs):
+        super(NewProjectForm, self).__init__(*args, **kwargs)
+
+        self.fields['description'].required = False
+        self.fields['description'].widget = forms.TextInput()
 
 
 class UpdateProjectForm(forms.ModelForm):
@@ -34,6 +41,10 @@ class CreateTaskForm(forms.ModelForm):
         model = Task
         fields = ('title',)
 
+    def __init__(self, *args, **kwargs):
+        super(CreateTaskForm, self).__init__(*args, **kwargs)
+
+        self.fields['title'].required = True
 
 class CreateTaskCommentForm(forms.ModelForm):
     class Meta:
