@@ -14,7 +14,6 @@ from apps.projects.forms import NewProjectForm
 from apps.projects.models import Project
 
 
-
 def index(request, template="index.html"):
     profile = Profile.objects.from_request(request)
     
@@ -218,4 +217,3 @@ class ProfileUpdate(UpdateView):
         self.object.user.save()
 
         return super(ProfileUpdate, self).form_valid(form)
-

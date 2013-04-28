@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic.simple import direct_to_template
+from django.contrib.auth.views import password_change, password_change_done
 
 from apps.projects.views import *
 from apps.profiles.views import *
@@ -11,8 +12,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 ## TODO
-## i simply used random url names,fix them later
-## also fix indentation
+## fix indentation + make seperate urls.py's for each app
 
 urlpatterns = patterns('',
     # Examples:
@@ -33,6 +33,10 @@ urlpatterns = patterns('',
     url(r'^profile/$',                                   profile_details,    name="profile_details"),
     url(r'^index/$',                                     index,              name="index"),
     url(r'^profile/update/$',                            ProfileUpdate.as_view(), name="update_profile"),
+    url(r'^profile/update-password/$',                   password_change,  
+                {'template_name':'profiles/update_password.html'},  name="update_password"),
+    url(r'^profile/update-password/done/$',              password_change_done, 
+                {'template_name':'profiles/update_password_done.html'} , name="password_change_done"),
 
     url(r'^organization/create/$',             CreateOrganization.as_view() , name="create_organization"),
     url(r'^organization/(?P<slug>[-\w]+)/$',             OrganizationDetails.as_view() , name="organization_details"),
