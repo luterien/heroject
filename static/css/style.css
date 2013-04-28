@@ -51,8 +51,9 @@ input[type="checkbox"] {display: none;}
 #nav ul li:first-child a 	{padding: 0 83px 0 84px; border-left: 0; }
 #nav ul li:last-child a 	{border-right: 0;}
 #nav .user-nav			{float: right; position: relative; padding-right: 28px; margin-top: 6px;}
+#nav .user-nav .show-menu span	{cursor: pointer;}
 #nav .user-nav:after	{position: absolute; content: ''; right: 10px; top: 16px; width: 0px; height: 0px; border-style: solid; border-width: 7px 6.5px 0 6.5px; border-color: #4a4a4a transparent transparent transparent; }
-#nav .user-nav a			{padding: 0 10px; border: 0; margin-top: 8px; height: 40px;}
+#nav .user-nav a			{padding: 0 10px; border: 0; margin-top: 8px; height: 40px; cursor: }
 #nav .user-nav span			{float: left; display: block; line-height: 20px; padding: 10px 0;}
 #nav .user-nav .mini-img	{width: 36px; float: left; display: block; height: 36px; border-radius: 36px; overflow: hidden; margin-right: 10px; padding: 0; border: 1px solid #abaaaa; } 
 #nav .user-nav .mini-img img	{max-width: 100%;}
@@ -187,3 +188,6 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .add-org input,
 .add-org .btn 		{width: 400px; height: 40px; padding: 0 10px;}
 .add-org textarea	{height: 80px; padding: 10px;}
+
+#createprojectform label 	{display: none;}
+#createprojectform input 	{width: 197px; height: 30px; text-indent: 10px; font-size: 14px;}

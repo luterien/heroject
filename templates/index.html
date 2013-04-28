@@ -22,23 +22,6 @@
                     </div>  
                     <strong>%{{ project.progress }} Completed!</strong>
                   </div>  
-                  <!--{% for task in project.active_tasks %}
-                  <li>
-                <label class="checkbox" for="checkbox1">
-                  <span class="icon"></span>
-                  <span class="icon-to-fade"></span>
-                        <input type="checkbox" value="" id="checkbox1">
-                      </label>
-                      <a href="{% url task_details task.id %}">
-                      {{ task.title }} 
-                      </a>
-                    <a class="todo-comment" href="{% url task_details task.id %}">{{task.comment_count}} Comments</a>
-                    {% for people in task.assigned_people %}
-                    <span>({{ people }})</span>
-                    {% endfor %}
-                  </li>
-                </ul>
-                  {% endfor %}-->
             {% endfor %}
           </div>
     {% else %}

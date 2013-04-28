@@ -8,4 +8,9 @@ $(document).ready(function(){
 	$('.show-menu').hover(function(){
 		$(this).find('.menu-list').toggle();
 	});
+
+
+	$('#ajax-crt').click(function(){
+		$(this).parent().load('/project/create/');
+	});
 });

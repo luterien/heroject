@@ -14,12 +14,12 @@
         </ul>
         <div class="notproject">
           <span>You have {{projects.count}} project</span>
-          <a href="{% url create_project %}" class="btn">CREATE PROJECT</a>
+          <a id="ajax-crt" class="btn">CREATE PROJECT</a>
         </div>
       {% else %}
       <div class="notproject">
         <span>You do not have any project</span>
-        <a href="{% url create_project %}" class="btn">CREATE PROJECT</a>
+        <a id="ajax-crt" class="btn">CREATE PROJECT</a>
       </div>
       {% endif %}
 </aside>
