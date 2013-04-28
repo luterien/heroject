@@ -45,8 +45,8 @@
           </div>
         </div>
         <div class="p-cont">
+        <h4>To-do list :</h4>
         <ul class="project-todos" id="project-active-tasks">
-            <h4>To-do list :</h4>
             {% for task in project.active_tasks %}
             <li>
               <label class="checkbox" for="checkbox{{ task.id }}"></label>
@@ -68,15 +68,15 @@
             </li>
             {% endfor %}
 
-            <form class="add-todo-form full-block" action="{% url create_task project.id %}" method="POST">{% csrf_token %}
-                {{ new_task_form.as_p }}
-                <button class="btn" type="submit">+</button>
-            </form>                  
         </ul>
+        <form class="add-todo-form full-block" action="{% url create_task project.id %}" method="POST">{% csrf_token %}
+            {{ new_task_form.as_p }}
+            <button class="btn" type="submit">+</button>
+        </form>                  
+
+        <h4>Complete list :</h4>
 
         <ul class="project-todos complete-list" id="project-completed-tasks">
-            <h4>Complete list :</h4>
-
             {% for task in project.completed_tasks %}
               <li>
                 <label class="checkbox checked" for="checkbox{{ task.id }}"></label>
@@ -98,39 +98,4 @@
         </ul>
         </div>
 </section>
-
-<script type="text/javascript">
-// Ajax
-  $('#project-active-tasks li input').on("change", function(){
-    update_task_status(this);
-  });
-
-  $('#project-completed-tasks li input').on("change", function(){
-    update_task_status(this);
-  });
-
-  function update_task_status(that){
-
-    var task_id = $(that).val();
-
-    if (that.checked){
-      task_is_done = 1
-    } else {
-      task_is_done = 0
-    }
-
-    $.ajax({
-
-      url : "/tasks/update_status/",
-      data : {'is_done': task_is_done, 'task_id': task_id}
-
-    }).success(function(r){
-
-      $('#project-active-tasks').load(' #project-active-tasks', function(){$(this).children().unwrap()});
-      $('#project-completed-tasks').load(' #project-completed-tasks', function(){$(this).children().unwrap()});
-      $('.progress').load('.progress', function(){$(this).children().unwrap()});
-
-    })
-  };
-</script>
 {% endblock %}
