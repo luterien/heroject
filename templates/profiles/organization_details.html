@@ -8,18 +8,21 @@
 		</div>
 		<div class="profile-infos">
 			<h2>{{ organization.title }}</h2>
+
+			<div><img src="{{ MEDIA_URL }}{{ organization.logo }}"></div>
+
 			{% if organization.description %}
 				<h3>Description :</h3>
 				<div>{{ organization.description }}</div>
 			{% endif %}
+
 			<h3 class="mt10">Members :</h3>
 			<ul>
-				<li><a href="#">ahmet</a></li>
-				<li><a href="#">mehmet</a></li>
-				<li><a href="#">hasan</a></li>
-				<li><a href="#">hüseyin</a></li>
+				{% for member in organization.people.all %}
+					<li><a href="#">{{ member }}</a></li>
+				{% endfor %}
 			</ul>
-			<h3 class="mt10">Invite People : <input placeholder="friend@mail.com"></h3>
+			<h3 class="mt10">Invite People : {{ invitation_form.receiver }}</h3>
 		</div>
 	</div>
 </div>

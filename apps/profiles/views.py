@@ -105,6 +105,9 @@ class OrganizationDetails(DetailView):
     model = Organization
     form_class = OrganizationForm
 
+    def get_context_data(self, **kwargs):
+        return super(OrganizationDetails, self).get_context_data(**{'invitation_form':InvitationForm})
+
 
 class CreateOrganization(CreateView):
     template_name = "profiles/create_organization.html"
@@ -187,5 +190,32 @@ class InviteToOrganization(CreateView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+class ProfileUpdate(UpdateView):
+    template_name = "update_profile.html"
+    model = Profile
+    form_class = ProfileForm
 
+    def get_object(self, queryset=None):
+        obj = Profile.objects.from_request(self.request)
+        return obj
+
+    def get_initial(self):
+        """ get the initial value for user.email """
+        init = super(ProfileUpdate, self).get_initial()
+        init.update({'email':self.request.user.email})
+        return init
+
+    def get_success_url(self):
+        return reverse('update_profile')
+
+    def form_valid(self, form):
+        # update the email on user model
+        self.object = form.instance
+
+        email = form.cleaned_data.get('email')
+
+        self.object.user.email = email
+        self.object.user.save()
+
+        return super(ProfileUpdate, self).form_valid(form)
 

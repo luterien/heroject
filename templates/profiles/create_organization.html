@@ -3,18 +3,21 @@
 {% block Content %}
 <div class="profile-cnt">
 	<div class="profile-top">
-		<div class="prfi-cnt">
-			<div class="profile-img mt10">
-				<img src="http://www.bonus.com.tr/images/alisveris_sigortasi.png" />
+		<form class="add-org" action="." method="POST" enctype="multipart/form-data">{% csrf_token %}
+			<div class="prfi-cnt">
+				<div class="profile-img mt10">
+					<img src="http://www.bonus.com.tr/images/alisveris_sigortasi.png" />
+					{{ form.logo }}
+				</div>
 			</div>
-			<input class="mt10" type="file" name="pic" accept="image/*">
-		</div>
-		<div class="profile-infos">
-            <form class="add-org" action="." method="POST">{% csrf_token %}
-            {{ form.as_p }}
-            <button class="btn">CREATE</button>
-            </form>
-		</div>
+			<div class="profile-infos">
+	            <p>{{ form.title.label }}</p>
+	            <p>{{ form.title }}</p>
+	            <p>{{ form.description.label }}</p>
+	            <p>{{ form.description }}</p>
+	            <button class="btn">CREATE</button>
+			</div>
+		</form>
 	</div>
 </div>
 {% endblock %}

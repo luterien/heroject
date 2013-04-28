@@ -5,6 +5,8 @@ from apps.projects.views import *
 from apps.profiles.views import *
 from apps.projects.ajax import update_task_status
 
+from django.conf import settings
+
 from django.contrib import admin
 admin.autodiscover()
 
@@ -30,6 +32,7 @@ urlpatterns = patterns('',
     url(r'^logout/$',                                    logout_user,        name="logout"),
     url(r'^profile/$',                                   profile_details,    name="profile_details"),
     url(r'^index/$',                                     index,              name="index"),
+    url(r'^profile/update/$',                            ProfileUpdate.as_view(), name="update_profile"),
 
     url(r'^organization/create/$',             CreateOrganization.as_view() , name="create_organization"),
     url(r'^organization/(?P<slug>[-\w]+)/$',             OrganizationDetails.as_view() , name="organization_details"),
@@ -62,3 +65,9 @@ urlpatterns = patterns('',
     url(r'^organization/(?P<organization_id>[-\d]+)/invite/',         InviteToOrganization.as_view() ,   name="invite_to_organization")
 
 )
+
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        (r'^uploads/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT, 'show_indexes':True}),
+    )

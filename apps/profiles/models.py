@@ -23,7 +23,7 @@ class Organization(models.Model):
 
     description = models.TextField(_("Description"), null=True, blank=True)
 
-    logo = models.ImageField(("Logo"), upload_to="/", null=True, blank=True)
+    logo = models.ImageField(_('Logo'), upload_to="organizations/logos/", null=True, blank=True)
 
     org_type = models.CharField(_("Organization Type"), max_length=60, choices=ORG_CHOICES, null=True, blank=True)
 
@@ -36,7 +36,7 @@ class Organization(models.Model):
     class Meta:
         verbose_name = _("Organization")
         verbose_name_plural = _("Organizations")
-        ordering = ('title',)
+        ordering = ('-id',)
 
     def __unicode__(self):
         return u"%s" % (self.title)
@@ -47,6 +47,7 @@ class Organization(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, instance=self)
         super(Organization, self).save(*args, **kwargs)
+
 
 
 class ProfileManager(models.Manager):
@@ -65,7 +66,7 @@ class Profile(models.Model):
 
     birthdate = models.DateTimeField(_("Birth Date"), null=True, blank=True)
 
-    picture = models.ImageField(("Profile Picture"), upload_to="/users/avatars/", null=True, blank=True)
+    picture = models.ImageField(("Profile Picture"), upload_to="users/avatars/", null=True, blank=True)
 
     objects = ProfileManager()
 

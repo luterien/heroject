@@ -3,7 +3,8 @@ import re
 
 from django import forms
 from django.contrib.auth.models import User
-from apps.profiles.models import Invitation, Organization
+
+from apps.profiles.models import Invitation, Organization, Profile
 
 
 class RegistrationForm(forms.Form):
@@ -45,5 +46,13 @@ class OrganizationForm(forms.ModelForm):
 
     class Meta:
         model = Organization
-        fields = ('title', 'description', )
+        fields = ('title', 'description', 'logo', )
 
+
+class ProfileForm(forms.ModelForm):
+
+    email = forms.EmailField(label="E-Mail")
+
+    class Meta:
+        model = Profile
+        fields = ('picture', )

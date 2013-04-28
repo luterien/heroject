@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+{% block includes %}
+  {% load formtags %}
+{% endblock %}
 <html id="{% block id %}{% endblock %}" lang="tr">
   <head>
     <meta charset="utf-8">
@@ -52,8 +55,8 @@
             </span>
             <span>erhanbasa</span>
             <ul class="menu-list">
-              <li><a href="/profile/">Profile</a></li>
-              <li><a href="#">Edit Profile</a></li>
+              <li><a href="{% url profile_details %}">Profile</a></li>
+              <li><a href="{% url update_profile %}">Edit Profile</a></li>
               <li><a href="{% url logout %}">Logout</a></li>
             </ul>
           </div>
