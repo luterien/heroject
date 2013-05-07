@@ -217,3 +217,33 @@ class ProfileUpdate(UpdateView):
         self.object.user.save()
 
         return super(ProfileUpdate, self).form_valid(form)
+
+
+def invitations(request, template="profiles/invitations.html"):
+    """
+        invitation list for the user
+    """
+    p = Profile.objects.from_request(request)
+
+    ctx = {'profile':p}
+
+    return render(request, template, ctx)
+
+# TODO
+# convert this to an ajax method
+
+def reply_to_invitation(request, id, template="profiles/reply_to_invitation.html"):
+    """
+        accept or refuse an invitation
+    """
+    invitation = Invitation.objects.get(id=id)
+
+    is_accepted = request.GET.get('is_accepted', False)
+
+    if is_accepted:
+        invitation.is_accepted = True
+
+    invitation.is_read = True
+    invitation.save()
+
+    return HttpResponseRedirect(reverse('invitations'))

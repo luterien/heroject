@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block Content %}
+
+<div>
+	{% for inv in profile.received_invitations.active %}
+		{{ inv.sender }} has invited you to <a href="">{{ inv.content_object }}</a>
+		{% if not inv.is_read %}
+		<a href="{% url reply_to_invitation inv.id %}?is_accepted=1">accept</a>
+		<a href="{% url reply_to_invitation inv.id %}?refused">refuse</a>
+		{% endif %}
+	{% endfor %}
+</div>
+{% endblock %}

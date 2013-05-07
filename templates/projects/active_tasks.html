@@ -1,0 +1,20 @@
+{% for task in project.active_tasks %}
+<li>
+  <label class="checkbox" for="checkbox{{ task.id }}"></label>
+  <input type="checkbox" value="{{ task.id }}" id="checkbox{{task.id}}">
+
+  <div class="todo-cnt">
+  <a href="{% url task_details task.id %}">
+  {{ task.title }}
+  </a>
+
+  <a class="todo-people">Hacı abi</a>
+  <a class="todo-date">7 May</a>
+  <a class="todo-comment" href="{% url task_details task.id %}">{{task.comment_count}} Comments</a>
+
+  {% for people in task.assigned_people %}
+    <span>({{ people }})</span>
+  {% endfor %}
+  </div>
+</li>
+{% endfor %}

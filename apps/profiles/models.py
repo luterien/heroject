@@ -5,6 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from django.contrib.contenttypes.models import ContentType
 from django.utils.encoding import smart_unicode
+from django.contrib.contenttypes import generic
 
 from projectbonus.utils import slugify
 
@@ -96,7 +97,7 @@ class Profile(models.Model):
 
     @property
     def invitations_received(self):
-        pass
+        return self.received_invitations.all()
 
     @property
     def invitations_sent(self):
@@ -136,13 +137,14 @@ class Invitation(models.Model):
     """
     sender = models.ForeignKey(Profile, verbose_name="Sender")
 
-    receiver = models.ForeignKey(Profile, verbose_name=_("Receiver"), null=True, blank=True, related_name="invitation_receiver")
+    receiver = models.ForeignKey(Profile, verbose_name=_("Receiver"), null=True, blank=True, related_name="received_invitations")
 
     is_read = models.BooleanField(default=False)
     is_accepted = models.BooleanField(default=False)
 
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
     object_id = models.TextField(_('object id'), blank=True, null=True)
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
 
     date_sent = models.DateTimeField(auto_now=True)
 
@@ -156,6 +158,6 @@ class Invitation(models.Model):
     def __unicode__(self):
         return "%s : %s -> %s" % (self.content_type, self.sender, self.receiver)
 
-    def _type(self):
-        pass
+    def message(self):
+        return "%s has invited you to %s" % (self.sender, self.content_object)
 
