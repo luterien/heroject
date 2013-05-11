@@ -1,12 +1,14 @@
 $(document).ready(function(){
 	
 	// Checkbox
-	$('.checkbox').click(function(){
-		$(this).addClass('checked');
-	});
-
-	$('.checked').click(function(){
-		$(this).removeClass('checked');
+	$('.checkbox').live("click", function(){
+		if ($(this).hasClass('checked') == false) {
+			$(this).addClass('checked');
+			update_task_status($(this).next(), true);
+		} else {
+			$(this).removeClass('checked');
+			update_task_status($(this).next(), false);
+		}
 	});
 
 	// Dropdown
@@ -19,20 +21,15 @@ $(document).ready(function(){
 		$(this).parent().load('/project/create/');
 	});
 
-	// Ajax
-	$('#project-active-tasks li input').on("change", function(){
-	update_task_status(this);
-	});
-
-	$('#project-completed-tasks li input').on("change", function(){
-	update_task_status(this);
-	});
-
-	function update_task_status(that){
+	function update_task_status(that, checked){
 
 		var task_id = $(that).val();
+		var slug = $('#project_slug').val();
 
-		if (that.checked){
+		var active_tasks_url = "/project/" + slug + "/active_tasks/";
+		var completed_tasks_url = "/project/" + slug + "/completed_tasks/";
+
+		if (checked==true){
 		task_is_done = 1
 		} else {
 		task_is_done = 0
@@ -44,11 +41,9 @@ $(document).ready(function(){
 		data : {'is_done': task_is_done, 'task_id': task_id}
 
 		}).success(function(r){
-
-		$('#project-active-tasks').load(' #project-active-tasks', function(){$(this).children().unwrap()});
-		$('#project-completed-tasks').load(' #project-completed-tasks', function(){$(this).children().unwrap()});
-		//$('.progress').load('.progress', function(){$(this).children().unwrap()});
-
+			$('#project-active-tasks').load(active_tasks_url);
+			$('#project-completed-tasks').load(completed_tasks_url);
+			//$('.progress').load('.progress', function(){$(this).children().unwrap()});
 		})
 	};
 });

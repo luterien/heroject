@@ -45,56 +45,23 @@
           </div>
         </div>
         <div class="p-cont">
-        <h4>To-do list :</h4>
-        <ul class="project-todos" id="project-active-tasks">
-            {% for task in project.active_tasks %}
-            <li>
-              <label class="checkbox" for="checkbox{{ task.id }}"></label>
-              <input type="checkbox" value="{{ task.id }}" id="checkbox{{task.id}}">
 
-              <div class="todo-cnt">
-              <a href="{% url task_details task.id %}">
-              {{ task.title }}
-              </a>
-
-              <a class="todo-people">Hacı abi</a>
-              <a class="todo-date">7 May</a>
-              <a class="todo-comment" href="{% url task_details task.id %}">{{task.comment_count}} Comments</a>
-
-              {% for people in task.assigned_people %}
-                <span>({{ people }})</span>
-              {% endfor %}
-              </div>
-            </li>
-            {% endfor %}
-
-        </ul>
         <form class="add-todo-form full-block" action="{% url create_task project.id %}" method="POST">{% csrf_token %}
             {{ new_task_form.as_p }}
             <button class="btn" type="submit">+</button>
-        </form>                  
+        </form>
+
+        <h4>To-do list :</h4>
+        <ul class="project-todos" id="project-active-tasks">
+            {% include 'projects/active_tasks.html' %}
+        </ul>
+
+        <input type="hidden" id="project_slug" value="{{ project.slug }}" />        
 
         <h4>Complete list :</h4>
 
         <ul class="project-todos complete-list" id="project-completed-tasks">
-            {% for task in project.completed_tasks %}
-              <li>
-                <label class="checkbox checked" for="checkbox{{ task.id }}"></label>
-                <input type="checkbox" value="{{ task.id }}" id="checkbox{{task.id}}">
-                <div class="todo-cnt">
-                <a href="{% url task_details task.id %}">
-                {{ task.title }}
-                </a>
-                <a class="todo-people">Hacı abi</a>
-                <a class="todo-date">7 May</a>
-                <a class="todo-comment" href="{% url task_details task.id %}">{{task.comment_count}} Comments</a>
-                </div>
-                {% for people in task.assigned_people %}
-                <span>({{ people }})</span>
-                {% endfor %}
-              </li>
-            {% endfor %}
-
+            {% include 'projects/completed_tasks.html' %}
         </ul>
         </div>
 </section>

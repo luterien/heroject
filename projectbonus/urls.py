@@ -4,7 +4,7 @@ from django.contrib.auth.views import password_change, password_change_done
 
 from apps.projects.views import *
 from apps.profiles.views import *
-from apps.projects.ajax import update_task_status
+from apps.projects.ajax import *
 
 from django.conf import settings
 
@@ -44,7 +44,7 @@ urlpatterns = patterns('',
 
     # project urls
     url(r'^project/create/$',                                           create_project,             name="create_project"),
-    url(r'^project/(?P<slug>[-\w\d]+)/$',                  project_details,            name="project_details"),
+    url(r'^project/(?P<slug>[-\w]+)/$',                  project_details,            name="project_details"),
     url(r'^project/update/(?P<pk>\d+)/$',                               UpdateProject.as_view(),    name='update_project'),
 
     # discussion urls
@@ -66,8 +66,11 @@ urlpatterns = patterns('',
     url(r'^project/tasks/(?P<task_id>[-\d]+)/comments/',                CreateTaskComment.as_view(),  name="create_task_comment"),
 
     # invitations
-    url(r'^project/(?P<project_id>[-\d]+)/invite/',         InviteToProject.as_view() ,   name="invite_to_project"),
+    url(r'^project/(?P<project_id>[-\d]+)/invite/$',         InviteToProject.as_view() ,   name="invite_to_project"),
     url(r'^organization/(?P<organization_id>[-\d]+)/invite/',         InviteToOrganization.as_view() ,   name="invite_to_organization"),
+
+    url(r'^project/(?P<slug>[-\w]+)/completed_tasks/$', completed_tasks, name="completed_tasks"),
+    url(r'^project/(?P<slug>[-\w]+)/active_tasks/$', active_tasks, name="active_tasks"),
 
 )
 
