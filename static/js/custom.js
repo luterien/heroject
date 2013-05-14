@@ -46,4 +46,7 @@ $(document).ready(function(){
 			//$('.progress').load('.progress', function(){$(this).children().unwrap()});
 		})
 	};
+
+	$('select').addClass('select2');
+	$('.select2').select2();
 });
