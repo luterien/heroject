@@ -37,7 +37,7 @@ $(document).ready(function(){
 
 		$.ajax({
 
-		url : "/tasks/update_status/",
+		url : "/project/tasks/update_status/",
 		data : {'is_done': task_is_done, 'task_id': task_id}
 
 		}).success(function(r){
