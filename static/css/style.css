@@ -191,3 +191,6 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 
 #createprojectform label 	{display: none;}
 #createprojectform input 	{width: 197px; height: 30px; text-indent: 10px; font-size: 14px;}
+
+.p-head .top form .select2 	{width: 160px;}
+.p-head .top form .select2-choice span 	{color: #333; line-height: 15px;}
