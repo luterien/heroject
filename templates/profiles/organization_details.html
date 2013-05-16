@@ -22,7 +22,10 @@
 					<li><a href="#">{{ member }}</a></li>
 				{% endfor %}
 			</ul>
-			<h3 class="mt10">Invite People : {{ invitation_form.receiver }}</h3>
+			<form action="{% url invite_to_organization organization.id %}" method="POST">{% csrf_token %}
+				<h3 class="mt10">Invite People : {{ invitation_form.receiver }}</h3>
+				<input type="submit" value="invite" />
+			</form>
 		</div>
 	</div>
 </div>

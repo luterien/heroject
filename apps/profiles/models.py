@@ -162,8 +162,12 @@ class Invitation(models.Model):
         return "%s has invited you to %s" % (self.sender, self.content_object)
 
     def add_user(self):
-        # add user to the content-object
-        # currently on works for project model
-        self.content_object.people.add(self.receiver)
-        self.content_object.save()
+        from apps.projects.models import Project
+        # TODO : find a better solution for this part
+        if isinstance(self.content_object, Project):
+            self.content_object.people.add(self.receiver)
+            self.content_object.save()
+        elif isinstance(self.content_object, Organization):
+            self.content_object.people.add(self.receiver)
+            self.content_object.save()
 
