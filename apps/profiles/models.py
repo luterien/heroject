@@ -161,3 +161,9 @@ class Invitation(models.Model):
     def message(self):
         return "%s has invited you to %s" % (self.sender, self.content_object)
 
+    def add_user(self):
+        # add user to the content-object
+        # currently on works for project model
+        self.content_object.people.add(self.receiver)
+        self.content_object.save()
+

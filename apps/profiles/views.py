@@ -242,6 +242,7 @@ def reply_to_invitation(request, id, template="profiles/reply_to_invitation.html
 
     if is_accepted:
         invitation.is_accepted = True
+        invitation.add_user()
 
     invitation.is_read = True
     invitation.save()

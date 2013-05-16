@@ -145,7 +145,7 @@ class CreateDiscussionComment(CreateView):
         self.object.started_by = profile
         self.object.save()
         # create an action
-        action(self.request.user, self.object, "comment")
+        action(self.request.user, self.object.discussion, "comment")
         return super(CreateDiscussionComment, self).form_valid(form)
 
 
@@ -188,7 +188,7 @@ class CreateTaskComment(CreateView):
         self.object.started_by = profile
         self.object.save()
         # create an action
-        action(self.request.user, self.object, "comment")
+        action(self.request.user, self.object.task, "comment")
         return super(CreateTaskComment, self).form_valid(form)
 
 
