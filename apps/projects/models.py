@@ -90,6 +90,7 @@ class Task(models.Model):
     started_by = models.ForeignKey(Profile, verbose_name=_("Started by"))
 
     people = models.ManyToManyField(Profile, verbose_name=_("People"), related_name="assigned_people")
+    date_created = models.DateTimeField(default=datetime.now())
 
     class Meta:
         verbose_name = _("Task")
