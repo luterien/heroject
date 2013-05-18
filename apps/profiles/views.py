@@ -12,6 +12,7 @@ from apps.profiles.models import *
 from apps.profiles.forms import *
 from apps.projects.forms import NewProjectForm
 from apps.projects.models import Project
+from apps.actions.models import action
 
 
 def index(request, template="index.html"):
@@ -142,6 +143,8 @@ def invite(sender, cls, object_id, receiver=None, email=None):
             ivn = Invitation.objects.new(sender, to, receiver)
         except:
             to = None
+
+        action(sender.user, receiver, "invite", send_notification=True)
 
     if email:
         pass
