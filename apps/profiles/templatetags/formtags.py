@@ -7,3 +7,7 @@ register = template.Library()
 def invitation_form(context):
 	return InvitationForm()
 
+
+@register.assignment_tag(takes_context=True)
+def notifications(context, profile):
+	pass

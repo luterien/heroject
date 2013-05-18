@@ -95,6 +95,10 @@ class Action(models.Model):
 
         return _(msg.strip())
 
+# TODO
+# rewrite the notification model
+# add the option to follow/unfollow others
+
 
 class Notification(models.Model):
 
@@ -104,6 +108,10 @@ class Notification(models.Model):
 
     receiver = models.ForeignKey(Profile, verbose_name="Receiver", related_name="received_notifications")
     sender = models.ForeignKey(Profile, verbose_name="Sender", null=True, blank=True)
+
+    #target_content_type = models.ForeignKey(ContentType, related_name="target_object", blank=True, null=True)
+    #target_object_id = models.TextField(_('object id'), blank=True, null=True)
+    #target_content_object = generic.GenericForeignKey('target_content_type', 'target_object_id')
 
     is_read = models.BooleanField(default=False)
 

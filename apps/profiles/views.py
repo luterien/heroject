@@ -136,19 +136,17 @@ def invite(sender, cls, object_id, receiver=None, email=None):
     """
     if receiver:
 
-        ## todo : action
-
         try:
             to = cls.objects.get(id=int(object_id))
             ivn = Invitation.objects.new(sender, to, receiver)
         except:
             to = None
 
-        action(sender.user, receiver, "invite", send_notification=True)
+        action(sender.user, receiver, "invite", target_object=to, send_notification=True)
 
     if email:
         pass
-    
+
 
 class InviteToProject(CreateView):
     template_name = "invite_to_project.html"
