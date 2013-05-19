@@ -11,7 +11,13 @@ from projectbonus.utils import slugify
 
 class ActionType(models.Model):
     """
-        todo : refactor
+        examples of usage : 
+
+        -> add <this> to <that>
+        -> invite <this> to <that>
+        -> remove <this> from <that>
+        -> assign <this> to <that>
+        -> comment on <that>
     """
     name = models.CharField(_('Action name'), max_length=30)
     verb = models.CharField(_('Verb'), max_length=40)
@@ -27,6 +33,9 @@ class ActionManager(models.Manager):
     def new_action(self, user, action_object, action_key, target_object=None):
         """
             Create an action
+
+            If the target_object is on the user's follow list
+            Send the user a notification
         """
         action_type = ActionType.objects.get(name=action_key)
 
@@ -50,7 +59,7 @@ class Action(models.Model):
         User action examples :
     
         -> <ahmet> has <deleted> <discussionTitle>
-        -> <ercan> has <commented on> <taskTitle>
+        -> <ercan> has <commented> <on> <taskTitle>
         -> <erhan> has <created> <projectTitle>
         -> <murat> has <assigned> <userName> to <taskName>
         -> <ayhan> has <changed> <taskTitle>
@@ -95,9 +104,38 @@ class Action(models.Model):
 
         return _(msg.strip())
 
-# TODO
-# rewrite the notification model
-# add the option to follow/unfollow others
+
+class FollowManager(models.Manager):
+
+    def create_new(self, user, flw_object):
+        """
+            
+        """
+        flw = self.model(follower=user,
+                         content_type=ContentType.objects.get_for_model(flw_object.__class__),
+                         object_id=smart_unicode(flw_object.id))
+
+        flw.save()
+
+        return flw
+
+
+class Follow(models.Model):
+    """
+        Lets a user follow an object (Organization, Project, Task etc)
+    """
+    follower = models.ForeignKey(User)
+
+    content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    object_id = models.TextField(_('object id'), blank=True, null=True)
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
+
+    is_active = models.BooleanField(default=True)
+
+    objects = FollowManager()
+
+    def __unicode__(self):
+        return u"%s following %s" % (self.follower, self.content_object)
 
 
 class Notification(models.Model):
@@ -109,9 +147,9 @@ class Notification(models.Model):
     receiver = models.ForeignKey(Profile, verbose_name="Receiver", related_name="received_notifications")
     sender = models.ForeignKey(Profile, verbose_name="Sender", null=True, blank=True)
 
-    #target_content_type = models.ForeignKey(ContentType, related_name="target_object", blank=True, null=True)
-    #target_object_id = models.TextField(_('object id'), blank=True, null=True)
-    #target_content_object = generic.GenericForeignKey('target_content_type', 'target_object_id')
+    target_content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    target_object_id = models.TextField(_('object id'), blank=True, null=True)
+    target_content_object = generic.GenericForeignKey('target_content_type', 'target_object_id')
 
     is_read = models.BooleanField(default=False)
 
@@ -134,43 +172,66 @@ class Notification(models.Model):
         self.save()
 
 
-def send_system_notification():
-    pass
+class InvitationManager(models.Manager):
+
+    def active(self):
+        """ 
+            active/unread invitations
+        """
+        return self.filter(is_read=False)
 
 
-def send_user_notification(action):
+    def new(self, sender, object, receiver=None):
+        """
+            create a new invitation
+        """
+        inv = self.model(sender=sender,
+                         receiver=receiver,
+                         content_type=ContentType.objects.get_for_model(object.__class__),
+                         object_id=smart_unicode(object.id))
+        inv.save()
+
+        return inv
+
+
+class Invitation(models.Model):
     """
-        Create a notification from the given action
+        Store project, organization invitations
     """
-    sender = Profile.objects.get(user=action.user)
+    sender = models.ForeignKey(Profile, verbose_name="Sender")
 
-    notification = Notification(receiver = action.action_content_object,
-                                sender = sender)
+    receiver = models.ForeignKey(Profile, verbose_name=_("Receiver"), null=True, blank=True, related_name="received_invitations")
 
-    notification._construct_notification_message(action)
+    is_read = models.BooleanField(default=False)
+    is_accepted = models.BooleanField(default=False)
 
-    notification.save()
+    content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    object_id = models.TextField(_('object id'), blank=True, null=True)
+    content_object = generic.GenericForeignKey('content_type', 'object_id')
 
+    date_sent = models.DateTimeField(auto_now=True)
 
-def get_ip_address(request):
-    try:
-        ip = request.META['HTTP_X_FORWARDED_FOR']
-        # in case of multiple IP's
-        ip_addr = ip.split(',')[0]
-    except:
-        ip_addr = None
+    objects = InvitationManager()
 
-    return ip_addr
+    class Meta:
+        verbose_name = _("Invitation")
+        verbose_name_plural = _("Invitations")
+        ordering = ('-date_sent',)
 
+    def __unicode__(self):
+        return "%s : %s -> %s" % (self.content_type, self.sender, self.receiver)
 
+    def message(self):
+        return "%s has invited you to %s" % (self.sender, self.content_object)
 
-def action(user, action_object, action_key, target_object=None, send_notification=False):
-    """ 
-        create a new action and send a notification if needed
-    """
-    action = Action.objects.new_action(user, action_object, action_key, target_object)
-
-    if send_notification == True:
-        send_user_notification(action)
+    def add_user(self):
+        from apps.projects.models import Project
+        # TODO : find a better solution for this part
+        if isinstance(self.content_object, Project):
+            self.content_object.people.add(self.receiver)
+            self.content_object.save()
+        elif isinstance(self.content_object, Organization):
+            self.content_object.people.add(self.receiver)
+            self.content_object.save()
 
 

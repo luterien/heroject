@@ -1,4 +1,4 @@
-from apps.profiles.forms import InvitationForm
+from apps.actions.forms import InvitationForm
 from django import template
 
 register = template.Library()
@@ -7,7 +7,3 @@ register = template.Library()
 def invitation_form(context):
 	return InvitationForm()
 
-
-@register.assignment_tag(takes_context=True)
-def notifications(context, profile):
-	pass

@@ -107,67 +107,7 @@ class Profile(models.Model):
     def organizations(self):
         return Organization.objects.filter(Q(people__in=[self,])|Q(admins__in=[self,]))
 
-
-
-class InvitationManager(models.Manager):
-
-    def active(self):
-        """ 
-            active/unread invitations
-        """
-        return self.filter(is_read=False)
-
-
-    def new(self, sender, object, receiver=None):
-        """
-            create a new invitation
-        """
-        inv = self.model(sender=sender,
-                         receiver=receiver,
-                         content_type=ContentType.objects.get_for_model(object.__class__),
-                         object_id=smart_unicode(object.id))
-        inv.save()
-
-        return inv
-
-
-class Invitation(models.Model):
-    """
-        Store project, organization invitations
-    """
-    sender = models.ForeignKey(Profile, verbose_name="Sender")
-
-    receiver = models.ForeignKey(Profile, verbose_name=_("Receiver"), null=True, blank=True, related_name="received_invitations")
-
-    is_read = models.BooleanField(default=False)
-    is_accepted = models.BooleanField(default=False)
-
-    content_type = models.ForeignKey(ContentType, blank=True, null=True)
-    object_id = models.TextField(_('object id'), blank=True, null=True)
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
-
-    date_sent = models.DateTimeField(auto_now=True)
-
-    objects = InvitationManager()
-
-    class Meta:
-        verbose_name = _("Invitation")
-        verbose_name_plural = _("Invitations")
-        ordering = ('-date_sent',)
-
-    def __unicode__(self):
-        return "%s : %s -> %s" % (self.content_type, self.sender, self.receiver)
-
-    def message(self):
-        return "%s has invited you to %s" % (self.sender, self.content_object)
-
-    def add_user(self):
-        from apps.projects.models import Project
-        # TODO : find a better solution for this part
-        if isinstance(self.content_object, Project):
-            self.content_object.people.add(self.receiver)
-            self.content_object.save()
-        elif isinstance(self.content_object, Organization):
-            self.content_object.people.add(self.receiver)
-            self.content_object.save()
+    @property
+    def follows(obj):
+        pass
 

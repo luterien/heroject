@@ -4,13 +4,12 @@ from django.http import HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
 from django.views.generic.edit import UpdateView, CreateView
 
+from apps.actions.forms import *
 from apps.projects.forms import *
 from apps.profiles.forms import *
 from apps.projects.models import *
-from apps.actions.models import action
+from apps.actions.utils import action, start_following
 
-## TODO
-## refactor all views
 
 # check if the current user has access to project
 def _has_project_access(request, project):
@@ -125,7 +124,8 @@ class CreateDiscussion(CreateView):
         self.object.started_by = profile
         self.object.save()
         # create an action
-        action(self.request.user, self.object, "create")
+        action(self.request.user, self.object, "create", self.object.project)
+        start_following(self.request.user, self.object)
         return super(CreateDiscussion, self).form_valid(form)
 
 
@@ -145,7 +145,7 @@ class CreateDiscussionComment(CreateView):
         self.object.started_by = profile
         self.object.save()
         # create an action
-        action(self.request.user, self.object.discussion, "comment")
+        action(self.request.user, self.object, "comment", self.object.discussion)
         return super(CreateDiscussionComment, self).form_valid(form)
 
 
@@ -167,7 +167,7 @@ class CreateTask(CreateView):
         self.object.ordering = 1 # temporary fix
         self.object.save()
         # create an action
-        action(self.request.user, self.object, "create")
+        action(self.request.user, self.object, "create", self.object.project)
         return super(CreateTask, self).form_valid(form)
 
 
@@ -188,11 +188,5 @@ class CreateTaskComment(CreateView):
         self.object.started_by = profile
         self.object.save()
         # create an action
-        action(self.request.user, self.object.task, "comment")
+        action(self.request.user, self.object, "comment", self.object.task)
         return super(CreateTaskComment, self).form_valid(form)
-
-
-
-## TODO
-## create the 'starter post' when a discussion is created 
-

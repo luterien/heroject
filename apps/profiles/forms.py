@@ -4,7 +4,7 @@ import re
 from django import forms
 from django.contrib.auth.models import User
 
-from apps.profiles.models import Invitation, Organization, Profile
+from apps.profiles.models import Organization, Profile
 
 
 class RegistrationForm(forms.Form):
@@ -32,14 +32,6 @@ class RegistrationForm(forms.Form):
             return username
         
         raise forms.ValidationError('Username is already taken.')
-
-
-
-class InvitationForm(forms.ModelForm):
-
-    class Meta:
-        model = Invitation
-        fields = ('receiver',)
 
 
 class OrganizationForm(forms.ModelForm):

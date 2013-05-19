@@ -14,6 +14,8 @@ class Command(BaseCommand):
                            ('create', 'created',''),
                            ('delete', 'deleted',''),
                            ('comment', 'commented', 'on'),
+                           ('invite', 'invited', 'to'),
+                           ('assign', 'assigned', 'to')
                            ]
 
         for tpl in action_type_lst:

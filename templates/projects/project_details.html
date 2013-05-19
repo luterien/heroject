@@ -64,5 +64,30 @@
             {% include 'projects/completed_tasks.html' %}
         </ul>
         </div>
+
+        <div class="p-cont">
+
+            <h4>Discussions</h4>
+
+            {% if project.discussion_set.all %}
+
+                {% for discussion in project.discussion_set.all %}
+
+                  <div>
+                    <a href="{% url discussion_details discussion.slug %}">{{ discussion.title }}</a>
+                  </div>
+
+                  {% endfor %}
+
+            {% else %}
+
+                <span>No discussion for this project</span>
+
+            {% endif %}
+
+            <div><a href="{% url create_discussion project.id %}">Create new discussion</a></div>
+
+
+        </div>
 </section>
 {% endblock %}

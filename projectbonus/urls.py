@@ -5,6 +5,7 @@ from django.contrib.auth.views import password_change, password_change_done
 from apps.projects.views import *
 from apps.profiles.views import *
 from apps.projects.ajax import *
+from apps.actions.views import *
 
 from django.conf import settings
 

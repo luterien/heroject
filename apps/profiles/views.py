@@ -8,11 +8,12 @@ from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic.detail import DetailView
 from django.contrib.contenttypes.models import ContentType
 
+from apps.actions.forms import *
 from apps.profiles.models import *
 from apps.profiles.forms import *
 from apps.projects.forms import NewProjectForm
 from apps.projects.models import Project
-from apps.actions.models import action
+from apps.actions.utils import action
 
 
 def index(request, template="index.html"):
@@ -127,69 +128,6 @@ class CreateOrganization(CreateView):
         return super(CreateOrganization, self).form_valid(form)
 
 
-def invite(sender, cls, object_id, receiver=None, email=None):
-    """
-        if the receiver parameter is provided
-        send an Invitation to the receiver
-
-        otherwise send an email to the given address
-    """
-    if receiver:
-
-        try:
-            to = cls.objects.get(id=int(object_id))
-            ivn = Invitation.objects.new(sender, to, receiver)
-        except:
-            to = None
-
-        action(sender.user, receiver, "invite", target_object=to, send_notification=True)
-
-    if email:
-        pass
-
-
-class InviteToProject(CreateView):
-    template_name = "invite_to_project.html"
-    model = Invitation
-    form_class = InvitationForm
-    success_url = "/"
-
-    def get_success_url(self):
-        return reverse('index')
-
-    def form_valid(self, form):
-
-        ## todo
-        ## currently users are displayed in a select box, find a suitable widget later
-
-        sender = Profile.objects.from_request(self.request)
-
-        invite(sender, Project, self.kwargs['project_id'], form.instance.receiver)
-
-        return HttpResponseRedirect(self.get_success_url())
-
-
-class InviteToOrganization(CreateView):
-    template_name = "invite_to_organization.html"
-    model = Invitation
-    form_class = InvitationForm
-    success_url = "/"
-
-    def get_success_url(self):
-        return reverse('index')
-
-    def form_valid(self, form):
-
-        ## todo
-        ## basic controls
-
-        sender = Profile.objects.from_request(self.request)
-
-        invite(sender, Organization, self.kwargs['organization_id'], form.instance.receiver)
-
-        return HttpResponseRedirect(self.get_success_url())
-
-
 class ProfileUpdate(UpdateView):
     template_name = "update_profile.html"
     model = Profile
@@ -220,33 +158,4 @@ class ProfileUpdate(UpdateView):
         return super(ProfileUpdate, self).form_valid(form)
 
 
-def invitations(request, template="profiles/invitations.html"):
-    """
-        invitation list for the user
-    """
-    p = Profile.objects.from_request(request)
 
-    ctx = {'profile':p}
-
-    return render(request, template, ctx)
-
-# TODO
-# convert this to an ajax method
-
-def reply_to_invitation(request, id, template="profiles/reply_to_invitation.html"):
-    """
-        accept or refuse an invitation
-    """
-    invitation = Invitation.objects.get(id=id)
-
-    is_accepted = request.GET.get('is_accepted', False)
-
-    if is_accepted:
-        invitation.is_accepted = True
-        # TODO : fix this part later
-        invitation.add_user()
-
-    invitation.is_read = True
-    invitation.save()
-
-    return HttpResponseRedirect(reverse('invitations'))
