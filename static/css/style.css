@@ -59,7 +59,7 @@ input[type="checkbox"] {display: none;}
 #nav .user-nav .mini-img img	{max-width: 100%;}
 
 #content .container 	{background: #f5f5f5; border-radius: 0 0 3px 3px; border-top: 1px solid #ccc; overflow: hidden;}
-#content #leftside 		{width: 238px; min-height: 450px; background: #e7ebf0; float: left; border-right: 1px solid #fff;}
+#content #leftside 		{width: 238px; min-height: 450px; float: left; border-right: 1px solid #fff;}
 #content #main 			{width: 700px; min-height: 450px; float: left; border-left: 1px solid #ccc; background: #f5f5f5;}
 #footer  				{padding: 20px 0 40px;}
 #footer span 			{float: left; color: #fff;}
@@ -96,7 +96,7 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 #lrform .lost-pass:hover 	{color: #777;}
 
 /*		Page : Index 	*/
-#leftside li a {width: 218px; padding: 10px; display:block; font-weight: normal; border-bottom: 1px solid #ccc; border-top: 1px solid #fff; font-size: 14px;}
+#leftside li a {width: 218px; padding: 10px; display:block; font-weight: normal; border-bottom: 1px solid #ccc; border-top: 1px solid #fff; font-size: 14px; background: #e7ebf0;}
 #leftside li:first-child a {border-top: 0;}
 #leftside li .act-todo {float: right; background: #c9d2dd; color: #495a6b; padding: 5px; font-size: 10px; border: 1px solid #ccc; border-radius: 3px; margin-top: -4px;}
 
