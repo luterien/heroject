@@ -13,7 +13,7 @@
             </form>-->
             <form action="{% url invite_to_project project.id %}" method="POST">{% csrf_token %}
             {{ project_invitation_form.receiver }}
-            <input type="submit" value="invite" />
+            <button type="submit" class="btn"><i class="icon addpeople"></i></button>
             </form>
           </div>
           <div class="bottom full-block">

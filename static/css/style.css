@@ -118,10 +118,10 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 /*		Page : Project	*/
 .p-head .top 		{ background: #565658; padding: 10px 0; border-bottom: 1px solid #ccc;}
 .p-head .top h2 	{ width: 440px; float: left; color: #fff; font-size: 14px; text-indent: 10px; padding-top: 5px;}
-.p-head .top form {width: 260px; float:right;}
+.p-head .top form {width: 200px; float:right;}
 .p-head .top form span {float: left; font-family: 'font300',sans-serif; color: #fff; margin-top: 8px; margin-right: 8px;}
 .p-head .top form input {height: 23px; border-radius: 3px; border: 0; text-indent: 10px;}
-.p-head .top form button {background: #f47238; border: 0; padding: 5px; border-radius: 3px;}
+.p-head .top form button {background: #f47238; border: 0; padding: 5px; border-radius: 3px; width: 20px; height: 24px; padding: 2px 5px; float: right; margin-right: 5px;}
 
 .p-head .bottom 		{padding: 10px 0; background: #ecebeb; border-top: 1px solid #fff; border-bottom: 1px solid #ccc;}
 .p-head .bottom span 	{margin-left: 10px; float: left;}
@@ -134,6 +134,7 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .p-cont .project-todos h4 	{font-size: 16px;}
 .p-cont .project-todos li 	{width: 100%; float: left;}
 
+.project-todos {float: left; width: 100%; margin-bottom: 20px;}
 .project-todos .checkbox {margin-right: 10px;}
 .project-todos li 	{margin: 3px 0;}
 .project-todos li a {font-family: 'font300',sans-serif; margin-top: 5px;  float: left; margin-right: 5px;}
@@ -141,11 +142,12 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .project-todos .todo-cnt .todo-comment 	{background: #a3b8d2; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #fff;}
 .project-todos .todo-cnt .todo-date 	{background: #f0ab8d; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #fff;}
 .project-todos .todo-cnt .todo-people 	{background: #ecebeb; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #333;}
+.complete-list 	{margin-bottom: 0;}
 
 .task-detail .p-head h3 a 	{color: #fff; display: block; text-indent: 20px;}
 .task-detail .p-head h4 	{text-indent: 20px;}
 
-.add-todo-form 		{margin-top: 15px; margin-bottom: 15px;}
+.add-todo-form 		{margin-bottom: 15px;}
 .add-todo-form p 	{ width: 230px; float: left;}	
 .add-todo-form input 	{ width: 220px; height: 22px; text-indent: 10px; font-size: 14px; color: #333; }	
 .add-todo-form label 	{ display: none; }	
