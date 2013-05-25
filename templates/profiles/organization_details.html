@@ -4,13 +4,14 @@
 <div class="profile-cnt">
 	<div class="profile-top">
 		<div class="profile-img">
-			<img src="http://www.bonus.com.tr/images/alisveris_sigortasi.png" />
+			{% if organization.logo %}
+			<img src="{{ MEDIA_URL }}{{ organization.logo }}">
+			{% else %}
+			<img src="{{ STATIC_URL }}img/no-img.jpg">
+			{% endif %}
 		</div>
 		<div class="profile-infos">
 			<h2>{{ organization.title }}</h2>
-
-			<div><img src="{{ MEDIA_URL }}{{ organization.logo }}"></div>
-
 			{% if organization.description %}
 				<h3>Description :</h3>
 				<div>{{ organization.description }}</div>

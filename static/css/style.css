@@ -58,7 +58,7 @@ input[type="checkbox"] {display: none;}
 #nav .user-nav .mini-img	{width: 36px; float: left; display: block; height: 36px; border-radius: 36px; overflow: hidden; margin-right: 10px; padding: 0; border: 1px solid #abaaaa; } 
 #nav .user-nav .mini-img img	{max-width: 100%;}
 
-#content .container 	{background: #fff; border-radius: 0 0 3px 3px; border-top: 1px solid #ccc; overflow: hidden;}
+#content .container 	{background: #f5f5f5; border-radius: 0 0 3px 3px; border-top: 1px solid #ccc; overflow: hidden;}
 #content #leftside 		{width: 238px; min-height: 450px; background: #e7ebf0; float: left; border-right: 1px solid #fff;}
 #content #main 			{width: 700px; min-height: 450px; float: left; border-left: 1px solid #ccc; background: #f5f5f5;}
 #footer  				{padding: 20px 0 40px;}
@@ -155,7 +155,7 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .comment-people  	{background: #f5f5f5; padding: 3px 6px; display: inline-block; text-align: center; border: 1px solid #ccc; text-indent: 0; margin-left: 5px; border-radius: 3px;}
 .comment-form p  {width: 540px; float: left;}
 .comment-form label  {display: none;}
-.comment-form textarea  {margin: 10px; float: left; width: 500px; height: 50px; padding: 10px;}
+.comment-form textarea  {margin: 10px; float: left; width: 500px; height: 50px; padding: 10px; font-size: 14px;}
 .comment-form button  {float: left; width: 200px; margin: 10px; height: 70px; font-weight:100;}
 
 .phb-left 		{width: 570px; float: left;}
