@@ -21,13 +21,13 @@ class UpdateProjectForm(forms.ModelForm):
 class CreateDiscussionForm(forms.ModelForm):
     class Meta:
         model = Discussion
-        fields = ('title', 'content', )
+        fields = ('content', )
 
 
 class CreateDiscussionCommentForm(forms.ModelForm):
     class Meta:
         model = DiscussionComment
-        fields = ('title', 'content', )
+        fields = ('content', )
 
 
 class CreateTaskForm(forms.ModelForm):

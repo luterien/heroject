@@ -12,7 +12,11 @@
 			{% if profile.organizations %}
 				<div class="organizations">
 				{% for organization in profile.organizations %}
-					<div><a href="{% url organization_details organization.slug %}">{{ organization.title }}</a></div>
+					<span>
+						<a href="{% url organization_details organization.slug %}">
+							<img src="{{ MEDIA_URL }}{{ organization.logo }}" height="100" />
+						</a>
+					</span>
 				{% endfor %}
 				</div>
 				<p>Or create <strong><a href="{% url create_organization %}">new organization</a></strong></p>
@@ -22,7 +26,7 @@
 		</div>
 	</div>
 	<div class="profile-main">
-		<!--
+		
 		<h3>Projects</h3>
 		{% if profile.projects %}
 			{% for project in profile.projects %}
@@ -33,7 +37,7 @@
 		{% else %}
 			<div>You do not have any projects</div>
 		{% endif %}
-		-->
+		
 	</div>
 </div>
 {% endblock %}

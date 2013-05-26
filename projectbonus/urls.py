@@ -28,6 +28,9 @@ urlpatterns = patterns('',
 
     url(r'^project/', include('apps.projects.urls')),
 
+    url(r'^about/', direct_to_template, {'template':'about.html'}),
+    url(r'^contact/', direct_to_template, {'template':'contact.html'}),
+
     # profile urls
     url(r'^$',                                           login_user,         name="login"),
     url(r'^register/$',                                  register_user,      name="register"),

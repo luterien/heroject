@@ -158,4 +158,5 @@ class ProfileUpdate(UpdateView):
         return super(ProfileUpdate, self).form_valid(form)
 
 
-
+def notifications(request, template):
+    pass

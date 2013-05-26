@@ -50,14 +50,14 @@
             <button class="btn" type="submit">+</button>
         </form>
 
-        <h4>To-do list :</h4>
+        <h4>Active Tasks</h4>
         <ul class="project-todos" id="project-active-tasks">
             {% include 'projects/active_tasks.html' %}
         </ul>
 
         <input type="hidden" id="project_slug" value="{{ project.slug }}" />        
 
-        <h4>Complete list :</h4>
+        <h4>Completed Tasks</h4>
 
         <ul class="project-todos complete-list" id="project-completed-tasks">
             {% include 'projects/completed_tasks.html' %}

@@ -3,11 +3,21 @@
 {% block Content %}
 <div class="update profile-cnt">
 	<div class="profile-img">
-		<img src="{{ STATIC_URL }}img/no-img.jpg">
+		{% if profile.picture %}
+			<img src="{{ MEDIA_URL }}{{ profile.picture }}">
+		{% else %}
+			<img src="{{ STATIC_URL }}img/no-img.jpg">
+		{% endif %}
 	</div>
 
-	<form action="" method="POST">{% csrf_token %}
-	{{ form.as_p }}
+	<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+	<div>
+		{{ form.picture.label }}<input id="id_picture" type="file" name="picture"></input>
+	</div>
+	<div>
+		{{ form.email.label }}{{ form.email }}
+	</div>
+
 	<input type="submit" class="btn" value="create" />
 	</form>
 </div>
