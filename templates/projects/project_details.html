@@ -33,12 +33,11 @@
             </div>
             <div class="phb-right">
               <span class="show-menu">
-                <strong>5</strong> user
+                <strong>{{project.people.count}}</strong> user
                 <ul class="menu-list">
-                  <li><a>uguryrk</a></li>
-                  <li><a>erhanbasa</a></li>
-                  <li><a>uguryrk</a></li>
-                  <li><a>erhanbasa</a></li>
+                  {% for pp in project.people.all  %}
+                  <li><a>{{pp}}</a></li>
+                  {% endfor %}
                 </ul>
               </span>
             </div>

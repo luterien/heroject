@@ -6,7 +6,7 @@
 		<form class="add-org" action="." method="POST" enctype="multipart/form-data">{% csrf_token %}
 			<div class="prfi-cnt">
 				<div class="profile-img mt10">
-					<img src="http://www.bonus.com.tr/images/alisveris_sigortasi.png" />
+					<img src="{{ STATIC_URL }}img/no-img.jpg">
 					{{ form.logo }}
 				</div>
 			</div>

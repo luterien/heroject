@@ -16,7 +16,8 @@ class InviteToProject(CreateView):
     success_url = "/"
 
     def get_success_url(self):
-        return reverse('index')
+        slg = Project.objects.get(id=self.kwargs['project_id'])
+        return reverse('project_details', kwargs={'slug':slg})
 
     def form_valid(self, form):
 
