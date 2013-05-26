@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 
 {% block Content %}
+<div class="update profile-cnt">
+	<div class="profile-img">
+		<img src="{{ STATIC_URL }}img/no-img.jpg">
+	</div>
 
-<form action="" method="POST">{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="create" />
-</form>
-
+	<form action="" method="POST">{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" class="btn" value="create" />
+	</form>
+</div>
 {% endblock %}

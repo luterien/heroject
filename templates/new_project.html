@@ -1,5 +1,24 @@
-<form id="createprojectform" action="{% url create_project %}" method="POST">{% csrf_token %}
+<form id="createprojectform" action="." method="POST">{% csrf_token %}
   	{{ form.as_p }}
     <button class="btn">CREATE</button>
     </div>
 </form>
+
+<script type="text/javascript">
+	$("#createprojectform").submit(function() {
+	
+	    var url = "/project/create/";
+
+	    $.ajax({
+	           type: "POST",
+	           url: url,
+	           data: $("#createprojectform").serialize(),
+	           success: function(data)
+	           {
+	           	 	location.reload();
+	           }
+	         });
+
+	    return false;
+	});
+</script>
