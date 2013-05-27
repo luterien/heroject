@@ -175,11 +175,17 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .profile-cnt .profile-img 	{padding: 4px; border: 1px solid #ccc; border-radius: 3px; width: 200px; float: left; margin-right: 10px;}
 .profile-cnt .profile-img img 	{max-width: 100%; height: auto;}
 
+.changepass.profile-cnt form	{float: left;}
+.changepass.profile-cnt form p 			{margin-bottom: 20px;}
+.changepass.profile-cnt form p label	{display: block; margin-bottom: 5px;}
+.changepass.profile-cnt form p input 	{width: 200px; height: 30px; text-indent: 10px; font-size: 14px;}
+.changepass.profile-cnt form p input[type="file"] 	{text-indent: 0;}
+
 .update.profile-cnt form	{float: left;}
-.update.profile-cnt form p 			{margin-bottom: 20px;}
-.update.profile-cnt form p label	{display: block; margin-bottom: 5px;}
-.update.profile-cnt form p input 	{width: 200px; height: 30px; text-indent: 10px; font-size: 14px;}
-.update.profile-cnt form p input[type="file"] 	{text-indent: 0;}
+.update.profile-cnt form div 			{margin-bottom: 10px;}
+.update.profile-cnt form div label	{display: block; margin-bottom: 5px;}
+.update.profile-cnt form div input 	{width: 200px; height: 30px; text-indent: 10px; font-size: 14px; display: block; margin-top: 5px;}
+.update.profile-cnt form div input[type="file"] 	{text-indent: 0;}
 
 
 .profile-cnt .profile-infos 	{width: 670px; float: left;}
