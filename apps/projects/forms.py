@@ -21,7 +21,7 @@ class UpdateProjectForm(forms.ModelForm):
 class CreateDiscussionForm(forms.ModelForm):
     class Meta:
         model = Discussion
-        fields = ('content', )
+        fields = ('content', 'title',)
 
 
 class CreateDiscussionCommentForm(forms.ModelForm):

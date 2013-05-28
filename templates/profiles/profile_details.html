@@ -8,20 +8,24 @@
 		</div>
 		<div class="profile-infos">
 			<h2>{{ profile }}</h2>
-			<h3>Organizations :</h3>
+			<h3>Organizations</h3>
 			{% if profile.organizations %}
 				<div class="organizations">
-				{% for organization in profile.organizations %}
+					{% for organization in profile.organizations %}
+						<span>
+							<a href="{% url organization_details organization.slug %}">
+								<img src="{{ MEDIA_URL }}{{ organization.logo }}" height="100" />
+							</a>
+						</span>
+					{% endfor %}
 					<span>
-						<a href="{% url organization_details organization.slug %}">
-							<img src="{{ MEDIA_URL }}{{ organization.logo }}" height="100" />
+						<a href="{% url create_organization %}">
+							<img src="{{ STATIC_URL }}img/no-img.jpg" height="100" />
 						</a>
 					</span>
-				{% endfor %}
 				</div>
-				<p>Or create <strong><a href="{% url create_organization %}">new organization</a></strong></p>
 			{% else %}
-				<div>You are not a member of any organizations. Create one <a href="{% url create_organization %}">here</a></div>
+				<div>You are not a member of any organizations. Create one <a href="{% url create_organization %}">+</a></div>
 			{% endif %}
 		</div>
 	</div>

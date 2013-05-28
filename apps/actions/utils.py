@@ -6,12 +6,12 @@ from apps.profiles.models import Profile
 
 def action(user, action_object, action_key, target_object=None, send_notification=True):
     """ 
-        create a new action and send a notification to people following the target_object
+        create a new action and send a notification
     """
     action = Action.objects.new_action(user, action_object, action_key, target_object)
 
     if target_object and send_notification:
-        notify_followers(action)
+        notification_from_action(action)
 
 
 def invite(sender, cls, object_id, receiver=None, email=None):
@@ -32,32 +32,10 @@ def invite(sender, cls, object_id, receiver=None, email=None):
         action(sender.user, receiver, "invite", target_object=to)
         
         # when an invitation is sent, notify the user
-        #send_user_notification(action)
+        # send_user_notification(action)
 
     if email:
         pass
-
-
-def notify_followers(action, flws=None):
-    """
-        Create a notification from the given action,
-        Send the message to everyone following the target_object of the action
-    """
-    sender = Profile.objects.get(user=action.user)
-
-    # get followers for this object
-    if not flws:
-        flws = Follow.objects.filter(content_type=ContentType.objects.get_for_model(action.target_content_object.__class__),
-                                     object_id=action.target_content_object.id)
-
-    for flw in flws:
-
-        follower = Profile.objects.get(user=flw.follower)
-
-        if follower:
-            notification = Notification(receiver=follower, sender=sender)
-            notification._construct_notification_message(action)
-            notification.save()
 
 
 def start_following(user, follow_object):
@@ -68,4 +46,38 @@ def start_following(user, follow_object):
     flw = Follow.objects.create_new(user, follow_object)
 
     return flw
+
+
+def following(profile, limit=15):
+    """
+        Returns the items the user is following
+    """
+    flws = Follow.objects.filter(follower=profile.user)
+
+    targets = [flw.content_object for flw in flws]
+
+    # TODO : refactor
+
+    ntfs = [n for n in Notification.objects.all() if n.target_content_object in targets]
+
+
+    return ntfs[:limit]
+
+
+def notification_from_action(action):
+    """
+        Create a notification from the given action
+    """
+
+    p = Profile.objects.get(user=action.user)
+    
+    n = Notification(sender = p,
+                     action_type         = action.action_type,
+                     action_content_type = action.action_content_type,
+                     action_object_id    = action.action_object_id,
+                     target_content_type = action.target_content_type,
+                     target_object_id    = action.target_object_id)
+    n.save()
+
+
 

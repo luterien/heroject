@@ -139,15 +139,20 @@ class Follow(models.Model):
 
 
 class Notification(models.Model):
+    """
+        Store notification data
+    """
+    notice_time = models.DateTimeField(_("action time"), auto_now=True)
 
-    message = models.CharField(_("Message"), max_length=300)
+    sender = models.ForeignKey(Profile, verbose_name=_("Sender"), blank=True, null=True, on_delete=models.SET_NULL)
 
-    action_time = models.DateTimeField(_("Action time"), auto_now=True)
+    action_type = models.ForeignKey(ActionType, verbose_name=_('action type'))
 
-    receiver = models.ForeignKey(Profile, verbose_name="Receiver", related_name="received_notifications")
-    sender = models.ForeignKey(Profile, verbose_name="Sender", null=True, blank=True)
+    action_content_type = models.ForeignKey(ContentType, related_name="notice_action_object", blank=True, null=True)
+    action_object_id = models.TextField(_('object id'), blank=True, null=True)
+    action_content_object = generic.GenericForeignKey('action_content_type', 'action_object_id')
 
-    target_content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    target_content_type = models.ForeignKey(ContentType, related_name="notica_target_object", blank=True, null=True)
     target_object_id = models.TextField(_('object id'), blank=True, null=True)
     target_content_object = generic.GenericForeignKey('target_content_type', 'target_object_id')
 
@@ -156,20 +161,24 @@ class Notification(models.Model):
     class Meta:
         verbose_name = _('Notification')
         verbose_name_plural = _('Notifications')
-        #ordering = ('-action_time',)
+        #ordering = ('-notice_time',)
 
     def __unicode__(self):
-        return u"%s" % (self.message)
+        return self._construct_notification_message()
 
-    def _construct_notification_message(self, action):
+    def _construct_notification_message(self):
         """
-            Contruct the notification message from the given action
+            Construct an action message
         """
-        msg = "%s has %s %s %s %s" % (action.user, action.action_type.verb, "you", action.action_type.preposition,
-                                      action.target_content_object)
+        prep = self.action_type.preposition
+        target_obj = self.target_content_object
 
-        self.message = msg
-        self.save()
+        if prep and target_obj:
+            msg = "%s has %s %s %s %s" % (self.sender, self.action_type.verb, self.action_content_object, prep, target_obj)
+        else:
+            msg = "%s has %s %s %s" % (self.sender, self.action_type.verb, prep, self.action_content_object)
+
+        return _(msg.strip())
 
 
 class InvitationManager(models.Manager):

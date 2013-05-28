@@ -84,13 +84,16 @@ class Task(models.Model):
     slug = models.SlugField()
     content = models.TextField(_("Content"), null=True, blank=True) ## remove this field
     ordering = models.IntegerField(_("Ordering"))
-    deadline = models.DateTimeField(_("Deadline"), null=True, blank=True)
     is_done = models.BooleanField(_("Is completed"), default=False)
 
     started_by = models.ForeignKey(Profile, verbose_name=_("Started by"))
 
     people = models.ManyToManyField(Profile, verbose_name=_("People"), related_name="assigned_people")
-    date_created = models.DateTimeField(default=datetime.now())
+
+    # dates
+    date_created = models.DateTimeField(_("Date created"), default=datetime.now())
+    deadline = models.DateTimeField(_("Deadline"), null=True, blank=True)
+    #date_closed = models.DateTimeField(_("Date closed"), null=True, blank=True)
 
     class Meta:
         verbose_name = _("Task")

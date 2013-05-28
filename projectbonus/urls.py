@@ -42,8 +42,12 @@ urlpatterns = patterns('',
                 {'template_name':'profiles/update_password.html'},  name="update_password"),
     url(r'^profile/update-password/done/$',              password_change_done, 
                 {'template_name':'profiles/update_password_done.html'} , name="password_change_done"),
+
     url(r'^profile/invitations/$', invitations, name="invitations"),
     url(r'^profile/invitations/(?P<id>[-\d]+)/$', reply_to_invitation, name="reply_to_invitation"),
+
+    url(r'^profile/notifications/$', notifications, name="notifications"),
+
     url(r'^organization/create/$',             CreateOrganization.as_view() , name="create_organization"),
     url(r'^organization/(?P<slug>[-\w]+)/$',             OrganizationDetails.as_view() , name="organization_details"),
     url(r'^organization/(?P<organization_id>[-\d]+)/invite/', InviteToOrganization.as_view() , name="invite_to_organization"),

@@ -13,7 +13,7 @@ from apps.profiles.models import *
 from apps.profiles.forms import *
 from apps.projects.forms import NewProjectForm
 from apps.projects.models import Project
-from apps.actions.utils import action
+from apps.actions.utils import action, following
 
 
 def index(request, template="index.html"):
@@ -158,5 +158,11 @@ class ProfileUpdate(UpdateView):
         return super(ProfileUpdate, self).form_valid(form)
 
 
-def notifications(request, template):
-    pass
+def notifications(request, template="notifications.html"):
+    profile = Profile.objects.from_request(request)
+    
+    ntfs = following(profile)
+
+    ctx = {'notifications':ntfs}
+
+    return render(request, template, ctx)
