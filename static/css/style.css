@@ -206,3 +206,7 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 
 .p-head .top form .select2 	{width: 160px;}
 .p-head .top form .select2-choice span 	{color: #333; line-height: 15px;}
+
+.inv-reqs .req {margin: 10px 0; border-top: 1px solid #ccc; padding-top: 10px;}
+.inv-reqs .req .btn {width: 140px; height: 30px; line-height: 34px; margin-top: 5px;}
+.inv-reqs .req .btn.decl {background: #ccc;}
