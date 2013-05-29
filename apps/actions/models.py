@@ -146,6 +146,8 @@ class Notification(models.Model):
 
     sender = models.ForeignKey(Profile, verbose_name=_("Sender"), blank=True, null=True, on_delete=models.SET_NULL)
 
+    receiver = models.ForeignKey(Profile, verbose_name=_("Receiver"), blank=True, null=True, related_name="received_notifications", on_delete=models.SET_NULL)
+
     action_type = models.ForeignKey(ActionType, verbose_name=_('action type'))
 
     action_content_type = models.ForeignKey(ContentType, related_name="notice_action_object", blank=True, null=True)

@@ -13,7 +13,7 @@ from apps.profiles.models import *
 from apps.profiles.forms import *
 from apps.projects.forms import NewProjectForm
 from apps.projects.models import Project
-from apps.actions.utils import action, following
+from apps.actions.utils import action
 
 
 def index(request, template="index.html"):
@@ -159,10 +159,15 @@ class ProfileUpdate(UpdateView):
 
 
 def notifications(request, template="notifications.html"):
-    profile = Profile.objects.from_request(request)
-    
-    ntfs = following(profile)
+    """
+        Display the list of notifications for the user
+    """
+    from apps.actions.models import Notification
 
-    ctx = {'notifications':ntfs}
+    profile = Profile.objects.from_request(request)
+
+    ntfs = Notification.objects.filter(receiver=profile)
+    
+    ctx = {'notifications': ntfs}
 
     return render(request, template, ctx)

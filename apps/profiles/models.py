@@ -108,6 +108,6 @@ class Profile(models.Model):
         return Organization.objects.filter(Q(people__in=[self,])|Q(admins__in=[self,]))
 
     @property
-    def follows(obj):
+    def follows(self, obj):
         pass
 

@@ -11,7 +11,7 @@ def action(user, action_object, action_key, target_object=None, send_notificatio
     action = Action.objects.new_action(user, action_object, action_key, target_object)
 
     if target_object and send_notification:
-        notification_from_action(action)
+        notify_followers(action)
 
 
 def invite(sender, cls, object_id, receiver=None, email=None):
@@ -48,23 +48,7 @@ def start_following(user, follow_object):
     return flw
 
 
-def following(profile, limit=15):
-    """
-        Returns the items the user is following
-    """
-    flws = Follow.objects.filter(follower=profile.user)
-
-    targets = [flw.content_object for flw in flws]
-
-    # TODO : refactor
-
-    ntfs = [n for n in Notification.objects.all() if n.target_content_object in targets]
-
-
-    return ntfs[:limit]
-
-
-def notification_from_action(action):
+def notification_from_action(action, receiver):
     """
         Create a notification from the given action
     """
@@ -72,6 +56,7 @@ def notification_from_action(action):
     p = Profile.objects.get(user=action.user)
     
     n = Notification(sender = p,
+                     receiver = receiver,
                      action_type         = action.action_type,
                      action_content_type = action.action_content_type,
                      action_object_id    = action.action_object_id,
@@ -80,4 +65,20 @@ def notification_from_action(action):
     n.save()
 
 
+def notify_followers(action, flws=None):
+    """
+        Create a notification from the given action,
+        Send the message to everyone following the target_object of the action
+    """
+    sender = Profile.objects.get(user=action.user)
 
+    # get followers for this object
+    if not flws:
+        flws = Follow.objects.filter(content_type=ContentType.objects.get_for_model(action.target_content_object.__class__),
+                                     object_id=action.target_content_object.id)
+
+    for flw in flws:
+
+        follower = Profile.objects.get(user=flw.follower)
+
+        notification_from_action(action, receiver=follower)
