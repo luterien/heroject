@@ -108,7 +108,7 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 #main .notproject ul span:first-child	{width: 40px; height: 40px; background-color: #fc9e75; border-radius: 40px; line-height: 52px; text-align: center; float: left; margin: 0;}
 
 #main .index-cnt 			{width: 660px; padding: 20px;}
-#main .index-cnt h4 strong a 	{color: #f47238;}
+#main .index-cnt h4 strong a 	{color: #f47238; cursor: pointer;}
 #main .index-cnt .progress 	{margin-left: 0;  margin-right: 10px; width: 300px;}
 #main .index-cnt .project-title 	{margin-top: 20px; margin-bottom: 5px; float: left; width: 100%;}
 

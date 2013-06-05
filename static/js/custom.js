@@ -19,6 +19,10 @@ $(document).ready(function(){
 	// Load Creater
 	$('#ajax-crt').click(function(){
 		$(this).parent().load('/project/create/');
+	});	
+	
+	$('.crt-project a').click(function(){
+		$("#ajax-crt").parent().load('/project/create/');
 	});
 
 	function update_task_status(that, checked){
