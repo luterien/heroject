@@ -4,6 +4,7 @@ from django.contrib.auth.views import password_change, password_change_done
 
 from apps.projects.views import *
 from apps.profiles.views import *
+from apps.profiles.ajax import *
 from apps.projects.ajax import *
 from apps.actions.views import *
 
@@ -53,6 +54,10 @@ urlpatterns = patterns('',
     url(r'^organization/(?P<organization_id>[-\d]+)/invite/', InviteToOrganization.as_view() , name="invite_to_organization"),
     url(r'^project/(?P<project_id>[-\d]+)/invite/$', InviteToProject.as_view(), name="invite_to_project"),
 
+    url(r'^task/assign/$', assign_user, name="assign_user"),
+    url(r'^task/remove/$', remove_user, name="remove_user"),
+
+    url(r'task/(?P<task_id>[-\d]+)/people/', task_people, name="task_people"),
 
 )
 

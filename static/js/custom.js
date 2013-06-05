@@ -50,4 +50,42 @@ $(document).ready(function(){
 
 	$('select').addClass('select2');
 	$('.select2').select2();
+
+	$('.assign select').live('change', function(){
+
+		var user_id = $(this).val();
+		var task_id = $('#task_id').val();
+
+		var assigned = "/task/" + task_id + "/people/";
+
+		$.ajax({
+
+			url : "/task/assign/",
+			data : {'user_id': user_id, 'task_id':task_id }
+
+		}).success(function(r){
+			$('#assigned').load(assigned);
+		})
+
+	});
+
+	$('#remove_from_task').live('click', function(){
+
+		var user_id = $(this).find('input').val();
+		var task_id = $('#task_id').val();
+
+		var assigned = "/task/" + task_id + "/people/";
+
+		$.ajax({
+
+			url : "/task/remove/",
+			data : {'user_id': user_id, 'task_id':task_id }
+
+		}).success(function(r){
+			$('#assigned').load(assigned);
+		})
+
+	});
+
+
 });

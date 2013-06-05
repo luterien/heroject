@@ -2,26 +2,41 @@
 
 {% block Content %}
 <div class="task-detail">
-	<div class="p-head">
-	<h3 class="top">
-		<strong>
-			<a href="{% url project_details task.project.slug %}">{{ task.project.title }}</a>
-		</strong>
-	</h3>
-	<h4 class="bottom">{{ task}}</h4>
-	</div>
+    <div class="p-head">
+        <h3 class="top">
+            <strong>
+                <a href="{% url project_details task.project.slug %}">{{ task.project.title }}</a>
+            </strong>
+        </h3>
+        <h4 class="bottom">{{ task }}</h4>
+        <div class="assign">
+            Assign People : 
+            <select>
+                <option value="">{{ person }}</option>
+                {% for person in task.project.people.all %}
+                    <option value="{{ person.id }}">{{ person }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div id="assigned">
+            {% include "projects/assigned_people.html" %}
+        </div>  
+    </div>
 
-	<div class="comment-list">
-	{% for comment in task.comments %}
-		<p>" {{comment.content}} " <a href="#" class="comment-people">Bunu yazan tosun.</a></p>
-	{% endfor %}
-	</div>
+    <div class="comment-list">
+    {% for comment in task.comments %}
+        <p>" {{comment.content}} " <a href="#" class="comment-people">Bunu yazan tosun.</a></p>
+    {% endfor %}
+    </div>
 
-	<form class="comment-form" action="{% url create_task_comment task.id %}" method="POST">{% csrf_token %}
-	{{ task_comment_form.as_p }}
-	<button class="btn">
-		Add <strong>Comment</strong>
-	</button>
-	</form>
+    <form class="comment-form" action="{% url create_task_comment task.id %}" method="POST">{% csrf_token %}
+    {{ task_comment_form.as_p }}
+    <button class="btn">
+        Add <strong>Comment</strong>
+    </button>
+    </form>
+
+    <input type="hidden" value="{{ task.id }}" id="task_id" />
+
 </div>
 {% endblock %}

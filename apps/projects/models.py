@@ -86,14 +86,19 @@ class Task(models.Model):
     ordering = models.IntegerField(_("Ordering"))
     is_done = models.BooleanField(_("Is completed"), default=False)
 
-    started_by = models.ForeignKey(Profile, verbose_name=_("Started by"))
-
-    people = models.ManyToManyField(Profile, verbose_name=_("People"), related_name="assigned_people")
-
     # dates
     date_created = models.DateTimeField(_("Date created"), default=datetime.now())
+    date_closed = models.DateTimeField(_("Date closed"), null=True, blank=True)
+
     deadline = models.DateTimeField(_("Deadline"), null=True, blank=True)
-    #date_closed = models.DateTimeField(_("Date closed"), null=True, blank=True)
+
+    date_started = models.DateTimeField(_("Starting Date"), null=True, blank=True, help_text="When the assigned people started working on the task")
+    date_ended = models.DateTimeField(_("Ending Data"), null=True, blank=True)
+
+    # people
+    people = models.ManyToManyField(Profile, verbose_name=_("People"), related_name="assigned_people")
+
+    started_by = models.ForeignKey(Profile, verbose_name=_("Started by"), help_text="The person who has created the task")
 
     class Meta:
         verbose_name = _("Task")
