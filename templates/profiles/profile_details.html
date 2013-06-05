@@ -27,21 +27,45 @@
 			{% else %}
 				<div>You are not a member of any organizations. Create one <a href="{% url create_organization %}">+</a></div>
 			{% endif %}
-		</div>
-	</div>
-	<div class="profile-main">
-		
-		<h3>Projects</h3>
-		{% if profile.projects %}
-			{% for project in profile.projects %}
-			<div>
-				<a href="{% url project_details project.slug %}">{{ project.title }}</a>
+			<div class="profile-main">
+				<h3>Projects</h3>
+				{% if profile.projects %}
+					<ul>
+						{% for project in profile.projects %}
+						<li class="project">
+							<h4><a href="{% url project_details project.slug %}">{{ project.title }}</a></h4>
+							<ul class="project-todos" id="project-active-tasks">
+							{% for todo in project.active_tasks %}
+								    <li>
+								      <label class="checkbox" for="checkbox{{ todo.id }}"></label>
+								      <input type="checkbox" value="{{ todo.id }}" id="checkbox{{todo.id}}">
+
+								      <div class="todo-cnt">
+								      <a href="{% url task_details todo.id %}">
+								      {{ todo.title }}
+								      </a>
+
+								      <a class="todo-people">Hacı abi</a>
+								      <a class="todo-date">7 May</a>
+								      <a class="todo-comment" href="{% url task_details todo.id %}">{{todo.comment_count}} Comments</a>
+
+								      {% for people in todo.assigned_people %}
+								        <span>({{ people }})</span>
+								      {% endfor %}
+								      </div>
+								    </li>
+							{% endfor %}
+							</ul>
+						</li>
+						{% endfor %}
+					</ul>
+
+				{% else %}
+					<div>You do not have any projects</div>
+				{% endif %}
+				
 			</div>
-			{% endfor %}
-		{% else %}
-			<div>You do not have any projects</div>
-		{% endif %}
-		
+		</div>
 	</div>
 </div>
 {% endblock %}

@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
 {% block Content %}
-<div class="update profile-cnt">
+<div class="profile-cnt">
+<h2>Notifications</h2>
+<ul class="inv-reqs">
 	{% for n in notifications %}
-		<div>{{ n }}</div>
-		<br />
+		<li>{{ n }}</li>
 	{% endfor %}
+</ul>
 </div>
 {% endblock %}

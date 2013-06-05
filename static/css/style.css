@@ -44,7 +44,7 @@ input[type="checkbox"] {display: none;}
 
 #nav .container 		{background: #ecebeb; height: 50px; border-bottom: 1px solid #fff; position: relative; border-radius: 3px 3px 0 0;}
 #nav ul li  			{float: left;}
-#nav ul li a  			{font-weight: bold; padding: 0 35px; line-height: 50px; border-left: 1px solid #ccc; border-right: 1px solid #fff; display: block;}
+#nav ul li a  			{font-weight: bold; padding: 0 20px; line-height: 50px; border-left: 1px solid #ccc; border-right: 1px solid #fff; display: block;}
 #nav ul li:first-child a 	{padding: 0 83px 0 84px; border-left: 0; }
 #nav ul li:last-child a 	{border-right: 0;}
 #nav .user-nav			{float: right; position: relative; padding-right: 28px; margin-top: 6px;}
@@ -128,8 +128,8 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .prg-cnt 		{font-size: 18px;}
 
 .p-cont 		{ padding: 20px; width: 660px; float: left;}
-.p-cont .project-todos h4 	{font-size: 16px;}
-.p-cont .project-todos li 	{width: 100%; float: left;}
+.project-todos h4 	{font-size: 16px;}
+.project-todos li 	{width: 100%; float: left;}
 
 .project-todos {float: left; width: 100%; margin-bottom: 20px;}
 .project-todos .checkbox {margin-right: 10px;}
@@ -192,6 +192,8 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .profile-cnt .profile-infos h2 	{font-size: 24px; margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 5px;}
 
 .profile-main 		{width: 100%; float: left; margin-top: 20px;}
+.profile-main .project 	{border-top: 1px solid #ccc; padding-top: 10px; margin-top: 10px; width: 100%; float: left;}
+.profile-main .project-todos 	{margin-bottom: 0;}
 
 .organizations div 	{padding-bottom: 10px;}
 .organizations div:first-child 	{padding-top: 10px;}
