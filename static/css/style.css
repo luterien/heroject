@@ -25,6 +25,7 @@ a:hover	{color: #777;}
 .icon.list 		{background-position: -83px 0; width: 17px; height: 19px;}
 .icon.addpeople	{background-position: -102px 0; width: 21px; height: 24px;}
 .icon.share		{background-position: -124px 0; width: 20px; height: 20px;}
+.icon.comment	{background-position: -70px -24px; width: 20px; height: 16px;}
 .icon.mail		{background-position: 0 -27px; width: 15px; height: 12px;}
 
 /*		Globals		*/
@@ -136,10 +137,15 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .project-todos li 	{margin: 3px 0;}
 .project-todos li a {font-family: 'font300',sans-serif; margin-top: 5px;  float: left; margin-right: 5px;}
 .project-todos .todo-cnt 	{float: left; width: 92%; }
-.project-todos .todo-cnt .todo-comment 	{background: #a3b8d2; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #fff;}
-.project-todos .todo-cnt .todo-date 	{background: #f0ab8d; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #fff;}
-.project-todos .todo-cnt .todo-people 	{background: #ecebeb; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #333;}
 .complete-list 	{margin-bottom: 0;}
+
+.todo-comment 	{display: inline-block; border-radius: 3px; color: #444; margin-top: 2px!important; line-height: 20px; text-indent: 3px; }
+.todo-comment .icon 	{float: left;}
+.todo-date 	{background: #f0ab8d; padding: 2px 6px; margin-top: 0; display: inline-block; border: 1px solid #ccc; border-radius: 3px; color: #fff; margin-top: 0!important; line-height: 20px; line-height: 17px;}
+.todo-people 	{width: auto!important; padding-right: 5px; float: left!important;}
+.todo-people a 	{margin: 0!important; background: #ecebeb!important; height: 20px!important;}
+.todo-people a div 	{display: none!important;}
+.todo-people a span {margin-right: 8px!important; line-height: 21px!important;}
 
 .task-detail .p-head h3 a 	{color: #fff; display: block; text-indent: 20px;}
 .task-detail .p-head h4 	{text-indent: 20px;}
