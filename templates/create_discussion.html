@@ -2,9 +2,13 @@
 
 {% block Content %}
 
-<form action="" method="POST">{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="create" />
-</form>
+<div class="update profile-cnt discussion">
+	<form action="" method="POST">{% csrf_token %}
+	{{ form.as_p }}
+	<button class="btn">
+		Create Discussion
+	</button>
+	</form>
+</div>
 
 {% endblock %}

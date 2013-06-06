@@ -10,12 +10,12 @@
       </a>
 
       <select class="select2 todo-people">
+        <option>Select People</option>
         <option>Hacı abi</option>
         <option>Hacı abi2</option>
         <option>Hacı abi3</option>
         <option>Hacı abi4</option>
       </select>
-      <a class="todo-date">7 May</a>
       <a class="todo-comment" href="{% url task_details task.id %}"><i class="icon comment"></i>({{task.comment_count}})</a>
 
       {% for people in task.assigned_people %}

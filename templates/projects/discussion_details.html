@@ -2,19 +2,32 @@
 
 {% block Content %}
 
-Discussion : {{ discussion }}
+<div class="task-detail">
+    <div class="p-head">
+        <h3 class="top">
+            <strong>
+                <a>Proje</a>
+            </strong>
+        </h3>
+        <h4 class="bottom">{{ discussion }}</h4>
+    </div>
 
-<br />
-<br />
-{% for post in discussion.posts %}
-	<div>{{ post.title }}</div>
-	<div>{{ post.content }}</div>
-	------------------------------
-{% endfor %}
+    <div class="comment-list">
 
-<form action="{% url create_post discussion.pk %}" method="POST">{% csrf_token %}
-{{ new_post_form.as_p }}
-<input type="submit" value="create" />
-</form>
+	{% for post in discussion.posts %}
+		<p>"{{ post.content }}" <a href="#" class="comment-people">Bunu yazan tosun.</a></p>
+	{% endfor %}
+    </div>
+	
+	<form class="comment-form" action="{% url create_post discussion.pk %}" method="POST">{% csrf_token %}
+	{{ new_post_form.as_p }}
+	    <button class="btn">
+        	Add <strong>Discussion</strong>
+    	</button>
+	</form>
+
+    <input type="hidden" value="{{ task.id }}" id="task_id" />
+
+</div>
 
 {% endblock %}
