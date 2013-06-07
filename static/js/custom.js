@@ -91,5 +91,12 @@ $(document).ready(function(){
 
 	});
 
+	$('.add-todo-form').submit(function(){
+
+		if ($('#id_title').val() == ""){
+			$('#warning_text').css('display','block');
+			return false;
+		}
+	})
 
 });

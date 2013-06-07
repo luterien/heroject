@@ -42,7 +42,7 @@
 
         <form class="add-todo-form full-block" action="{% url create_task project.id %}" method="POST">{% csrf_token %}
             {{ new_task_form.as_p }}
-            <button class="btn" type="submit">+</button>
+            <button class="btn" type="submit">+</button><span id="warning_text" style="display:none;">Please enter some text</span>
         </form>
 
         <h4>Active Tasks</h4>

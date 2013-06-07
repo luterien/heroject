@@ -44,10 +44,11 @@ class Project(models.Model):
     def progress(self):
         todo_count = self.task_set.all().count()
         done_count = self.task_set.filter(is_done=True).count()
+
         try:
             return done_count*100/todo_count
         except ZeroDivisionError:
-            return None    
+            return 0    
 
 
 class Discussion(models.Model):
