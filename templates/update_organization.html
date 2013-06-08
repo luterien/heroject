@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block Content %}
+<div class="update profile-cnt">
+	<div class="profile-img">
+		{% if organization.logo %}
+			<img src="{{ MEDIA_URL }}{{ organization.logo }}">
+		{% else %}
+			<img src="{{ STATIC_URL }}img/no-img.jpg">
+		{% endif %}
+	</div>
+
+	<form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+	<div>
+		{{ form.logo.label }}<input id="id_logo" type="file" name="logo"></input>
+	</div>
+	<div>
+		{{ form.title.label }}{{ form.title }}
+	</div>
+	<div>
+		{{ form.description.label }}{{ form.description }}
+	</div>
+
+	<input type="submit" class="btn" value="UPDATE" />
+	</form>
+</div>
+{% endblock %}

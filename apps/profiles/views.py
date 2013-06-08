@@ -127,6 +127,16 @@ class CreateOrganization(CreateView):
         self.object.people.add(usr)
         return super(CreateOrganization, self).form_valid(form)
 
+class OrganizationUpdate(UpdateView):
+    template_name = "update_organization.html"
+    model = Organization
+    form_class = OrganizationForm
+
+    def get_success_url(self):
+        return reverse('update_organization', kwargs={'slug': self.object.slug})
+
+    #def form_valid(self, form):
+    #    pass
 
 class ProfileUpdate(UpdateView):
     template_name = "update_profile.html"
