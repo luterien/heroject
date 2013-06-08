@@ -25,7 +25,7 @@
 
     <div class="comment-list">
     {% for comment in task.comments %}
-        <p>" {{comment.content}} " <a href="#" class="comment-people">Bunu yazan tosun.</a></p>
+        <p>" {{comment.content}} " <a href="#" class="comment-people">{{comment.started_by}}</a></p>
     {% endfor %}
     </div>
 

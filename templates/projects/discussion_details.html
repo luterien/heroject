@@ -15,7 +15,7 @@
     <div class="comment-list">
 
 	{% for post in discussion.posts %}
-		<p>"{{ post.content }}" <a href="#" class="comment-people">Bunu yazan tosun.</a></p>
+		<p>"{{ post.content }}" <a href="#" class="comment-people">{{post.started_by}}.</a></p>
 	{% endfor %}
     </div>
 	
