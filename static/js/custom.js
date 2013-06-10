@@ -48,6 +48,7 @@ $(document).ready(function(){
 			$('#project-active-tasks').load(active_tasks_url);
 			$('#project-completed-tasks').load(completed_tasks_url);
 			//$('.progress').load('.progress', function(){$(this).children().unwrap()});
+			location.reload();
 		})
 	};
 

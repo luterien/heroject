@@ -16,17 +16,17 @@
 			{% if profile.organizations %}
 				<div class="organizations">
 					{% for organization in profile.organizations %}
-						<span>
-							<a href="{% url organization_details organization.slug %}">
-								<img src="{{ MEDIA_URL }}{{ organization.logo }}" height="100" />
-							</a>
-						</span>
-					{% endfor %}
-					<span>
-						<a href="{% url create_organization %}">
-							<img src="{{ STATIC_URL }}img/no-img.jpg" height="100" />
+					<div class="organization">
+						<a href="{% url organization_details organization.slug %}">
+							<img src="{{ MEDIA_URL }}{{ organization.logo }}">
 						</a>
-					</span>
+					</div>
+					{% endfor %}
+					<div class="organization">
+						<a href="{% url create_organization %}">
+							<img src="{{ STATIC_URL }}img/create.jpg" height="100">
+						</a>
+					</div>
 				</div>
 			{% else %}
 				<div>You are not a member of any organizations. Create one <a href="{% url create_organization %}">+</a></div>
