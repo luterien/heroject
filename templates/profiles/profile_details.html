@@ -18,7 +18,11 @@
 					{% for organization in profile.organizations %}
 					<div class="organization">
 						<a href="{% url 'organization_details' organization.slug %}">
+							{% if organization.logo %}
 							<img src="{{ MEDIA_URL }}{{ organization.logo }}">
+							{% else %}
+							<img src="{{ STATIC_URL }}img/no-img.jpg">
+							{% endif %}
 						</a>
 					</div>
 					{% endfor %}
