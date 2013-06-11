@@ -19,7 +19,7 @@
 	{% endfor %}
     </div>
 	
-	<form class="comment-form" action="{% url create_post discussion.pk %}" method="POST">{% csrf_token %}
+	<form class="comment-form" action="{% url 'create_post' discussion.pk %}" method="POST">{% csrf_token %}
 	{{ new_post_form.as_p }}
 	    <button class="btn">
         	Add <strong>Discussion</strong>

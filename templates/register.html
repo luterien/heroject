@@ -4,7 +4,7 @@
 
 {% block Content %}
 	<div id="lrform">
-		<form action="{% url register %}" method="POST">{% csrf_token %}
+		<form action="{% url 'register' %}" method="POST">{% csrf_token %}
 
 			{% for f in form %}
 				{{f}}

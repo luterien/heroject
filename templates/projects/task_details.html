@@ -5,7 +5,7 @@
     <div class="p-head">
         <h3 class="top">
             <strong>
-                <a href="{% url project_details task.project.slug %}">{{ task.project.title }}</a>
+                <a href="{% url 'project_details' task.project.slug %}">{{ task.project.title }}</a>
             </strong>
         </h3>
         <h4 class="bottom">{{ task }}</h4>
@@ -29,7 +29,7 @@
     {% endfor %}
     </div>
 
-    <form class="comment-form" action="{% url create_task_comment task.id %}" method="POST">{% csrf_token %}
+    <form class="comment-form" action="{% url 'create_task_comment' task.id %}" method="POST">{% csrf_token %}
     {{ task_comment_form.as_p }}
     <button class="btn">
         Add <strong>Comment</strong>

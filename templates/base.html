@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% block includes %}
   {% load formtags %}
+  {% load url from future %}
 {% endblock %}
 <html id="{% block id %}{% endblock %}" lang="tr">
   <head>
@@ -42,10 +43,10 @@
     {% block Nav %}
       <ul class="container">
         <li>
-            <a href="{% url index %}">PROJECTS</a>
+            <a href="{% url 'index' %}">PROJECTS</a>
         </li>                    
         <li>
-            <a href="{% url profile_details %}">ONLY ME</a>
+            <a href="{% url 'profile_details' %}">ONLY ME</a>
         </li>
         <li>
             <a href="/profile/invitations/">INVITATIONS</a>
@@ -67,10 +68,10 @@
             </span>
             <span>{{ profile }}</span>
             <ul class="menu-list">
-              <li><a href="{% url profile_details %}">Profile</a></li>
-              <li><a href="{% url update_profile %}">Edit Profile</a></li>
-              <li><a href="{% url update_password %}">Change Password</a></li>
-              <li><a href="{% url logout %}">Logout</a></li>
+              <li><a href="{% url 'profile_details' %}">Profile</a></li>
+              <li><a href="{% url 'update_profile' %}">Edit Profile</a></li>
+              <li><a href="{% url 'update_password' %}">Change Password</a></li>
+              <li><a href="{% url 'logout' %}">Logout</a></li>
             </ul>
           </div>
         </li>        

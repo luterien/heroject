@@ -10,8 +10,8 @@
 			<strong>{{ inv.sender }}</strong> has invited you to <a href="#"><strong>{{ inv.content_object }}</strong></a>
 		</div>
 		{% if not inv.is_read %}
-		<a class="btn" href="{% url reply_to_invitation inv.id %}?is_accepted=1">ACCEPT</a>
-		<a class="btn decl" href="{% url reply_to_invitation inv.id %}?refused">DECLINE</a>
+		<a class="btn" href="{% url 'reply_to_invitation' inv.id %}?is_accepted=1">ACCEPT</a>
+		<a class="btn decl" href="{% url 'reply_to_invitation' inv.id %}?refused">DECLINE</a>
 		{% endif %}
 	</li>
 	{% endfor %}

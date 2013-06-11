@@ -6,7 +6,7 @@
         <div class="p-head">
           <div class="top full-block">
             <h2>{{ project }}</h2>
-            <form action="{% url invite_to_project project.id %}" method="POST">{% csrf_token %}
+            <form action="{% url 'invite_to_project' project.id %}" method="POST">{% csrf_token %}
             {{ project_invitation_form.receiver }}
             <button type="submit" class="btn"><i class="icon addpeople"></i></button>
             </form>
@@ -40,7 +40,7 @@
         </div>
         <div class="p-cont">
 
-        <form class="add-todo-form full-block" action="{% url create_task project.id %}" method="POST">{% csrf_token %}
+        <form class="add-todo-form full-block" action="{% url 'create_task' project.id %}" method="POST">{% csrf_token %}
             {{ new_task_form.as_p }}
             <button class="btn" type="submit">+</button><span id="warning_text" style="display:none;">Please enter some text</span>
         </form>
@@ -68,7 +68,7 @@
                 {% for discussion in project.discussion_set.all %}
 
                   <div>
-                    <a href="{% url discussion_details discussion.slug %}">{{ discussion.title }}</a>
+                    <a href="{% url 'discussion_details' discussion.slug %}">{{ discussion.title }}</a>
                   </div>
 
                   {% endfor %}
@@ -79,7 +79,7 @@
 
             {% endif %}
 
-            <div><a href="{% url create_discussion project.id %}">Create new discussion</a></div>
+            <div><a href="{% url 'create_discussion' project.id %}">Create new discussion</a></div>
 
 
         </div>
