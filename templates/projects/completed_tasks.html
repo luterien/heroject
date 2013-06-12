@@ -7,6 +7,7 @@
         <a href="{% url 'task_details' task.id %}">
         {{ task.title }}
         </a>
+        {% comment %}
           <select class="select2 todo-people">
             <option>Select People</option>
             <option>Hacı abi</option>
@@ -14,6 +15,7 @@
             <option>Hacı abi3</option>
             <option>Hacı abi4</option>
           </select>
+        {% endcomment %}
           <a class="todo-comment" href="{% url 'task_details' task.id %}"><i class="icon comment"></i>({{task.comment_count}})</a>
         </div>
         {% for people in task.assigned_people %}

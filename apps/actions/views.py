@@ -20,13 +20,10 @@ class InviteToProject(CreateView):
         return reverse('project_details', kwargs={'slug':slg})
 
     def form_valid(self, form):
-
         ## todo
         ## currently users are displayed in a select box, find a suitable widget later
 
-        sender = Profile.objects.from_request(self.request)
-
-        invite(sender, Project, self.kwargs['project_id'], form.instance.receiver)
+        invite(self.request.user, Project, self.kwargs['project_id'], form.instance.receiver)
 
         return HttpResponseRedirect(self.get_success_url())
 
@@ -45,9 +42,7 @@ class InviteToOrganization(CreateView):
         ## todo
         ## basic controls
 
-        sender = Profile.objects.from_request(self.request)
-
-        invite(sender, Organization, self.kwargs['organization_id'], form.instance.receiver)
+        invite(self.request.user, Organization, self.kwargs['organization_id'], form.instance.receiver)
 
         return HttpResponseRedirect(self.get_success_url())
 

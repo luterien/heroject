@@ -1,9 +1,16 @@
 from django import template
+from django.contrib.contenttypes.models import ContentType
 
 from apps.actions.models import Action
 
 register = template.Library()
 
-@register.simple_tag(takes_context=True)
-def actions_for_object(context, object):
-	return Action.objects.filter(action_content_object=object)
+@register.assignment_tag
+def get_actions(obj):
+    """ Return the actions performed on the given object """
+    ct = ContentType.objects.get_for_model(obj.__class__)
+
+    return Action.objects.filter(target_content_type=ct, target_object_id=obj.id)
+
+
+

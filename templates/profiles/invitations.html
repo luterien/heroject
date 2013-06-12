@@ -4,7 +4,7 @@
 <div class="profile-cnt">
 <h2>Invitations</h2>
 <ul class="inv-reqs">
-	{% for inv in profile.received_invitations.active %}
+	{% for inv in user.received_invitations.active %}
 	<li class="req">
 		<div class="msg-area">
 			<strong>{{ inv.sender }}</strong> has invited you to <a href="#"><strong>{{ inv.content_object }}</strong></a>

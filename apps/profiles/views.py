@@ -16,6 +16,7 @@ from apps.projects.models import Project
 from apps.actions.utils import action
 
 
+@login_required
 def index(request, template="index.html"):
     profile = Profile.objects.from_request(request)
     
@@ -122,9 +123,8 @@ class CreateOrganization(CreateView):
         # add the creater as an admin & regular user for this organization
         self.object = form.instance
         self.object.save()
-        usr = Profile.objects.from_request(self.request)
-        self.object.admins.add(usr)
-        self.object.people.add(usr)
+        self.object.admins.add(self.request.user)
+        self.object.people.add(self.request.user)
         return super(CreateOrganization, self).form_valid(form)
 
 class OrganizationUpdate(UpdateView):
@@ -174,9 +174,7 @@ def notifications(request, template="notifications.html"):
     """
     from apps.actions.models import Notification
 
-    profile = Profile.objects.from_request(request)
-
-    ntfs = Notification.objects.filter(receiver=profile)
+    ntfs = Notification.objects.filter(receiver=request.user)
     
     ctx = {'notifications': ntfs}
 

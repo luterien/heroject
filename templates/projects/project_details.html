@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-
+{% block includes %}
+  {% load formtags actiontags %}
+{% endblock %}
 {% block Content %}
 {% include "inc/left_side.html" %}
 <section id="main">
@@ -83,5 +85,16 @@
 
 
         </div>
+
+        {% comment %}
+        <div>
+            {% get_actions project as performed_actions %}
+            {% for action in performed_actions %}
+              <div>
+                {{ action }}
+              </div>
+            {% endfor %}
+        </div>
+        {% endcomment %}
 </section>
 {% endblock %}

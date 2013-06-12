@@ -30,9 +30,9 @@ class Organization(models.Model):
 
     is_approved = models.BooleanField(default=False)
 
-    people = models.ManyToManyField('Profile', verbose_name=_("People"), related_name="organization_list", null=True, blank=True)
+    people = models.ManyToManyField(User, verbose_name=_("People"), related_name="organization_list", null=True, blank=True)
 
-    admins = models.ManyToManyField('Profile', verbose_name=_("Admins"), null=True, blank=True)
+    admins = models.ManyToManyField(User, verbose_name=_("Admins"), null=True, blank=True)
 
     class Meta:
         verbose_name = _("Organization")
@@ -63,6 +63,7 @@ class ProfileManager(models.Manager):
 
 
 class Profile(models.Model):
+
     user = models.ForeignKey(User, verbose_name=_("User"))
 
     birthdate = models.DateTimeField(_("Birth Date"), null=True, blank=True)
@@ -80,12 +81,12 @@ class Profile(models.Model):
     @property
     def projects(self):
         """ return the list of projects this user is a member of """
-        return self.project_set.all()
+        return self.user.project_set.all()
 
     @property
     def tasks(self):
         """ return the list of Task objects which are assigned to the user """
-        return self.task_set.all()
+        return self.user.task_set.all()
 
     @property
     def unread_notifications(self):

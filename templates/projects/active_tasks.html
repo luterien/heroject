@@ -8,14 +8,22 @@
       <a href="{% url 'task_details' task.id %}">
       {{ task.title }}
       </a>
+      <span>
 
-      <select class="select2 todo-people">
-        <option>Select People</option>
-        <option>Hacı abi</option>
-        <option>Hacı abi2</option>
-        <option>Hacı abi3</option>
-        <option>Hacı abi4</option>
-      </select>
+      {% comment %}
+        {% for person in task.people.all %}
+          <a><img src="{{ STATIC_URL }}img/no-img.jpg" height="20" border="1" /></a>
+        {% endfor %}
+
+        </span>
+        <select class="select2 todo-people">
+          <option>+</option>
+          {% for person in task.project.people.all %}
+            <option value="{{ person.id }}">{{ person }}</option>
+          {% endfor %}
+        </select>
+      {% endcomment %}
+      
       <a class="todo-comment" href="{% url 'task_details' task.id %}"><i class="icon comment"></i>({{task.comment_count}})</a>
 
       {% for people in task.assigned_people %}

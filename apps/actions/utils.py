@@ -29,7 +29,7 @@ def invite(sender, cls, object_id, receiver=None, email=None):
         except:
             to = None
 
-        action(sender.user, receiver, "invite", target_object=to)
+        action(sender, receiver, "invite", target_object=to)
         
         # when an invitation is sent, notify the user
         # send_user_notification(action)
@@ -52,11 +52,9 @@ def notification_from_action(action, receiver):
     """
         Create a notification from the given action
     """
-
-    p = Profile.objects.get(user=action.user)
     
-    n = Notification(sender = p,
-                     receiver = receiver,
+    n = Notification(sender              = action.user,
+                     receiver            = receiver,
                      action_type         = action.action_type,
                      action_content_type = action.action_content_type,
                      action_object_id    = action.action_object_id,
@@ -70,7 +68,6 @@ def notify_followers(action, flws=None):
         Create a notification from the given action,
         Send the message to everyone following the target_object of the action
     """
-    sender = Profile.objects.get(user=action.user)
 
     # get followers for this object
     if not flws:
@@ -78,7 +75,4 @@ def notify_followers(action, flws=None):
                                      object_id=action.target_content_object.id)
 
     for flw in flws:
-
-        follower = Profile.objects.get(user=flw.follower)
-
-        notification_from_action(action, receiver=follower)
+        notification_from_action(action, receiver=flw.follower)

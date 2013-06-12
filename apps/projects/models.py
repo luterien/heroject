@@ -1,7 +1,9 @@
-from django.db import models
 from datetime import datetime
+
+from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 from projectbonus.utils import slugify
 from apps.profiles.models import Profile
@@ -14,7 +16,7 @@ class Project(models.Model):
     slug = models.SlugField()
     description = models.TextField(_("Description"), null=True, blank=True)
 
-    people = models.ManyToManyField(Profile, verbose_name=_("People"), null=True, blank=True)
+    people = models.ManyToManyField(User, verbose_name=_("People"), null=True, blank=True)
 
     date_started = models.DateTimeField(_("Date Started"), default=datetime.now())
 
@@ -53,7 +55,7 @@ class Project(models.Model):
 
 class Discussion(models.Model):
     project = models.ForeignKey(Project, verbose_name=_("Project"))
-    started_by = models.ForeignKey(Profile, verbose_name=_("Started by"))
+    started_by = models.ForeignKey(User, verbose_name=_("Started by"))
 
     date_started = models.DateTimeField(_("Date Started"), default=datetime.now)
 
@@ -97,9 +99,9 @@ class Task(models.Model):
     date_ended = models.DateTimeField(_("Ending Data"), null=True, blank=True)
 
     # people
-    people = models.ManyToManyField(Profile, verbose_name=_("People"), related_name="assigned_people")
+    people = models.ManyToManyField(User, verbose_name=_("People"), related_name="assigned_people")
 
-    started_by = models.ForeignKey(Profile, verbose_name=_("Started by"), help_text="The person who has created the task")
+    started_by = models.ForeignKey(User, verbose_name=_("Started by"), help_text="The person who has created the task")
 
     class Meta:
         verbose_name = _("Task")
@@ -131,7 +133,7 @@ class Task(models.Model):
 
 
 class BaseComment(models.Model):
-    started_by = models.ForeignKey(Profile, verbose_name=_("Started By"))
+    started_by = models.ForeignKey(User, verbose_name=_("Started By"))
     content = models.TextField(_("Content"), null=True, blank=True)
     title = models.CharField(_("Title"), max_length=100)
     slug = models.SlugField()

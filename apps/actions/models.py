@@ -144,9 +144,9 @@ class Notification(models.Model):
     """
     notice_time = models.DateTimeField(_("action time"), auto_now=True)
 
-    sender = models.ForeignKey(Profile, verbose_name=_("Sender"), blank=True, null=True, on_delete=models.SET_NULL)
+    sender = models.ForeignKey(User, verbose_name=_("Sender"), blank=True, null=True, on_delete=models.SET_NULL)
 
-    receiver = models.ForeignKey(Profile, verbose_name=_("Receiver"), blank=True, null=True, related_name="received_notifications", on_delete=models.SET_NULL)
+    receiver = models.ForeignKey(User, verbose_name=_("Receiver"), blank=True, null=True, related_name="received_notifications", on_delete=models.SET_NULL)
 
     action_type = models.ForeignKey(ActionType, verbose_name=_('action type'))
 
@@ -209,9 +209,9 @@ class Invitation(models.Model):
     """
         Store project, organization invitations
     """
-    sender = models.ForeignKey(Profile, verbose_name="Sender")
+    sender = models.ForeignKey(User, verbose_name="Sender")
 
-    receiver = models.ForeignKey(Profile, verbose_name=_("Receiver"), null=True, blank=True, related_name="received_invitations")
+    receiver = models.ForeignKey(User, verbose_name=_("Receiver"), null=True, blank=True, related_name="received_invitations")
 
     is_read = models.BooleanField(default=False)
     is_accepted = models.BooleanField(default=False)

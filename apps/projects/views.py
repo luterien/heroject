@@ -73,15 +73,10 @@ def create_project(request, template="new_project.html"):
             title = request.POST.get('title')
             desc  = request.POST.get('description')
 
-            profile = Profile.objects.from_request(request)
-
-            if not profile:
-                pass
-
             prj = Project(title=title, description=desc)
             prj.save()
 
-            prj.people.add(profile)
+            prj.people.add(request.user)
 
             if prj:
                 action(request.user, prj, "create")
@@ -120,8 +115,7 @@ class CreateDiscussion(CreateView):
         self.object = form.instance
         self.object.project_id = self.kwargs['project_id']
         # started by
-        profile = Profile.objects.from_request(self.request)
-        self.object.started_by = profile
+        self.object.started_by = self.request.user
         self.object.save()
         # create an action
         action(self.request.user, self.object, "create", self.object.project)
@@ -141,8 +135,7 @@ class CreateDiscussionComment(CreateView):
         self.object = form.instance
         self.object.discussion_id = self.kwargs['discussion_id']
         # started by
-        profile = Profile.objects.from_request(self.request)
-        self.object.started_by = profile
+        self.object.started_by = self.request.user
         self.object.save()
         # create an action
         action(self.request.user, self.object, "comment", self.object.discussion)
@@ -162,8 +155,7 @@ class CreateTask(CreateView):
         self.object = form.instance
         self.object.project_id = self.kwargs['project_id']
         # started by
-        profile = Profile.objects.from_request(self.request)
-        self.object.started_by = profile
+        self.object.started_by = self.request.user
         self.object.ordering = 1 # temporary fix
         self.object.save()
         # create an action
@@ -184,8 +176,7 @@ class CreateTaskComment(CreateView):
         self.object = form.instance
         self.object.task_id = self.kwargs['task_id']
         # started by
-        profile = Profile.objects.from_request(self.request)
-        self.object.started_by = profile
+        self.object.started_by = self.request.user
         self.object.save()
         # create an action
         action(self.request.user, self.object, "comment", self.object.task)
