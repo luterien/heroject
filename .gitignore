@@ -2,6 +2,6 @@
 *.pot
 *.pyc
 local_settings.py
-*.jpg
-*.png
+uploads/*
 *.db
+.DS_Store

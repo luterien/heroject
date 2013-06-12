@@ -251,3 +251,10 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 #assigned span 	{float: left; line-height: 32px; margin-left: 10px;}
 
 .task-detail .p-head 	{width: 100%; float: left;}
+
+.about .peoples  	{margin-top: 10px;}
+.about .peoples li 	{float: left; width: 250px; margin-right: 50px;}
+.about .peoples .img 	{padding: 4px; border: 1px solid #ccc; border-radius:3px;}
+.about .peoples .img img 	{max-width: 100%;}
+.about .peoples li h3 	{margin: 10px 0 2px;}
+.about .peoples li strong 	{margin-top: 10px; float: left;}
