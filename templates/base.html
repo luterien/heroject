@@ -48,12 +48,6 @@
             <a href="{% url 'profile_details' %}">ONLY ME</a>
         </li>
         <li>
-            <a href="/profile/invitations/">INVITATIONS</a>
-        </li>
-        <li>
-            <a href="/profile/notifications/">NOTIFICATIONS</a>
-        </li>
-        <li>
           <a class="br0">&nbsp;</a>
         </li>
         <li class="user-nav">
@@ -74,6 +68,12 @@
             </ul>
           </div>
         </li>        
+        <li class="invites">
+            <a href="/profile/invitations/"><span><i class="icon invite"></i></span></a>
+        </li>
+        <li class="notifications">
+            <a href="/profile/notifications/"><i class="icon notification"></i></a>
+        </li>
       </ul>
     {% endblock %}
   </nav>  

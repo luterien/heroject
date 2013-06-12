@@ -10,7 +10,7 @@
         </h3>
         <h4 class="bottom">{{ task }}</h4>
         <div class="assign">
-            Assign People : 
+            <span>Lets assign it someone!</span>
             <select>
                 <option value="">{{ person }}</option>
                 {% for person in task.project.people.all %}

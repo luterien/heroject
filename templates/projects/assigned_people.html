@@ -1,14 +1,15 @@
-Assigned People : 
 {% for person in task.people.all %}
-    <span>
-        <a href="#">
-            <img src="{{ STATIC_URL }}img/no-img.jpg" height="30" border="1" /> {{ person }} 
+    <div>
+        <a>
+            <img src="{{ STATIC_URL }}img/no-img.jpg" height="30" > {{ person }} 
         </a>
         <a>
-            <span id="remove_from_task">
+            <em id="remove_from_task">
                 x
                 <input type="hidden" value="{{ person.id }}" id="rm_user_id" />
-            </span>
+            </em>
         </a>
-    </span>
+    </div>
 {% endfor %}
+
+<span>will be fixed it!</span>

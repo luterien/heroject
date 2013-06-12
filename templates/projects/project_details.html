@@ -66,14 +66,15 @@
             <h4>Discussions</h4>
 
             {% if project.discussion_set.all %}
-
+            <ul class="discussions">
                 {% for discussion in project.discussion_set.all %}
 
-                  <div>
-                    <a href="{% url 'discussion_details' discussion.slug %}">{{ discussion.title }}</a>
-                  </div>
+                  <li>
+                    <a href="{% url 'discussion_details' discussion.slug %}"> <i class="icon discussion"></i>{{ discussion.title }}</a>
+                  </li>
 
                   {% endfor %}
+            </ul>
 
             {% else %}
 
@@ -81,7 +82,7 @@
 
             {% endif %}
 
-            <div><a href="{% url 'create_discussion' project.id %}">Create new discussion</a></div>
+            <div><a href="{% url 'create_discussion' project.id %}"><strong>Create new discussion</strong></a></div>
 
 
         </div>
