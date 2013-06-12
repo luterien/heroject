@@ -258,3 +258,38 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 .about .peoples .img img 	{max-width: 100%;}
 .about .peoples li h3 	{margin: 10px 0 2px;}
 .about .peoples li strong 	{margin-top: 10px; float: left;}
+
+/* Portrait tablet to landscape and desktop */
+@media (min-width: 768px) and (max-width: 979px) {
+	.container 	{width: 750px; padding: 0 7px;}
+	#content #main {width: 510px;}
+}
+ 
+/* Landscape phone to portrait tablet */
+@media (max-width: 767px) {
+	.container 	{width: 460px; padding: 0 10px;}
+	#content #main 	{width: 100%;}
+	#nav ul li a 	{padding: 0 8px!important;}
+	#content .container {padding: 0; width: 480px;}
+	#content #leftside 	{width: 100%; height: auto; min-height: auto; border-bottom: 1px solid #ccc;}
+	#leftside li a 	{width: auto;}
+	#leftside .notproject  	{margin: 0 auto; width: 100%;}
+	#leftside .notproject .btn 	{margin-top: 0;}
+	#leftside .notproject span 	{display: none;}
+	#createprojectform input 	{width: 100%;}
+	.comment-form textarea 	{width: 80%;}
+	.profile-cnt 	{width: 90%;}
+	.profile-cnt .profile-img {margin: 0 25% 20px;}
+}
+ 
+/* Landscape phones and down */
+@media (max-width: 480px) { 
+
+	.container 	{width: 300px; padding: 0 10px;}
+	#content .container {width: 320px;}
+
+	#nav .user-nav .show-menu span 	{display: none;}
+	#nav .user-nav .show-menu .mini-img 	{display: block;}
+	#nav ul > li:first-child 	{display: none;}
+
+}
