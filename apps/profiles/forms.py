@@ -1,17 +1,16 @@
-
 import re
-
 from django import forms
 from django.contrib.auth.models import User
-
 from apps.profiles.models import Organization, Profile
 
 
 class RegistrationForm(forms.Form):
     username = forms.CharField(label=u"Username", max_length=30)
     email = forms.EmailField(label=u"E-Mail")
-    password1 = forms.CharField(label=u"Password",widget=forms.PasswordInput())
-    password2 = forms.CharField(label=u"Password (Again)",widget=forms.PasswordInput())
+    password1 = forms.CharField(label=u"Password",
+                                widget=forms.PasswordInput())
+    password2 = forms.CharField(label=u"Password (Again)",
+                                widget=forms.PasswordInput())
     
     def clean_password2(self):
         if 'password1' in self.cleaned_data:
@@ -25,7 +24,8 @@ class RegistrationForm(forms.Form):
         username = self.cleaned_data['username']
         if not re.search(r'^\w+$', username):
             raise forms.ValidationError('Username can only contain '
-            'alphanumeric characters and the underscore.')
+                                        'alphanumeric characters and'
+                                        ' the underscore.')
         try:
             User.objects.get(username=username)
         except User.DoesNotExist:

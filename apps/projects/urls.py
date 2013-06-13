@@ -1,8 +1,9 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from apps.projects.views import *
 from apps.projects.ajax import *
 
-urlpatterns = patterns('apps.projects.views',
+urlpatterns = patterns(
+    'apps.projects.views',
 
     url(r'^create/$', create_project, name="create_project"),
 

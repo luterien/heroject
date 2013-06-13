@@ -1,14 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
-from django.core.exceptions import PermissionDenied
 from django.views.generic.edit import UpdateView, CreateView
-
 from apps.actions.forms import *
 from apps.projects.forms import *
-from apps.profiles.forms import *
-from apps.projects.models import *
 from apps.actions.utils import action, start_following
+from apps.profiles.models import Profile
 
 
 # check if the current user has access to project
@@ -23,39 +19,41 @@ def project_details(request, slug, template="projects/project_details.html"):
 
     profile = Profile.objects.from_request(request)
     invitation_form = InvitationForm()
-    invitation_form.fields['receiver'].queryset=Profile.objects.exclude(id__in=project.people.values_list('id', flat=True))
+    invitation_form.fields['receiver'].queryset = Profile.objects.exclude(
+        id__in=project.people.values_list('id', flat=True))
 
-    ctx = {'project':project,
-           'new_task_form':CreateTaskForm,
-           'projects':profile.projects,
-           'project_invitation_form':invitation_form}
+    ctx = {'project': project,
+           'new_task_form': CreateTaskForm,
+           'projects': profile.projects,
+           'project_invitation_form': invitation_form}
 
     if not _has_project_access(request, project):
-        return HttpResponseRedirect(reverse('index'))
-
-    return render(request,template, ctx)
-
-
-@login_required
-def task_details(request, pk,template="projects/task_details.html"):
-    task = get_object_or_404(Task, pk=pk)
-    
-    ctx = {'task':task,
-           'task_comment_form':CreateTaskCommentForm}
-
-    if not _has_project_access(request, task.project):
-        return HttpResponseRedirect(reverse('index'))
+        return redirect('index')
 
     return render(request, template, ctx)
 
 
 @login_required
-def discussion_details(request, slug, template="projects/discussion_details.html"):
+def task_details(request, pk, template="projects/task_details.html"):
+    task = get_object_or_404(Task, pk=pk)
+    
+    ctx = {'task': task,
+           'task_comment_form': CreateTaskCommentForm}
+
+    if not _has_project_access(request, task.project):
+        return redirect('index')
+
+    return render(request, template, ctx)
+
+
+@login_required
+def discussion_details(request, slug,
+                       template="projects/discussion_details.html"):
     discussion = get_object_or_404(Discussion, slug=slug)
-    ctx = {'discussion':discussion,
-           'new_post_form':CreateDiscussionCommentForm}
+    ctx = {'discussion': discussion,
+           'new_post_form': CreateDiscussionCommentForm}
     if not _has_project_access(request, discussion.project):
-        return HttpResponseRedirect(reverse('index'))
+        return redirect('index')
 
     return render(request, template, ctx)
 
@@ -73,7 +71,7 @@ def create_project(request, template="new_project.html"):
         
         if form.is_valid():
             title = request.POST.get('title')
-            desc  = request.POST.get('description')
+            desc = request.POST.get('description')
 
             prj = Project(title=title, description=desc)
             prj.save()
@@ -83,7 +81,7 @@ def create_project(request, template="new_project.html"):
             if prj:
                 action(request.user, prj, "create")
             
-            return HttpResponseRedirect(prj.get_absolute_url())
+            return redirect(prj.get_absolute_url())
 
     else:
         form = NewProjectForm()
@@ -99,12 +97,12 @@ class UpdateProject(UpdateView):
     form_class = UpdateProjectForm
     
     def get_success_url(self):
-        return reverse('update_project', kwargs={'pk':self.object.pk })
+        return reverse('update_project', kwargs={'pk': self.object.pk})
 
     def get(self, request, *args, **kwargs):
         _get = super(UpdateProject, self).get(request, *args, **kwargs)
         if not _has_project_access(request, self.object):
-            return HttpResponseRedirect(reverse('index'))
+            return redirect('index')
         return _get
 
 
@@ -120,6 +118,7 @@ class CreateDiscussion(CreateView):
         self.object.started_by = self.request.user
         self.object.save()
         # create an action
+        # will be celery task
         action(self.request.user, self.object, "create", self.object.project)
         start_following(self.request.user, self.object)
         return super(CreateDiscussion, self).form_valid(form)
@@ -131,7 +130,8 @@ class CreateDiscussionComment(CreateView):
     form_class = CreateDiscussionCommentForm
 
     def get_success_url(self):
-        return reverse('discussion_details', kwargs={'slug': self.object.discussion.slug })
+        return reverse('discussion_details',
+                       kwargs={'slug': self.object.discussion.slug})
 
     def form_valid(self, form):
         self.object = form.instance
@@ -140,7 +140,9 @@ class CreateDiscussionComment(CreateView):
         self.object.started_by = self.request.user
         self.object.save()
         # create an action
-        action(self.request.user, self.object, "comment", self.object.discussion)
+        # will be celery task
+        action(self.request.user, self.object,
+               "comment", self.object.discussion)
         return super(CreateDiscussionComment, self).form_valid(form)
 
 
@@ -151,7 +153,7 @@ class CreateTask(CreateView):
 
     def get_success_url(self):
         prj = Project.objects.get(id=self.kwargs["project_id"])
-        return reverse('project_details', kwargs={'slug':prj.slug})
+        return reverse('project_details', kwargs={'slug': prj.slug})
 
     def form_valid(self, form):
         self.object = form.instance
@@ -161,6 +163,7 @@ class CreateTask(CreateView):
         self.object.ordering = 1 # temporary fix
         self.object.save()
         # create an action
+        # will be celery task
         action(self.request.user, self.object, "create", self.object.project)
         return super(CreateTask, self).form_valid(form)
 
@@ -172,7 +175,7 @@ class CreateTaskComment(CreateView):
 
     def get_success_url(self):
         prj = Task.objects.get(id=self.kwargs["task_id"])
-        return reverse('task_details', kwargs={'pk':prj.pk})
+        return reverse('task_details', kwargs={'pk': prj.pk})
 
     def form_valid(self, form):
         self.object = form.instance
@@ -180,6 +183,7 @@ class CreateTaskComment(CreateView):
         # started by
         self.object.started_by = self.request.user
         self.object.save()
+        # will be celery task
         # create an action
         action(self.request.user, self.object, "comment", self.object.task)
         return super(CreateTaskComment, self).form_valid(form)

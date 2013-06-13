@@ -4,9 +4,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext as _
 from django.utils.encoding import smart_unicode
-
-from apps.profiles.models import Profile
-from projectbonus.utils import slugify
+from apps.projects.models import Project
+from apps.profiles.models import Organization
 
 
 class ActionType(models.Model):
@@ -22,10 +21,11 @@ class ActionType(models.Model):
     name = models.CharField(_('Action name'), max_length=30)
     verb = models.CharField(_('Verb'), max_length=40)
 
-    preposition = models.CharField(_('Preposition'), max_length=20, null=True, blank=True)
+    preposition = models.CharField(_('Preposition'), max_length=20,
+                                   null=True, blank=True)
 
     def __unicode__(self):
-        return u"%s" % (self.name)
+        return u"%s" % self.name
 
 
 class ActionManager(models.Manager):
@@ -39,13 +39,16 @@ class ActionManager(models.Manager):
         """
         action_type = ActionType.objects.get(name=action_key)
 
-        action = self.model(user=user,
-                            action_content_type=ContentType.objects.get_for_model(action_object.__class__),
-                            action_object_id=smart_unicode(action_object.id),
-                            action_type=action_type)
+        action = self.model(
+            user=user,
+            action_content_type=ContentType.objects.get_for_model(
+                action_object.__class__),
+            action_object_id=smart_unicode(action_object.id),
+            action_type=action_type)
 
         if target_object:
-            action.target_content_type = ContentType.objects.get_for_model(target_object.__class__)
+            action.target_content_type = ContentType.objects.get_for_model(
+                target_object.__class__)
             action.target_object_id = smart_unicode(target_object.id)
 
         action.save()
@@ -66,19 +69,28 @@ class Action(models.Model):
 
     """
     action_time = models.DateTimeField(_("action time"), auto_now=True)
-    user = models.ForeignKey(User, verbose_name=_("user"), blank=True, null=True, on_delete=models.SET_NULL)
+    user = models.ForeignKey(User, verbose_name=_("user"), blank=True,
+                             null=True, on_delete=models.SET_NULL)
 
-    ip_address = models.CharField(_("IP address"), max_length=20, blank=True, null=True)
+    ip_address = models.CharField(_("IP address"), max_length=20,
+                                  blank=True, null=True)
 
-    action_content_type = models.ForeignKey(ContentType, related_name="action_object", blank=True, null=True)
+    action_content_type = models.ForeignKey(
+        ContentType, related_name="action_object", blank=True, null=True)
     action_object_id = models.TextField(_('object id'), blank=True, null=True)
-    action_content_object = generic.GenericForeignKey('action_content_type', 'action_object_id')
+
+    action_content_object = generic.GenericForeignKey(
+        'action_content_type', 'action_object_id')
 
     action_type = models.ForeignKey(ActionType, verbose_name=_('action type'))
 
-    target_content_type = models.ForeignKey(ContentType, related_name="target_object", blank=True, null=True)
+    target_content_type = models.ForeignKey(
+        ContentType, related_name="target_object", blank=True, null=True)
+
     target_object_id = models.TextField(_('object id'), blank=True, null=True)
-    target_content_object = generic.GenericForeignKey('target_content_type', 'target_object_id')
+
+    target_content_object = generic.GenericForeignKey('target_content_type',
+                                                      'target_object_id')
 
     objects = ActionManager()
 
@@ -98,9 +110,12 @@ class Action(models.Model):
         target_obj = self.target_content_object
 
         if prep and target_obj:
-            msg = "%s has %s %s %s %s" % (self.user, self.action_type.verb, self.action_content_object, prep, target_obj)
+            msg = "%s has %s %s %s %s" % (self.user, self.action_type.verb,
+                                          self.action_content_object, prep,
+                                          target_obj)
         else:
-            msg = "%s has %s %s %s" % (self.user, self.action_type.verb, prep, self.action_content_object)
+            msg = "%s has %s %s %s" % (self.user, self.action_type.verb,
+                                       prep, self.action_content_object)
 
         return _(msg.strip())
 
@@ -111,9 +126,11 @@ class FollowManager(models.Manager):
         """
             
         """
-        flw = self.model(follower=user,
-                         content_type=ContentType.objects.get_for_model(flw_object.__class__),
-                         object_id=smart_unicode(flw_object.id))
+        flw = self.model(
+            follower=user,
+            content_type=ContentType.objects.get_for_model(
+                flw_object.__class__),
+            object_id=smart_unicode(flw_object.id))
 
         flw.save()
 
@@ -144,19 +161,32 @@ class Notification(models.Model):
     """
     notice_time = models.DateTimeField(_("action time"), auto_now=True)
 
-    sender = models.ForeignKey(User, verbose_name=_("Sender"), blank=True, null=True, on_delete=models.SET_NULL)
+    sender = models.ForeignKey(User, verbose_name=_("Sender"), blank=True,
+                               null=True, on_delete=models.SET_NULL)
 
-    receiver = models.ForeignKey(User, verbose_name=_("Receiver"), blank=True, null=True, related_name="received_notifications", on_delete=models.SET_NULL)
+    receiver = models.ForeignKey(User, verbose_name=_("Receiver"),
+                                 blank=True, null=True,
+                                 related_name="received_notifications",
+                                 on_delete=models.SET_NULL)
 
     action_type = models.ForeignKey(ActionType, verbose_name=_('action type'))
 
-    action_content_type = models.ForeignKey(ContentType, related_name="notice_action_object", blank=True, null=True)
-    action_object_id = models.TextField(_('object id'), blank=True, null=True)
-    action_content_object = generic.GenericForeignKey('action_content_type', 'action_object_id')
+    action_content_type = models.ForeignKey(
+        ContentType, related_name="notice_action_object",
+        blank=True, null=True)
 
-    target_content_type = models.ForeignKey(ContentType, related_name="notica_target_object", blank=True, null=True)
+    action_object_id = models.TextField(_('object id'), blank=True, null=True)
+
+    action_content_object = generic.GenericForeignKey('action_content_type',
+                                                      'action_object_id')
+
+    target_content_type = models.ForeignKey(
+        ContentType, related_name="notica_target_object",
+        blank=True, null=True)
+
     target_object_id = models.TextField(_('object id'), blank=True, null=True)
-    target_content_object = generic.GenericForeignKey('target_content_type', 'target_object_id')
+    target_content_object = generic.GenericForeignKey('target_content_type',
+                                                      'target_object_id')
 
     is_read = models.BooleanField(default=False)
 
@@ -176,9 +206,12 @@ class Notification(models.Model):
         target_obj = self.target_content_object
 
         if prep and target_obj:
-            msg = "%s has %s %s %s %s" % (self.sender, self.action_type.verb, self.action_content_object, prep, target_obj)
+            msg = "%s has %s %s %s %s" % (self.sender, self.action_type.verb,
+                                          self.action_content_object, prep,
+                                          target_obj)
         else:
-            msg = "%s has %s %s %s" % (self.sender, self.action_type.verb, prep, self.action_content_object)
+            msg = "%s has %s %s %s" % (self.sender, self.action_type.verb,
+                                       prep, self.action_content_object)
 
         return _(msg.strip())
 
@@ -198,7 +231,8 @@ class InvitationManager(models.Manager):
         """
         inv = self.model(sender=sender,
                          receiver=receiver,
-                         content_type=ContentType.objects.get_for_model(object.__class__),
+                         content_type=ContentType.objects.get_for_model(
+                             object.__class__),
                          object_id=smart_unicode(object.id))
         inv.save()
 
@@ -211,13 +245,18 @@ class Invitation(models.Model):
     """
     sender = models.ForeignKey(User, verbose_name="Sender")
 
-    receiver = models.ForeignKey(User, verbose_name=_("Receiver"), null=True, blank=True, related_name="received_invitations")
+    receiver = models.ForeignKey(User, verbose_name=_("Receiver"),
+                                 null=True, blank=True,
+                                 related_name="received_invitations")
 
     is_read = models.BooleanField(default=False)
+
     is_accepted = models.BooleanField(default=False)
 
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
+
     object_id = models.TextField(_('object id'), blank=True, null=True)
+
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
     date_sent = models.DateTimeField(auto_now=True)
@@ -230,13 +269,15 @@ class Invitation(models.Model):
         ordering = ('-date_sent',)
 
     def __unicode__(self):
-        return "%s : %s -> %s" % (self.content_type, self.sender, self.receiver)
+        return "%s : %s -> %s" % (self.content_type,
+                                  self.sender, self.receiver)
 
     def message(self):
-        return "%s has invited you to %s" % (self.sender, self.content_object)
+        return "%s has invited you to %s" % (self.sender,
+                                             self.content_object)
 
     def add_user(self):
-        from apps.projects.models import Project
+
         # TODO : find a better solution for this part
         if isinstance(self.content_object, Project):
             self.content_object.people.add(self.receiver)

@@ -1,9 +1,5 @@
 from django import forms
-from django.utils.translation import ugettext_lazy as _
-
 from apps.projects.models import *
-from apps.profiles.models import *
-
 
 
 class NewProjectForm(forms.ModelForm):
@@ -39,6 +35,7 @@ class CreateTaskForm(forms.ModelForm):
         super(CreateTaskForm, self).__init__(*args, **kwargs)
 
         self.fields['title'].required = True
+
 
 class CreateTaskCommentForm(forms.ModelForm):
     class Meta:

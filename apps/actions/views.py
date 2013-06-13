@@ -1,13 +1,12 @@
 from django.views.generic.edit import CreateView
-from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
 from apps.actions.models import Invitation
 from apps.actions.forms import InvitationForm
 from apps.profiles.models import Profile, Organization
 from apps.actions.utils import invite
 from apps.projects.models import Project
+
 
 class InviteToProject(CreateView):
     template_name = "invite_to_project.html"
@@ -17,15 +16,19 @@ class InviteToProject(CreateView):
 
     def get_success_url(self):
         slg = Project.objects.get(id=self.kwargs['project_id'])
-        return reverse('project_details', kwargs={'slug':slg})
+        return reverse('project_details', kwargs={'slug': slg})
 
     def form_valid(self, form):
         ## todo
-        ## currently users are displayed in a select box, find a suitable widget later
+        ## currently users are displayed in a select box,
+        ## find a suitable widget later
 
-        invite(self.request.user, Project, self.kwargs['project_id'], form.instance.receiver)
+        ## todo
+        ## will be celery task
+        invite(self.request.user, Project, self.kwargs['project_id'],
+               form.instance.receiver)
 
-        return HttpResponseRedirect(self.get_success_url())
+        return redirect(self.get_success_url())
 
 
 class InviteToOrganization(CreateView):
@@ -42,27 +45,32 @@ class InviteToOrganization(CreateView):
         ## todo
         ## basic controls
 
-        invite(self.request.user, Organization, self.kwargs['organization_id'], form.instance.receiver)
+        ## todo
+        ## will be celery task
+        invite(self.request.user, Organization,
+               self.kwargs['organization_id'], form.instance.receiver)
 
-        return HttpResponseRedirect(self.get_success_url())
+        return redirect(self.get_success_url())
 
 
 def invitations(request, template="profiles/invitations.html"):
     """
-        invitation list for the user
+    invitation list for the user
     """
     p = Profile.objects.from_request(request)
 
-    ctx = {'profile':p}
+    ctx = {'profile': p}
 
     return render(request, template, ctx)
 
 # TODO
 # convert this to an ajax method
 
-def reply_to_invitation(request, id, template="profiles/reply_to_invitation.html"):
+
+def reply_to_invitation(request, id,
+                        template="profiles/reply_to_invitation.html"):
     """
-        accept or refuse an invitation
+    accept or refuse an invitation
     """
     invitation = Invitation.objects.get(id=id)
 
@@ -76,4 +84,4 @@ def reply_to_invitation(request, id, template="profiles/reply_to_invitation.html
     invitation.is_read = True
     invitation.save()
 
-    return HttpResponseRedirect(reverse('invitations'))
+    return redirect('invitations')

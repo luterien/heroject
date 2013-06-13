@@ -1,21 +1,17 @@
 
 from django.contrib.auth.models import User
-
 from django.http import HttpResponse
 from django.utils import simplejson
-from django.template import RequestContext
-from django.shortcuts import render_to_response, get_object_or_404
-
-from apps.profiles.models import Profile
-from apps.projects.models import Task, Project
+from django.shortcuts import render, get_object_or_404
+from apps.projects.models import Task
 
 
 def assign_user(request):
     user_id = request.GET.get('user_id')
     task_id = request.GET.get('task_id')
 
-    u=User.objects.get(id=int(user_id))
-    t=Task.objects.get(id=int(task_id))
+    u = User.objects.get(id=int(user_id))
+    t = Task.objects.get(id=int(task_id))
 
     if u in t.project.people.all() and u not in t.people.all():
         t.people.add(u)
@@ -29,8 +25,8 @@ def remove_user(request):
     user_id = request.GET.get('user_id')
     task_id = request.GET.get('task_id')
 
-    p=User.objects.get(id=int(user_id))
-    t=Task.objects.get(id=int(task_id))
+    p = User.objects.get(id=int(user_id))
+    t = Task.objects.get(id=int(task_id))
 
     if p in t.project.people.all() and p in t.people.all():
         t.people.remove(p)
@@ -42,6 +38,6 @@ def remove_user(request):
 
 def task_people(request, task_id, template="projects/assigned_people.html"):
     task = get_object_or_404(Task, pk=task_id)
-    ctx = {'task':task}
-    return render_to_response(template, ctx, context_instance = RequestContext(request))
+    ctx = {'task': task}
+    return render(request, template, ctx)
 
