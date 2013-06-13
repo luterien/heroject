@@ -117,7 +117,8 @@ class CreateOrganization(CreateView):
     form_class = OrganizationForm
 
     def get_success_url(self):
-        return reverse('organization_details', kwargs={'slug': self.object.slug})
+        return reverse('organization_details',
+                       kwargs={'slug': self.object.slug})
 
     def form_valid(self, form):
         # add the creater as an admin & regular user for this organization
@@ -134,7 +135,8 @@ class OrganizationUpdate(UpdateView):
     form_class = OrganizationForm
 
     def get_success_url(self):
-        return reverse('update_organization', kwargs={'slug': self.object.slug})
+        return reverse('update_organization',
+                       kwargs={'slug': self.object.slug})
 
     #def form_valid(self, form):
     #    pass
