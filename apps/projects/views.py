@@ -22,11 +22,13 @@ def project_details(request, slug, template="projects/project_details.html"):
     project = get_object_or_404(Project, slug=slug)
 
     profile = Profile.objects.from_request(request)
+    invitation_form = InvitationForm()
+    invitation_form.fields['receiver'].queryset=Profile.objects.exclude(id__in=project.people.values_list('id', flat=True))
 
     ctx = {'project':project,
            'new_task_form':CreateTaskForm,
            'projects':profile.projects,
-           'project_invitation_form':InvitationForm}
+           'project_invitation_form':invitation_form}
 
     if not _has_project_access(request, project):
         return HttpResponseRedirect(reverse('index'))

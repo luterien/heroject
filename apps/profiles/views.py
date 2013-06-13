@@ -108,7 +108,9 @@ class OrganizationDetails(DetailView):
     form_class = OrganizationForm
 
     def get_context_data(self, **kwargs):
-        return super(OrganizationDetails, self).get_context_data(**{'invitation_form':InvitationForm})
+        invitation_form = InvitationForm()
+        invitation_form.fields['receiver'].queryset=Profile.objects.exclude(id__in=self.object.people.values_list('id', flat=True))
+        return super(OrganizationDetails, self).get_context_data(**{'invitation_form':invitation_form})
 
 
 class CreateOrganization(CreateView):

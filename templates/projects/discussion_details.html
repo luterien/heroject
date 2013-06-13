@@ -13,7 +13,7 @@
     </div>
 
     <div class="comment-list">
-
+    <p>"{{ discussion.content }}" <a href="#" class="comment-people">{{discussion.started_by}}.</a></p>
 	{% for post in discussion.posts %}
 		<p>"{{ post.content }}" <a href="#" class="comment-people">{{post.started_by}}.</a></p>
 	{% endfor %}
