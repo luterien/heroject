@@ -1,5 +1,7 @@
+{% load widget_tweaks %}
+
 <form id="createprojectform" action="." method="POST">{% csrf_token %}
-  	{{ form.as_p }}
+  	{{ form.title|attr:"placeholder:Project Name" }}
     <button class="btn">CREATE</button>
     </div>
 </form>
