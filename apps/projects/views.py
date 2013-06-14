@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView, CreateView
+from django.core.urlresolvers import reverse
 from apps.actions.forms import *
 from apps.projects.forms import *
 from apps.actions.utils import action, start_following
