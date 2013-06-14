@@ -81,7 +81,7 @@ def create_project(request, template="new_project.html"):
             if prj:
                 action(request.user, prj, "create")
             
-            return redirect(prj.get_absolute_url())
+            return redirect(prj)
 
     else:
         form = NewProjectForm()

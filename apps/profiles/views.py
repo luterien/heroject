@@ -1,7 +1,6 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout, login, authenticate
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic.detail import DetailView
@@ -9,6 +8,7 @@ from apps.actions.forms import *
 from apps.profiles.models import *
 from apps.profiles.forms import *
 from apps.projects.forms import NewProjectForm
+from apps.profiles.decorators import anonymous_required
 
 
 @login_required
@@ -19,35 +19,30 @@ def index(request, template="index.html"):
 
     return render(request, template, ctx)
 
-
+@anonymous_required('index')
 def login_user(request,
-               logged_in_url="/index/",
                login_success_url="/index/",
                template="login.html"):
     """
-    login view
+    Login view
     """
-    if request.user.is_authenticated():
-        return redirect(logged_in_url)
-    
     if request.method == "POST":
         username = request.POST.get('username', '')
         password = request.POST.get('password', '')
         user = authenticate(username=username, password=password)
-        form = AuthenticationForm(request.POST)
+        form = LoginForm(request.POST)
         if user is not None:
             login(request, user)
             return redirect(login_success_url)
     else:
-        form = AuthenticationForm()
+        form = LoginForm()
     
     return render(request, template, {'form': form})
             
-
+@anonymous_required('index')
 def register_user(request,
                   register_success_url="/",
-                  template="register.html",
-                  logged_in_url="/"):
+                  template="register.html"):
     """
     Registration view
     """

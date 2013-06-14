@@ -2,6 +2,7 @@ import re
 from django import forms
 from django.contrib.auth.models import User
 from apps.profiles.models import Organization, Profile
+from django.contrib.auth.forms import AuthenticationForm
 
 
 class RegistrationForm(forms.Form):
@@ -11,6 +12,13 @@ class RegistrationForm(forms.Form):
                                 widget=forms.PasswordInput())
     password2 = forms.CharField(label=u"Password (Again)",
                                 widget=forms.PasswordInput())
+
+    def __init__(self, *args, **kwargs):
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs = {"placeholder": "Username"}
+        self.fields["email"].widget.attrs = {"placeholder": "E-Mail"}
+        self.fields["password1"].widget.attrs = {"placeholder": "Password"}
+        self.fields["password2"].widget.attrs = {"placeholder": "Password (Again)"}
     
     def clean_password2(self):
         if 'password1' in self.cleaned_data:
@@ -48,4 +56,11 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('picture', )
+
+class LoginForm(AuthenticationForm):
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs = {"placeholder": "Username"}
+        self.fields["password"].widget.attrs = {"placeholder": "Password"}
+        
 

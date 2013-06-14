@@ -1,4 +1,3 @@
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
@@ -26,7 +25,7 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return reverse('project_details', (), {'slug': self.slug})
+        return ('project_details', (), {'slug': self.slug})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, instance=self)
@@ -74,7 +73,7 @@ class Discussion(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return reverse('discussion_details', (), {'slug': self.slug})
+        return ('discussion_details', (), {'slug': self.slug})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, instance=self)
@@ -132,8 +131,9 @@ class Task(models.Model):
     def __unicode__(self):
         return u"%s" % self.title
 
+    @models.permalink
     def get_absolute_url(self):
-        return reverse('task_details', (), {'pk': self.pk})
+        return ('task_details', (), {'pk': self.pk})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, instance=self)

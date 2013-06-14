@@ -3,8 +3,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from projectbonus.utils import slugify
-from django.core.urlresolvers import reverse
-
+from apps.profiles.tasks import make_square
 
 ORG_CHOICES = (
     ('test', 'test'),
@@ -44,12 +43,15 @@ class Organization(models.Model):
     def __unicode__(self):
         return u"%s" % self.title
 
+    @models.permalink
     def get_absolute_url(self):
-        return reverse('organization_details', (), {'slug': self.slug})
+        return ('organization_details', (), {'slug': self.slug})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, instance=self)
         super(Organization, self).save(*args, **kwargs)
+        if self.logo:
+            make_square(self.logo.path)
 
 
 class ProfileManager(models.Manager):
@@ -80,8 +82,14 @@ class Profile(models.Model):
     def __unicode__(self):
         return u"%s" % self.user
 
+    @models.permalink
     def get_absolute_url(self):
-        return reverse('profile_details', (), {})
+        return ('profile_details', (), {})
+
+    def save(self, *args, **kwargs):
+        super(Profile, self).save(*args, **kwargs)
+        if self.picture:
+            make_square(self.picture.path)
 
     @property
     def projects(self):
