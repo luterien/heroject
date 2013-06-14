@@ -7,6 +7,10 @@ class NewProjectForm(forms.ModelForm):
         model = Project
         fields = ('title', )
 
+    def __init__(self, *args, **kwargs):
+        super(NewProjectForm, self).__init__(*args, **kwargs)
+        self.fields['title'].widget.attrs = {"placeholder": "Project Name"}
+
 
 class UpdateProjectForm(forms.ModelForm):
     class Meta:
@@ -33,8 +37,8 @@ class CreateTaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CreateTaskForm, self).__init__(*args, **kwargs)
-
         self.fields['title'].required = True
+        self.fields['title'].widget.attrs = {"placeholder": "Task Title"}
 
 
 class CreateTaskCommentForm(forms.ModelForm):

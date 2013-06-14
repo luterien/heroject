@@ -127,10 +127,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admin',
-
-    # Addition
-    'widget_tweaks',
-
     # APP
     'apps.projects',
     'apps.profiles',
