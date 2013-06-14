@@ -18,7 +18,11 @@ $(document).ready(function(){
 
 	// Load Creater
 	$('#ajax-crt').click(function(){
-		$(this).parent().load('/project/create/');
+		$(this).parent().load('/project/create/', function() {
+        
+            $("#id_title").focus();
+        });
+
 	});	
 	
 	$('.crt-project a').click(function(){
