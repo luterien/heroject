@@ -9,7 +9,6 @@ from django.conf import settings
 from apps.projects.models import Project
 from apps.profiles.models import Organization
 
-
 class ActionType(models.Model):
     """
         examples of usage : 
@@ -20,14 +19,25 @@ class ActionType(models.Model):
         -> assign <this> to <that>
         -> comment on <that>
     """
-    name = models.CharField(_('Action name'), max_length=30)
+    name = models.CharField(_('Action name/key'), max_length=30)
     verb = models.CharField(_('Verb'), max_length=40)
-
+    
     preposition = models.CharField(_('Preposition'), max_length=20,
                                    null=True, blank=True)
+    
+    format = models.CharField(_('Format'), max_length=100, null=True, blank=True)
 
     def __unicode__(self):
         return u"%s" % self.name
+    
+    def validate_format(self):
+        pass
+    
+    def get_format(self):
+        return self.format
+    
+    def format_dict(self):
+        return {'verb': self.verb, 'prep': self.preposition}
 
 
 class ActionManager(models.Manager):
@@ -75,6 +85,7 @@ class Action(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("user"), blank=True,
                              null=True, on_delete=models.SET_NULL)
 
+    ## TODO : remove this field
     ip_address = models.CharField(_("IP address"), max_length=20,
                                   blank=True, null=True)
 
@@ -103,7 +114,7 @@ class Action(models.Model):
         #ordering = ('-action_time')
 
     def __unicode__(self):
-        return self._construct_action_message()
+        return self.formatted or "xx"
 
     def _construct_action_message(self):
         """
@@ -121,6 +132,41 @@ class Action(models.Model):
                                        prep, self.action_content_object)
 
         return _(msg.strip())
+    
+    @property
+    def default_format(self):
+        if self.target_content_object and self.action_type and self.action_type.preposition:
+            return "%(user)s has %(verb)s %(action_object)s %(prep)s %(target_object)s"
+        return "%(user)s has %(verb)s %(prep)s %(action_object)s"
+    
+    def get_format(self):
+        if self.action_type and self.action_type.format:
+            return self.action_type.format or "dd"
+        else:
+            return self.default_format
+    
+    @property
+    def formatted(self):
+        format = self.get_format()
+        
+        formatted = format % self.format_dict
+        
+        return formatted
+
+    @property
+    def format_dict(self):
+        keys = self.action_type.format_dict()
+        
+        dx = {
+              'action_object': self.action_content_object,
+              'target_object': self.target_content_object,
+              'user': self.user,
+              'date': self.action_time
+        }
+        
+        keys.update(dx)
+        
+        return keys
 
 
 class FollowManager(models.Manager):

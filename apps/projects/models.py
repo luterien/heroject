@@ -174,7 +174,7 @@ class DiscussionComment(BaseComment):
     discussion = models.ForeignKey(Discussion, verbose_name=_("Discussion"))
 
     def __unicode__(self):
-        return u"%s" % self.title
+        return u"%s" % self.content
 
 
 class TaskComment(BaseComment):
