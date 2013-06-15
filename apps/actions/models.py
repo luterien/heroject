@@ -4,6 +4,8 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
 from django.utils.translation import ugettext as _
 from django.utils.encoding import smart_unicode
+from django.conf import settings
+
 from apps.projects.models import Project
 from apps.profiles.models import Organization
 
@@ -69,7 +71,7 @@ class Action(models.Model):
 
     """
     action_time = models.DateTimeField(_("action time"), auto_now=True)
-    user = models.ForeignKey(User, verbose_name=_("user"), blank=True,
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("user"), blank=True,
                              null=True, on_delete=models.SET_NULL)
 
     ip_address = models.CharField(_("IP address"), max_length=20,
@@ -141,7 +143,7 @@ class Follow(models.Model):
     """
         Lets a user follow an object (Organization, Project, Task etc)
     """
-    follower = models.ForeignKey(User)
+    follower = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
     object_id = models.TextField(_('object id'), blank=True, null=True)
@@ -161,10 +163,10 @@ class Notification(models.Model):
     """
     notice_time = models.DateTimeField(_("action time"), auto_now=True)
 
-    sender = models.ForeignKey(User, verbose_name=_("Sender"), blank=True,
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Sender"), blank=True,
                                null=True, on_delete=models.SET_NULL)
 
-    receiver = models.ForeignKey(User, verbose_name=_("Receiver"),
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Receiver"),
                                  blank=True, null=True,
                                  related_name="received_notifications",
                                  on_delete=models.SET_NULL)
@@ -243,9 +245,9 @@ class Invitation(models.Model):
     """
         Store project, organization invitations
     """
-    sender = models.ForeignKey(User, verbose_name="Sender")
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Sender")
 
-    receiver = models.ForeignKey(User, verbose_name=_("Receiver"),
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Receiver"),
                                  null=True, blank=True,
                                  related_name="received_invitations")
 

@@ -4,6 +4,7 @@ from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic.detail import DetailView
+
 from apps.actions.forms import *
 from apps.profiles.models import *
 from apps.profiles.forms import *
@@ -46,26 +47,21 @@ def register_user(request,
     """
     Registration view
     """
-    if request.user.is_authenticated():
-        return redirect(logged_in_url)
     
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            # form is valid, register the user
-            user = User.objects.create_user(
-                username=form.cleaned_data['username'],
-                password=form.cleaned_data['password1'],
-                email=form.cleaned_data['email']
-            )
+		    
+            user = Profile.objects.create_user(
+                    username=form.cleaned_data['username'],
+                    email=form.cleaned_data['email'],
+                    password=form.cleaned_data['password1']
+                  )
+            
             user.save()
 
             auth_usr = authenticate(username=form.cleaned_data['username'],
                                     password=form.cleaned_data['password1'])
-
-            # create new profile
-            prf = Profile(user=user)
-            prf.save()
 
             if auth_usr:
                 login(request, auth_usr)
@@ -161,8 +157,8 @@ class ProfileUpdate(UpdateView):
 
         email = form.cleaned_data.get('email')
 
-        self.object.user.email = email
-        self.object.user.save()
+        self.object.email = email
+        self.object.save()
 
         return super(ProfileUpdate, self).form_valid(form)
 

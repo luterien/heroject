@@ -1,7 +1,9 @@
 from django.db import models
+from django.conf import settings
 from django.db.models import Q
-from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import AbstractUser, UserManager
+
 from projectbonus.utils import slugify
 from apps.profiles.tasks import make_square
 
@@ -28,11 +30,11 @@ class Organization(models.Model):
 
     is_approved = models.BooleanField(default=False)
 
-    people = models.ManyToManyField(User, verbose_name=_("People"),
+    people = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("People"),
                                     related_name="organization_list",
                                     null=True, blank=True)
 
-    admins = models.ManyToManyField(User, verbose_name=_("Admins"),
+    admins = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Admins"),
                                     null=True, blank=True)
 
     class Meta:
@@ -54,21 +56,13 @@ class Organization(models.Model):
             make_square(self.logo.path)
 
 
-class ProfileManager(models.Manager):
+class ProfileManager(UserManager):
 
     def from_request(self, request, *args, **kwargs):
-        try:
-            usr = self.get(user=request.user)
-        except User.DoesNotExist:
-            usr = None
-        except TypeError:
-            usr = None
-        return usr
+        return request.user
 
 
-class Profile(models.Model):
-
-    user = models.ForeignKey(User, verbose_name=_("User"))
+class Profile(AbstractUser):
 
     birthdate = models.DateTimeField(_("Birth Date"),
                                      null=True, blank=True)
@@ -80,7 +74,7 @@ class Profile(models.Model):
     objects = ProfileManager()
 
     def __unicode__(self):
-        return u"%s" % self.user
+        return u"%s" % self.username
 
     @models.permalink
     def get_absolute_url(self):
@@ -94,12 +88,12 @@ class Profile(models.Model):
     @property
     def projects(self):
         """ return the list of projects this user is a member of """
-        return self.user.project_set.all()
+        return self.project_set.all()
 
     @property
     def tasks(self):
         """ return the list of Task objects which are assigned to the user """
-        return self.user.task_set.all()
+        return self.task_set.all()
 
     @property
     def unread_notifications(self):
@@ -125,4 +119,7 @@ class Profile(models.Model):
     @property
     def follows(self, obj):
         pass
+
+
+
 

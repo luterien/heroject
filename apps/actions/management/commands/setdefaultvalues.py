@@ -1,5 +1,4 @@
 from django.core.management.base import BaseCommand
-from django.contrib.auth.models import User
 from apps.profiles.models import Profile
 from apps.actions.models import ActionType
 
@@ -30,14 +29,4 @@ class Command(BaseCommand):
             if ex is True:
                 print "ActionType added : %s" % at
 
-        # the admin user has no Profile, create one
-        admin = User.objects.filter(is_superuser=True)
-        if admin.count() == 1:
-            p, e = Profile.objects.get_or_create(user=admin[0])
-            p.save()
-
-            print "Profile created : %s" % e
-
-            if e is True:
-                print "Profile name : %s" % p
 

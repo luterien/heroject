@@ -1,6 +1,6 @@
 import re
+
 from django import forms
-from django.contrib.auth.models import User
 from apps.profiles.models import Organization, Profile
 from django.contrib.auth.forms import AuthenticationForm
 
@@ -35,8 +35,8 @@ class RegistrationForm(forms.Form):
                                         'alphanumeric characters and'
                                         ' the underscore.')
         try:
-            User.objects.get(username=username)
-        except User.DoesNotExist:
+            Profile.objects.get(username=username)
+        except Profile.DoesNotExist:
             return username
         
         raise forms.ValidationError('Username is already taken.')
