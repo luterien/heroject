@@ -39,14 +39,16 @@ class ActionManager(models.Manager):
             If the target_object is on the user's follow list
             Send the user a notification
         """
-        action_type = ActionType.objects.get(name=action_key)
+        action_types = ActionType.objects.filter(name=action_key)
+        if not action_types.exists():
+            action_types.create(name=action_key)
 
         action = self.model(
             user=user,
             action_content_type=ContentType.objects.get_for_model(
                 action_object.__class__),
             action_object_id=smart_unicode(action_object.id),
-            action_type=action_type)
+            action_type=action_types.get())
 
         if target_object:
             action.target_content_type = ContentType.objects.get_for_model(
@@ -54,7 +56,6 @@ class ActionManager(models.Manager):
             action.target_object_id = smart_unicode(target_object.id)
 
         action.save()
-
         return action
 
 
