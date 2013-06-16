@@ -1,5 +1,7 @@
 {% extends "base.html" %}
-
+{% block includes %}
+  {% load formtags actiontags %}
+{% endblock %}
 {% block Content %}
 <div class="task-detail">
     <div class="p-head">
@@ -23,12 +25,19 @@
         </div>  
     </div>
 
-    <div class="comment-list">
-    {% for comment in task.comments %}
-        <p>" {{comment.content}} " <a href="#" class="comment-people">{{comment.started_by}}</a></p>
-    {% endfor %}
-    </div>
-
+	<div class="comment-list">
+		{% get_actions task as performed_actions %}
+		{% for action in performed_actions %}
+		  <div>
+			{% if action.action_content_object|of_type:"taskcomment" %}
+				<p>" {{ action.action_content_object.content }} " <a href="#" class="comment-people">{{  action.action_content_object.started_by }}</a></p>
+			{% else %}
+				<p>{{ action }}</p>
+			{% endif %}
+		  </div>
+		{% endfor %}
+	</div>
+	
     <form class="comment-form" action="{% url 'create_task_comment' task.id %}" method="POST">{% csrf_token %}
     {{ task_comment_form.as_p }}
     <button class="btn">

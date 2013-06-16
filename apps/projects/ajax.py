@@ -4,6 +4,8 @@ from django.utils import simplejson
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 
+from apps.actions.utils import action
+
 def update_task_status(request):
     is_done = request.GET.get('is_done')
     task_id = request.GET.get('task_id')

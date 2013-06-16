@@ -14,7 +14,10 @@ class Command(BaseCommand):
             ('delete',  'deleted',   '',   '%(user)s has deleted %(action_object)s'),
             ('comment', 'commented', 'on', '%(user)s has commented on %(target_object)s'),
             ('invite',  'invited',   'to', '%(user)s has invited %(action_object)s to %(target_object)s'),
-            ('assign',  'assigned',  'to', '%(user)s has assigned %(action_object)s to %(target_object)s')
+            
+            # task related
+            ('assigntotask',    '',  '', '%(user)s has assigned %(action_object)s to %(target_object)s'),
+            ('removefromtask',  '',  '', '%(user)s has removed %(action_object)s from %(target_object)s'),
         ]
 
         for tpl in action_type_lst:
