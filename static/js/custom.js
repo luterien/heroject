@@ -29,6 +29,17 @@ $(document).ready(function(){
 		$("#ajax-crt").parent().load('/project/create/');
 	});
 
+
+    var update_progress = function(width) {
+        var prg_cnt = $(".prg-cnt strong"),
+            bar = $(".progress .bar");
+
+        bar.animate({ "width": width + "%"});
+        prg_cnt.html("%" + width);
+
+        if (!width) prg_cnt.empty();
+    };
+
 	function update_task_status(that, checked){
 
 		var task_id = $(that).val();
@@ -50,7 +61,11 @@ $(document).ready(function(){
 
 		}).success(function(r){
 			$('#project-active-tasks').load(active_tasks_url);
-			$('#project-completed-tasks').load(completed_tasks_url);
+			$('#project-completed-tasks').load(completed_tasks_url, function(data) {
+                var progress = jQuery("span.progress", data.prevObject).text() || 0;
+                
+                update_progress(progress);
+            });
 			//$('.progress').load('.progress', function(){$(this).children().unwrap()});
 			//location.reload();
 		})

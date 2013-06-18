@@ -1,4 +1,5 @@
 {% if project.completed_tasks %}
+    <span class="progress" style="display:none;">{{ project.progress }}</span>
     {% for task in project.completed_tasks %}
       <li>
         <label class="checkbox checked" for="checkbox{{ task.id }}"></label>
