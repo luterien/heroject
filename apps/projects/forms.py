@@ -15,7 +15,7 @@ class NewProjectForm(forms.ModelForm):
 class UpdateProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ('title', 'description', )
+        fields = ('title', )
 
 
 class CreateDiscussionForm(forms.ModelForm):
