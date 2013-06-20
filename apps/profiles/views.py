@@ -86,50 +86,6 @@ def profile_details(request, template="profiles/profile_details.html"):
     return render(request, template, ctx)
 
 
-class OrganizationDetails(DetailView):
-    template_name = "profiles/organization_details.html"
-    model = Organization
-    form_class = OrganizationForm
-
-    def get_context_data(self, **kwargs):
-        invitation_form = InvitationForm()
-        invitation_form.fields['receiver'].queryset = Profile.objects.exclude(
-            id__in=self.object.people.values_list('id', flat=True))
-        return super(OrganizationDetails, self).get_context_data(
-            **{'invitation_form': invitation_form})
-
-
-class CreateOrganization(CreateView):
-    template_name = "profiles/create_organization.html"
-    model = Organization
-    form_class = OrganizationForm
-
-    def get_success_url(self):
-        return reverse('organization_details',
-                       kwargs={'slug': self.object.slug})
-
-    def form_valid(self, form):
-        # add the creater as an admin & regular user for this organization
-        self.object = form.instance
-        self.object.save()
-        self.object.admins.add(self.request.user)
-        self.object.people.add(self.request.user)
-        return super(CreateOrganization, self).form_valid(form)
-
-
-class OrganizationUpdate(UpdateView):
-    template_name = "update_organization.html"
-    model = Organization
-    form_class = OrganizationForm
-
-    def get_success_url(self):
-        return reverse('update_organization',
-                       kwargs={'slug': self.object.slug})
-
-    #def form_valid(self, form):
-    #    pass
-
-
 class ProfileUpdate(UpdateView):
     template_name = "update_profile.html"
     model = Profile

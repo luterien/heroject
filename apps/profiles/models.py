@@ -7,55 +7,6 @@ from django.contrib.auth.models import AbstractUser, UserManager
 from projectbonus.utils import slugify
 from apps.profiles.tasks import make_square
 
-ORG_CHOICES = (
-    ('test', 'test'),
-    ('', '')
-)
-
-
-class Organization(models.Model):
-    """
-        Store organization details
-    """
-    title = models.CharField(_("Title"), max_length=50)
-    slug = models.SlugField()
-
-    description = models.TextField(_("Description"), null=True, blank=True)
-
-    logo = models.ImageField(_('Logo'), upload_to="organizations/logos/",
-                             null=True, blank=True)
-
-    org_type = models.CharField(_("Organization Type"), max_length=60,
-                                choices=ORG_CHOICES, null=True, blank=True)
-
-    is_approved = models.BooleanField(default=False)
-
-    people = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("People"),
-                                    related_name="organization_list",
-                                    null=True, blank=True)
-
-    admins = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Admins"),
-                                    null=True, blank=True)
-
-    class Meta:
-        verbose_name = _("Organization")
-        verbose_name_plural = _("Organizations")
-        ordering = ('-id',)
-
-    def __unicode__(self):
-        return u"%s" % self.title
-
-    @models.permalink
-    def get_absolute_url(self):
-        return ('organization_details', (), {'slug': self.slug})
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title, instance=self)
-        super(Organization, self).save(*args, **kwargs)
-        if self.logo:
-            make_square(self.logo.path)
-
-
 
 class Profile(AbstractUser):
 
@@ -104,11 +55,6 @@ class Profile(AbstractUser):
     @property
     def invitations_sent(self):
         pass
-
-    @property
-    def organizations(self):
-        return Organization.objects.filter(
-            Q(people__in=[self, ]) | Q(admins__in=[self, ]))
 
     @property
     def follows(self, obj):

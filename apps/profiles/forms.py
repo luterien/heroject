@@ -1,7 +1,7 @@
 import re
 
 from django import forms
-from apps.profiles.models import Organization, Profile
+from apps.profiles.models import Profile
 from django.contrib.auth.forms import AuthenticationForm
 
 
@@ -40,13 +40,6 @@ class RegistrationForm(forms.Form):
             return username
         
         raise forms.ValidationError('Username is already taken.')
-
-
-class OrganizationForm(forms.ModelForm):
-
-    class Meta:
-        model = Organization
-        fields = ('title', 'description', 'logo', )
 
 
 class ProfileForm(forms.ModelForm):

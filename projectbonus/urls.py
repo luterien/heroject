@@ -33,18 +33,6 @@ urlpatterns = patterns(
 
     url(r'^index/$', index, name="index"),
 
-    url(r'^organization/create/$', CreateOrganization.as_view(),
-        name="create_organization"),
-
-    url(r'^organization/(?P<slug>[-\w]+)/$', OrganizationDetails.as_view(),
-        name="organization_details"),
-
-    url(r'^organization/(?P<organization_id>[-\d]+)/invite/',
-        InviteToOrganization.as_view(), name="invite_to_organization"),
-
-    url(r'^organization/(?P<slug>[-\w]+)/update/$',
-        OrganizationUpdate.as_view(), name="update_organization"),
-
     url(r'^project/(?P<project_id>[-\d]+)/invite/$',
         InviteToProject.as_view(), name="invite_to_project"),
 

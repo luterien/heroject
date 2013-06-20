@@ -7,7 +7,7 @@ from django.utils.encoding import smart_unicode
 from django.conf import settings
 
 from apps.projects.models import Project
-from apps.profiles.models import Organization
+
 
 class ActionType(models.Model):
     """
@@ -188,7 +188,7 @@ class FollowManager(models.Manager):
 
 class Follow(models.Model):
     """
-        Lets a user follow an object (Organization, Project, Task etc)
+        Lets a user follow an object (Project, Task etc)
     """
     follower = models.ForeignKey(settings.AUTH_USER_MODEL)
 
@@ -290,7 +290,7 @@ class InvitationManager(models.Manager):
 
 class Invitation(models.Model):
     """
-        Store project, organization invitations
+        Store project invitations
     """
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Sender")
 
@@ -326,12 +326,8 @@ class Invitation(models.Model):
                                              self.content_object)
 
     def add_user(self):
-
         # TODO : find a better solution for this part
         if isinstance(self.content_object, Project):
-            self.content_object.people.add(self.receiver)
-            self.content_object.save()
-        elif isinstance(self.content_object, Organization):
             self.content_object.people.add(self.receiver)
             self.content_object.save()
 
