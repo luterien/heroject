@@ -41,7 +41,7 @@
 					<ul>
 						{% for project in profile.projects %}
 						<li class="project">
-							<h4><a href="{% url 'project_details' project.slug %}">{{ project.title }}</a></h4>
+							<h4><a href="{% url 'project_details' project.id %}">{{ project.title }}</a></h4>
 							<ul class="project-todos" id="project-active-tasks">
 							{% include 'projects/active_tasks.html' %}
 							</ul>

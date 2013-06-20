@@ -7,7 +7,7 @@
     <div class="p-head">
         <h3 class="top">
             <strong>
-                <a href="{% url 'project_details' task.project.slug %}">{{ task.project.title }}</a>
+                <a href="{% url 'project_details' task.project.id %}">{{ task.project.title }}</a>
             </strong>
         </h3>
         <h4 class="bottom">{{ task }}</h4>

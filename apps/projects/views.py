@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.views.generic.edit import UpdateView, CreateView
 from django.core.urlresolvers import reverse
 from apps.actions.forms import *
 from apps.projects.forms import *
 from apps.actions.utils import action, start_following
 from apps.profiles.models import Profile
+from apps.projects.decorators import has_access_project
 
 
 # check if the current user has access to project
@@ -14,9 +16,9 @@ def _has_project_access(request, project):
 
 
 @login_required
-def project_details(request, slug, template="projects/project_details.html"):
-    project = get_object_or_404(Project, slug=slug)
-
+@has_access_project('index', Project)
+def project_details(request, pk, project):
+    template = "projects/project_details.html"
     invitation_form = InvitationForm()
     invitation_form.fields['receiver'].queryset = Profile.objects.exclude(
         id__in=project.people.values_list('id', flat=True))
@@ -26,25 +28,21 @@ def project_details(request, slug, template="projects/project_details.html"):
            'projects': request.user.projects,
            'project_invitation_form': invitation_form}
 
-    if not _has_project_access(request, project):
-        return redirect('index')
-
     return render(request, template, ctx)
 
 
 @login_required
-def task_details(request, pk, template="projects/task_details.html"):
-    task = get_object_or_404(Task, pk=pk)
-    
+@has_access_project('index', Task)
+def task_details(request, pk, task):
+    template = "projects/task_details.html"
     ctx = {'task': task,
            'task_comment_form': CreateTaskCommentForm}
-
-    if not _has_project_access(request, task.project):
-        return redirect('index')
 
     return render(request, template, ctx)
 
 
+#a new decorator or do we need a new idea?
+#turn this pk and turn elif
 @login_required
 def discussion_details(request, slug,
                        template="projects/discussion_details.html"):
@@ -96,20 +94,21 @@ class UpdateProject(UpdateView):
     form_class = UpdateProjectForm
     
     def get_success_url(self):
-        return reverse('update_project', kwargs={'pk': self.object.pk})
+        return reverse('index')
 
     def get(self, request, *args, **kwargs):
-        _get = super(UpdateProject, self).get(request, *args, **kwargs)
-        if not _has_project_access(request, self.object):
-            return redirect('index')
-        return _get
+        return super(UpdateProject, self).get(request, *args, **kwargs)
+
+    #use this decorator and method to optimum efficiency
+    @method_decorator(login_required())
+    @method_decorator(has_access_project('index', Project))
+    def dispatch(self, *args, **kwargs):
+        return super(UpdateProject, self).dispatch(*args, **kwargs)
 
 
-def delete_project(request, pk=None):
-    project = get_object_or_404(Project, pk=pk)
-
-    if not _has_project_access(request, project):
-        return redirect('index')
+@login_required
+@has_access_project('index', Project)
+def delete_project(request, pk=None, project=None):
     project.delete()
     return redirect('index')
 
@@ -130,6 +129,12 @@ class CreateDiscussion(CreateView):
         action(self.request.user, self.object, "create", self.object.project)
         start_following(self.request.user, self.object)
         return super(CreateDiscussion, self).form_valid(form)
+
+    #use this decorator and method to optimum efficiency
+    #need to control to access
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super(CreateDiscussion, self).dispatch(*args, **kwargs)
 
 
 class CreateDiscussionComment(CreateView):
@@ -153,6 +158,12 @@ class CreateDiscussionComment(CreateView):
                "comment", self.object.discussion)
         return super(CreateDiscussionComment, self).form_valid(form)
 
+    #use this decorator and method to optimum efficiency
+    #need to control to access
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super(CreateDiscussionComment, self).dispatch(*args, **kwargs)
+
 
 class CreateTask(CreateView):
     template_name = "create_task.html"
@@ -160,8 +171,8 @@ class CreateTask(CreateView):
     form_class = CreateTaskForm
 
     def get_success_url(self):
-        prj = Project.objects.get(id=self.kwargs["project_id"])
-        return reverse('project_details', kwargs={'slug': prj.slug})
+        return reverse('project_details',
+                       kwargs={'pk': self.kwargs["project_id"]})
 
     def form_valid(self, form):
         self.object = form.instance
@@ -174,6 +185,12 @@ class CreateTask(CreateView):
         # will be celery task
         action(self.request.user, self.object, "create", self.object.project)
         return super(CreateTask, self).form_valid(form)
+
+    #use this decorator and method to optimum efficiency
+    #need to control to access
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super(CreateTask, self).dispatch(*args, **kwargs)
 
 
 class CreateTaskComment(CreateView):
@@ -195,3 +212,9 @@ class CreateTaskComment(CreateView):
         # create an action
         action(self.request.user, self.object, "comment", self.object.task)
         return super(CreateTaskComment, self).form_valid(form)
+
+    #use this decorator and method to optimum efficiency
+    #need to control to access
+    @method_decorator(login_required())
+    def dispatch(self, *args, **kwargs):
+        return super(CreateTaskComment, self).dispatch(*args, **kwargs)

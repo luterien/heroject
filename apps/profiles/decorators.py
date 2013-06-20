@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from functools import wraps
-
 from apps.projects.models import Project
+
 
 def anonymous_required(redirect_url=None):
     def decorator(function):

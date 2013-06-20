@@ -27,7 +27,7 @@ class Project(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('project_details', (), {'slug': self.slug})
+        return ('project_details', (), {'pk': self.id})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, instance=self)

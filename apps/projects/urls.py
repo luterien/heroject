@@ -7,7 +7,7 @@ urlpatterns = patterns(
 
     url(r'^create/$', create_project, name="create_project"),
 
-    url(r'^(?P<slug>[-\w]+)/$', project_details, name="project_details"),
+    url(r'^(?P<pk>\d+)/$', project_details, name="project_details"),
     url(r'^update/(?P<pk>\d+)/$', UpdateProject.as_view(), name='update_project'),
     url(r'^delete/(?P<pk>\d+)/$', delete_project, name='delete_project'),
 
