@@ -9,6 +9,7 @@ urlpatterns = patterns(
 
     url(r'^(?P<slug>[-\w]+)/$', project_details, name="project_details"),
     url(r'^update/(?P<pk>\d+)/$', UpdateProject.as_view(), name='update_project'),
+    url(r'^delete/(?P<pk>\d+)/$', delete_project, name='delete_project'),
 
     # discussion urls
     url(r'^discussions/(?P<slug>[-\w\d]+)/$', discussion_details, name="discussion_details"),

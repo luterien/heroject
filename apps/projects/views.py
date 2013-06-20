@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import UpdateView, CreateView
+from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.core.urlresolvers import reverse
 from apps.actions.forms import *
 from apps.projects.forms import *
@@ -103,6 +103,15 @@ class UpdateProject(UpdateView):
         if not _has_project_access(request, self.object):
             return redirect('index')
         return _get
+
+
+def delete_project(request, pk=None):
+    project = get_object_or_404(Project, pk=pk)
+
+    if not _has_project_access(request, project):
+        return redirect('index')
+    project.delete()
+    return redirect('index')
 
 
 class CreateDiscussion(CreateView):
