@@ -12,7 +12,7 @@ urlpatterns = patterns(
     url(r'^delete/(?P<pk>\d+)/$', delete_project, name='delete_project'),
 
     # discussion urls
-    url(r'^discussions/(?P<slug>[-\w\d]+)/$', discussion_details, name="discussion_details"),
+    url(r'^discussions/(?P<pk>\d+)/$', discussion_details, name="discussion_details"),
     url(r'^(?P<project_id>[-\d]+)/discussions/create/$', CreateDiscussion.as_view(), name="create_discussion"),
 
     # task

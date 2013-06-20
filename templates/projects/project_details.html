@@ -70,7 +70,7 @@
                 {% for discussion in project.discussion_set.all %}
 
                   <li>
-                    <a href="{% url 'discussion_details' discussion.slug %}"> <i class="icon discussion"></i>{{ discussion.title }}</a>
+                    <a href="{% url 'discussion_details' discussion.id %}"> <i class="icon discussion"></i>{{ discussion.title }}</a>
                   </li>
 
                   {% endfor %}

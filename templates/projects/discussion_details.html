@@ -6,7 +6,7 @@
     <div class="p-head">
         <h3 class="top">
             <strong>
-                <a>Proje</a>
+                <a href="{% url 'project_details' discussion.project.id %}">{{ discussion.project }}</a>
             </strong>
         </h3>
         <h4 class="bottom">{{ discussion }}</h4>

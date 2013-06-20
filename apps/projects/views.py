@@ -10,11 +10,6 @@ from apps.profiles.models import Profile
 from apps.projects.decorators import has_access_project
 
 
-# check if the current user has access to project
-def _has_project_access(request, project):
-    return project in request.user.projects
-
-
 @login_required
 @has_access_project('index', Project)
 def project_details(request, pk, project):
@@ -41,16 +36,12 @@ def task_details(request, pk, task):
     return render(request, template, ctx)
 
 
-#a new decorator or do we need a new idea?
-#turn this pk and turn elif
 @login_required
-def discussion_details(request, slug,
-                       template="projects/discussion_details.html"):
-    discussion = get_object_or_404(Discussion, slug=slug)
+@has_access_project('index', Discussion)
+def discussion_details(request, pk, discussion):
+    template = "projects/discussion_details.html"
     ctx = {'discussion': discussion,
            'new_post_form': CreateDiscussionCommentForm}
-    if not _has_project_access(request, discussion.project):
-        return redirect('index')
 
     return render(request, template, ctx)
 
@@ -130,9 +121,8 @@ class CreateDiscussion(CreateView):
         start_following(self.request.user, self.object)
         return super(CreateDiscussion, self).form_valid(form)
 
-    #use this decorator and method to optimum efficiency
-    #need to control to access
     @method_decorator(login_required())
+    @method_decorator(has_access_project('index', Project))
     def dispatch(self, *args, **kwargs):
         return super(CreateDiscussion, self).dispatch(*args, **kwargs)
 
@@ -144,7 +134,7 @@ class CreateDiscussionComment(CreateView):
 
     def get_success_url(self):
         return reverse('discussion_details',
-                       kwargs={'slug': self.object.discussion.slug})
+                       kwargs={'pk': self.object.discussion.id})
 
     def form_valid(self, form):
         self.object = form.instance
@@ -158,9 +148,8 @@ class CreateDiscussionComment(CreateView):
                "comment", self.object.discussion)
         return super(CreateDiscussionComment, self).form_valid(form)
 
-    #use this decorator and method to optimum efficiency
-    #need to control to access
     @method_decorator(login_required())
+    @method_decorator(has_access_project('index', Discussion))
     def dispatch(self, *args, **kwargs):
         return super(CreateDiscussionComment, self).dispatch(*args, **kwargs)
 
@@ -186,9 +175,8 @@ class CreateTask(CreateView):
         action(self.request.user, self.object, "create", self.object.project)
         return super(CreateTask, self).form_valid(form)
 
-    #use this decorator and method to optimum efficiency
-    #need to control to access
     @method_decorator(login_required())
+    @method_decorator(has_access_project('index', Project))
     def dispatch(self, *args, **kwargs):
         return super(CreateTask, self).dispatch(*args, **kwargs)
 
@@ -213,8 +201,7 @@ class CreateTaskComment(CreateView):
         action(self.request.user, self.object, "comment", self.object.task)
         return super(CreateTaskComment, self).form_valid(form)
 
-    #use this decorator and method to optimum efficiency
-    #need to control to access
     @method_decorator(login_required())
+    @method_decorator(has_access_project('index', Task))
     def dispatch(self, *args, **kwargs):
         return super(CreateTaskComment, self).dispatch(*args, **kwargs)

@@ -75,7 +75,7 @@ class Discussion(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('discussion_details', (), {'slug': self.slug})
+        return ('discussion_details', (), {'pk': self.id})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title, instance=self)
