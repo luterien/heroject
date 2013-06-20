@@ -24,7 +24,7 @@ def has_access_permission(cls=Project):
             if request.user in item.people.all():
                 return function(request, *args, **kwargs)
 
-            return function(request, *args, **kwargs)
+            return redirect('index')
 
         return wraps(function)(_wrapped_view)
     return decorator
