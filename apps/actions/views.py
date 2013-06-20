@@ -57,9 +57,8 @@ def invitations(request, template="profiles/invitations.html"):
     """
     invitation list for the user
     """
-    p = Profile.objects.from_request(request)
 
-    ctx = {'profile': p}
+    ctx = {'profile': request.user}
 
     return render(request, template, ctx)
 

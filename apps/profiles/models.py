@@ -56,11 +56,6 @@ class Organization(models.Model):
             make_square(self.logo.path)
 
 
-class ProfileManager(UserManager):
-
-    def from_request(self, request, *args, **kwargs):
-        return request.user
-
 
 class Profile(AbstractUser):
 
@@ -71,7 +66,6 @@ class Profile(AbstractUser):
                                 upload_to="users/avatars/",
                                 null=True, blank=True)
 
-    objects = ProfileManager()
 
     def __unicode__(self):
         return u"%s" % self.username

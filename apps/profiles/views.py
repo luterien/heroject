@@ -14,9 +14,8 @@ from apps.profiles.decorators import anonymous_required
 
 @login_required
 def index(request, template="index.html"):
-    profile = Profile.objects.from_request(request)
     
-    ctx = {'projects': profile.projects}
+    ctx = {'projects': request.user.projects}
 
     return render(request, template, ctx)
 
@@ -81,9 +80,8 @@ def logout_user(request, logout_success_url="/"):
 
 @login_required
 def profile_details(request, template="profiles/profile_details.html"):
-    profile = Profile.objects.from_request(request)
     form = NewProjectForm()
-    ctx = {'profile': profile,
+    ctx = {'profile': request.user,
            'form': form}
 
     return render(request, template, ctx)
@@ -139,8 +137,7 @@ class ProfileUpdate(UpdateView):
     form_class = ProfileForm
 
     def get_object(self, queryset=None):
-        obj = Profile.objects.from_request(self.request)
-        return obj
+        return request.user
 
     def get_initial(self):
         """ get the initial value for user.email """
