@@ -9,7 +9,8 @@ def has_access_project(redirect_url=None, klass=None):
             if klass:
                 id_key = klass.__name__.lower() + '_id'
 
-            pk = kwargs.get(id_key)
+            pk = pk or kwargs.get(id_key)
+
             object = get_object_or_404(klass, pk=pk)
 
             if klass == Project:
