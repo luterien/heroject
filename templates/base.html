@@ -5,7 +5,7 @@
 <html id="{% block id %}{% endblock %}" lang="tr">
   <head>
     <meta charset="utf-8">
-    <title>Heroject</title>
+    <title>Heroject | Simple Project Management</title>
 
     <!-- Metas  -->
     <meta name="robots" content="index, follow" />
@@ -64,8 +64,8 @@
         <li class="user-nav">
           <div class="show-menu">
             <span class="mini-img">
-                {% if profile.picture %}
-                  <img src="{{ MEDIA_URL }}{{ profile.picture }}">
+                {% if user.picture %}
+                  <img src="{{ MEDIA_URL }}{{ user.picture }}">
                 {% else %}
                   <img src="{{ STATIC_URL }}img/no-img.jpg">
                 {% endif %}
