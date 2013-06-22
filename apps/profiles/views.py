@@ -5,9 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.generic.detail import DetailView
 
-from apps.actions.forms import *
+
 from apps.profiles.models import *
 from apps.profiles.forms import *
+from apps.actions.forms import *
 from apps.projects.forms import NewProjectForm
 from apps.profiles.decorators import anonymous_required
 
@@ -92,7 +93,7 @@ class ProfileUpdate(UpdateView):
     form_class = ProfileForm
 
     def get_object(self, queryset=None):
-        return request.user
+        return self.request.user
 
     def get_initial(self):
         """ get the initial value for user.email """

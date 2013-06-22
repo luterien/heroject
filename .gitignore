@@ -6,3 +6,5 @@ uploads/*
 *.db
 .DS_Store
 .idea/*
+*wsgi.py
+*projectbonus/wsgi.py
