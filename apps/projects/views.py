@@ -87,9 +87,6 @@ class UpdateProject(UpdateView):
     def get_success_url(self):
         return reverse('index')
 
-    def get(self, request, *args, **kwargs):
-        return super(UpdateProject, self).get(request, *args, **kwargs)
-
     #use this decorator and method to optimum efficiency
     @method_decorator(login_required())
     @method_decorator(has_access_project('index', Project))
@@ -205,3 +202,55 @@ class CreateTaskComment(CreateView):
     @method_decorator(has_access_project('index', Task))
     def dispatch(self, *args, **kwargs):
         return super(CreateTaskComment, self).dispatch(*args, **kwargs)
+
+
+class UpdateTask(UpdateView):
+    template_name = "update_task.html"
+    model = Task
+    form_class = UpdateTaskForm
+
+    def get_success_url(self):
+        return reverse('project_details', kwargs={'pk': self.object.project.pk})
+
+    #use this decorator and method to optimum efficiency
+    @method_decorator(login_required())
+    @method_decorator(has_access_project('index', Task))
+    def dispatch(self, *args, **kwargs):
+        return super(UpdateTask, self).dispatch(*args, **kwargs)
+
+
+@login_required
+@has_access_project('index', Task)
+def delete_task(request, pk=None, task=None):
+    task.delete()
+    return redirect('project_details', pk=task.project.id)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,6 +4,7 @@ from django.views.generic import TemplateView
 from apps.profiles.views import *
 from apps.profiles.ajax import *
 from apps.actions.views import *
+from apps.projects.views import *
 from django.contrib import admin
 
 admin.autodiscover()
@@ -40,7 +41,11 @@ urlpatterns = patterns(
 
     url(r'^task/remove/$', remove_user, name="remove_user"),
 
-    url(r'task/(?P<task_id>[-\d]+)/people/', task_people, name="task_people"),
+    url(r'^task/(?P<task_id>[-\d]+)/people/', task_people, name="task_people"),
+
+    url(r'^task/(?P<pk>[-\d]+)/update/', UpdateTask.as_view(), name="update_task"),
+
+    url(r'^task/(?P<pk>[-\d]+)/delete/', delete_task, name="delete_task"),
 
 )
 

@@ -18,6 +18,8 @@
           </select>
         {% endcomment %}
           <a class="todo-comment" href="{% url 'task_details' task.id %}"><i class="icon comment"></i>({{task.comment_count}})</a>
+            <a class="act-btns" href="{% url 'update_task' task.id %}"><i class="icon update"></i></a>
+            <a class="act-btns" href="{% url 'delete_task' task.id %}"><i class="icon delete"></i></a>
         </div>
         {% for people in task.assigned_people %}
         <span>({{ people }})</span>

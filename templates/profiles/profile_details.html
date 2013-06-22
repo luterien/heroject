@@ -12,29 +12,6 @@
 		</div>
 		<div class="profile-infos">
 			<h2>{{ profile }}</h2>
-			<h3>Organizations</h3>
-			{% if profile.organizations %}
-				<div class="organizations">
-					{% for organization in profile.organizations %}
-					<div class="organization">
-						<a href="{% url 'organization_details' organization.slug %}">
-							{% if organization.logo %}
-							<img src="{{ MEDIA_URL }}{{ organization.logo }}">
-							{% else %}
-							<img src="{{ STATIC_URL }}img/no-img.jpg">
-							{% endif %}
-						</a>
-					</div>
-					{% endfor %}
-					<div class="organization">
-						<a href="{% url 'create_organization' %}">
-							<img src="{{ STATIC_URL }}img/create.jpg" height="100">
-						</a>
-					</div>
-				</div>
-			{% else %}
-				<div>You are not a member of any organizations. Create one <a href="{% url 'create_organization' %}">+</a></div>
-			{% endif %}
 			<div class="profile-main">
 				<h3>Projects</h3>
 				{% if profile.projects %}

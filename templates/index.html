@@ -15,8 +15,8 @@
                     <a href="{% url 'project_details' project.id %}">
                       {{ project.title }}
                     </a>
-                  <a href="{% url 'update_project' project.id %}">Update</a>
-                  <a href="{% url 'delete_project' project.id %}">Delete</a>
+                    <a class="act-btns" href="{% url 'update_project' project.id %}"><i class="icon update"></i></a>
+                    <a class="act-btns" href="{% url 'delete_project' project.id %}"><i class="icon delete"></i></a>
                   </h3>
                   <div class="progress-cnt">
                     <div class="progress">

@@ -46,3 +46,8 @@ class CreateTaskCommentForm(forms.ModelForm):
         model = TaskComment
         fields = ('content', )
 
+class UpdateTaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ('title',)
+
