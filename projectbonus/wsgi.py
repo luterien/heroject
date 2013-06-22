@@ -1,5 +1,5 @@
 """
-WSGI config for heroject project.
+WSGI config for projectbonus project.
 
 This module contains the WSGI application used by Django's development server
 and any production WSGI deployments. It should expose a module-level variable
@@ -13,15 +13,9 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
-import os, sys, site
+import os
 
-site.addsitedir('/home/ugur/heroject/local/lib/python2.7/site-packages')
-
-sys.path.append("/home/ugur/siteler/heroject")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "projectbonus.settings")
-
-activate_env=os.path.expanduser("/home/ugur/heroject/bin/activate_this.py")
-execfile(activate_env, dict(__file__=activate_env))
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION
