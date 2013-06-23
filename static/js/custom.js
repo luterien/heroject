@@ -39,57 +39,69 @@ $(document).ready(function(){
 
         if (!width) prg_cnt.empty();
     };
+	
+	function reload_task_list(slug){
 
+		var active_tasks_url = "/project/" + slug + "/active_tasks/";
+		var completed_tasks_url = "/project/" + slug + "/completed_tasks/";
+	
+		$('#project-active-tasks').load(active_tasks_url);
+		$('#project-completed-tasks').load(completed_tasks_url, function(data) {
+			var progress = jQuery("span.progress", data.prevObject).text() || 0;
+			
+			update_progress(progress);
+		});
+	
+	}
+	
 	function update_task_status(that, checked){
 
 		var task_id = $(that).val();
 		var slug = $('#project_slug').val();
 
-		var active_tasks_url = "/project/" + slug + "/active_tasks/";
-		var completed_tasks_url = "/project/" + slug + "/completed_tasks/";
-
 		if (checked==true){
-		task_is_done = 1
+			task_is_done = 1
 		} else {
-		task_is_done = 0
+			task_is_done = 0
 		}
 
 		$.ajax({
 
-		url : "/project/tasks/update_status/",
-		data : {'is_done': task_is_done, 'task_id': task_id}
+			url : "/project/tasks/update_status/",
+			data : {'is_done': task_is_done, 'task_id': task_id}
 
 		}).success(function(r){
-			$('#project-active-tasks').load(active_tasks_url);
-			$('#project-completed-tasks').load(completed_tasks_url, function(data) {
-                var progress = jQuery("span.progress", data.prevObject).text() || 0;
-                
-                update_progress(progress);
-            });
+			reload_task_list(slug);
 			//$('.progress').load('.progress', function(){$(this).children().unwrap()});
 			//location.reload();
 		})
 	};
 
-
 	$('select').addClass('select2');
 	$('.select2').select2();
 
+	function assign_user_to_task(user_id, task_id, callback){
+		$.ajax({
+			url : "/task/assign/",
+			data : {'user_id': user_id, 'task_id':task_id }
+		}).success(callback)
+	}
+	
+	function remove_user_from_task(user_id, task_id, callback){
+		$.ajax({
+			url : "/task/remove/",
+			data : {'user_id': user_id, 'task_id':task_id }
+		}).success(callback)
+	}
+	
 	$('.assign select').live('change', function(){
 
 		var user_id = $(this).val();
 		var task_id = $('#task_id').val();
-
+		
 		var assigned = "/task/" + task_id + "/people/";
-
-		$.ajax({
-
-			url : "/task/assign/",
-			data : {'user_id': user_id, 'task_id':task_id }
-
-		}).success(function(r){
-			$('#assigned').load(assigned);
-		})
+		
+		assign_user_to_task(user_id, task_id, function(r){$('#assigned').load(assigned)});
 
 	});
 
@@ -97,17 +109,23 @@ $(document).ready(function(){
 
 		var user_id = $(this).find('input').val();
 		var task_id = $('#task_id').val();
-
+		
 		var assigned = "/task/" + task_id + "/people/";
 
-		$.ajax({
+		remove_user_from_task(user_id, task_id, function(r){$('#assigned').load(assigned)});
 
-			url : "/task/remove/",
-			data : {'user_id': user_id, 'task_id':task_id }
+	});
+	
+	$('.todo-people').live('change', function(){
 
-		}).success(function(r){
-			$('#assigned').load(assigned);
-		})
+		var user_id = $(this).find('option:selected').val();
+		var task_id = $(this).parent().attr('data-taskid');
+		
+		var assigned = "/task/" + task_id + "/people/";
+		
+		// TODO : refresh task detail
+		
+		assign_user_to_task(user_id, task_id, function(r){console.log(r);});
 
 	});
 

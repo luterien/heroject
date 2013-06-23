@@ -4,34 +4,29 @@
       <label class="checkbox" for="checkbox{{ task.id }}"></label>
       <input type="checkbox" value="{{ task.id }}" id="checkbox{{task.id}}">
 
-      <div class="todo-cnt">
-      <a href="{% url 'task_details' task.id %}">
-      {{ task.title }}
-      </a>
-      <span>
+      <div class="todo-cnt" data-taskid="{{ task.id }}">
+		  <a href="{% url 'task_details' task.id %}">
+		  {{ task.title }}
+		  </a>
+		  <span>
 
-      {% comment %}
-        {% for person in task.people.all %}
-          <a><img src="{{ STATIC_URL }}img/no-img.jpg" height="20" border="1" /></a>
-        {% endfor %}
+			{% for person in task.people.all %}
+			  <a><img src="{{ STATIC_URL }}img/no-img.jpg" height="20" border="1" />{{ person.username }}</a>
+			{% endfor %}
 
-        </span>
+			</span>
 
-        <select class="select2 todo-people">
-          <option>+</option>
-          {% for person in task.project.people.all %}
-            <option value="{{ person.id }}">{{ person }}</option>
-          {% endfor %}
-        </select>
-      {% endcomment %}
-      
-      <a class="todo-comment" href="{% url 'task_details' task.id %}"><i class="icon comment"></i>({{task.comment_count}})</a>
-      <a class="act-btns" href="{% url 'update_task' task.id %}"><i class="icon update"></i></a>
-      <a class="act-btns" href="{% url 'delete_task' task.id %}"><i class="icon delete"></i></a>
+			<select class="select2 todo-people">
+			  <option>+</option>
+			  {% for person in task.project.people.all %}
+				<option value="{{ person.id }}">{{ person }}</option>
+			  {% endfor %}
+			</select>
+		  
+		  <a class="todo-comment" href="{% url 'task_details' task.id %}"><i class="icon comment"></i>({{task.comment_count}})</a>
+		  <a class="act-btns" href="{% url 'update_task' task.id %}"><i class="icon update"></i></a>
+		  <a class="act-btns" href="{% url 'delete_task' task.id %}"><i class="icon delete"></i></a>
 
-      {% for people in task.assigned_people %}
-        <span>({{ people }})</span>
-      {% endfor %}
       </div>
     </li>
     {% endfor %}

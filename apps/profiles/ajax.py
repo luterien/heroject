@@ -17,7 +17,7 @@ def assign_user(request):
         t.people.add(u)
         action(request.user, u, "assigntotask", t)
 
-    result = {}
+    result = {'user_id': u.id, 'username': u.username}
 
     return HttpResponse(simplejson.dumps(result), mimetype="application/json")
 
