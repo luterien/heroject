@@ -1,3 +1,9 @@
+{% comment %}
+    "progress" gibi active task sayısını her update olduğunda burdan gösterip 
+    ön yüze göndermek gerekiyordu.
+{% endcomment %}
+<span data-projectid="{{ project.id }}" class="active-task-count" style="display:none;">{{ project.active_tasks.count }}</span>
+
 {% if project.completed_tasks %}
     <span class="progress" style="display:none;">{{ project.progress }}</span>
     {% for task in project.completed_tasks %}
