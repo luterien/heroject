@@ -30,14 +30,24 @@ $(document).ready(function(){
 	});
 
 
-    var update_progress = function(width) {
+    var updateProject = function(progress, active_task, project_id) {
         var prg_cnt = $(".prg-cnt strong"),
             bar = $(".progress .bar");
 
-        bar.animate({ "width": width + "%"});
-        prg_cnt.html("%" + width);
+        bar.animate({ "width": progress + "%"});
+        prg_cnt.html("%" + progress);
 
-        if (!width) prg_cnt.empty();
+        if (!progress) prg_cnt.empty();
+
+        // project active_task update
+        var leftside_project = $("[data-projectid="+ project_id +"]");
+
+        leftside_project.find(".act-todo").fadeOut(function() {
+            var $this = $(this);
+            $this.text(active_task);
+             
+            $this.fadeIn();
+        });
     };
 	
 	function reload_task_list(slug){
@@ -48,8 +58,10 @@ $(document).ready(function(){
 		$('#project-active-tasks').load(active_tasks_url);
 		$('#project-completed-tasks').load(completed_tasks_url, function(data) {
 			var progress = jQuery("span.progress", data.prevObject).text() || 0;
-			
-			update_progress(progress);
+            var active_task = jQuery("span.active-task-count", data.prevObject).text();
+            var project_id = jQuery("span.active-task-count", data.prevObject).data("projectid");
+
+			updateProject(progress, active_task, project_id);
 		});
 	
 	}
