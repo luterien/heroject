@@ -2,14 +2,14 @@
       {% if projects %}
         <ul>
         {% for project in projects %}
-        <li>
-              <h3 class="project-title">
-                <a href="{% url 'project_details' project.id %}">
-                  {{ project.title }}
-                  <span class="act-todo">{{ project.active_tasks_count }}</span>
-                </a>
-              </h3>
-        </li>
+            <li data-projectid="{{ project.id }}">
+                  <h3 class="project-title">
+                    <a href="{% url 'project_details' project.id %}">
+                      {{ project.title }}
+                      <span class="act-todo">{{ project.active_tasks_count }}</span>
+                    </a>
+                  </h3>
+            </li>
         {% endfor %}
         </ul>
         <div class="notproject">
