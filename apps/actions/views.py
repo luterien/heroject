@@ -4,7 +4,6 @@ from django.shortcuts import render, redirect
 
 from apps.actions.models import Invitation
 from apps.actions.forms import InvitationForm
-from apps.profiles.models import Profile
 from apps.actions.utils import invite
 from apps.projects.models import Project
 
@@ -16,8 +15,7 @@ class InviteToProject(CreateView):
     success_url = "/"
 
     def get_success_url(self):
-        slg = Project.objects.get(id=self.kwargs['project_id'])
-        return reverse('project_details', kwargs={'slug': slg})
+        return reverse('project_details', kwargs={'pk': self.kwargs['project_id']})
 
     def form_valid(self, form):
         ## todo
