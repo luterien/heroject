@@ -1,4 +1,5 @@
 from django import forms
+
 from apps.projects.models import *
 
 
@@ -45,6 +46,7 @@ class CreateTaskCommentForm(forms.ModelForm):
     class Meta:
         model = TaskComment
         fields = ('content', )
+
 
 class UpdateTaskForm(forms.ModelForm):
     class Meta:

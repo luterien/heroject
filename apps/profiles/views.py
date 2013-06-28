@@ -2,15 +2,15 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth import logout, login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.views.generic.edit import UpdateView, CreateView
-from django.views.generic.detail import DetailView
-
+from django.views.generic.edit import UpdateView
+from django.template.loader import render_to_string
 
 from apps.profiles.models import *
 from apps.profiles.forms import *
-from apps.actions.forms import *
 from apps.projects.forms import NewProjectForm
 from apps.profiles.decorators import anonymous_required
+from apps.profiles.tasks import mail_sender
+from projectbonus.local_settings import EMAIL_HOST_USER
 
 
 @login_required
@@ -19,6 +19,7 @@ def index(request, template="index.html"):
     ctx = {'projects': request.user.projects}
 
     return render(request, template, ctx)
+
 
 @anonymous_required('index')
 def login_user(request,
@@ -39,7 +40,8 @@ def login_user(request,
         form = LoginForm()
     
     return render(request, template, {'form': form})
-            
+
+
 @anonymous_required('index')
 def register_user(request,
                   register_success_url="/",
@@ -51,16 +53,31 @@ def register_user(request,
     if request.method == "POST":
         form = RegistrationForm(request.POST)
         if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password1']
 
             user = Profile.objects.create_user(
-                username=form.cleaned_data['username'],
-                email=form.cleaned_data['email'],
-                password=form.cleaned_data['password1'])
+                username=username,
+                email=email,
+                password=password)
 
             user.save()
 
-            auth_usr = authenticate(username=form.cleaned_data['username'],
-                                    password=form.cleaned_data['password1'])
+            #TODO: Erhan we need a mail template to send users to say hello
+            subject = "Welcome to Heroject"
+            message = render_to_string('mail_templates/welcome_mail.html',
+                                       {'username': username,
+                                        'password': password,
+                                        'email': email})
+
+            sender = EMAIL_HOST_USER
+            recipients = [email]
+
+            mail_sender(subject=subject, message=message, sender=sender, recipients=recipients)
+
+            auth_usr = authenticate(username=username,
+                                    password=password)
 
             if auth_usr:
                 login(request, auth_usr)

@@ -4,7 +4,14 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-_parent = lambda x: os.path.normpath(os.path.join(x,'..'))
+#email settings
+EMAIL_USE_TLS = True
+EMAIL_HOST = ''
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 587
+
+_parent = lambda x: os.path.normpath(os.path.join(x, '..'))
 PROJECT_DIR = _parent(os.path.dirname(__file__))
 
 ADMINS = (
@@ -15,7 +22,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'heroject.db',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.

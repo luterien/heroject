@@ -4,7 +4,6 @@ from django.utils import simplejson
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 
-from apps.actions.utils import action
 
 def update_task_status(request):
     is_done = request.GET.get('is_done')
@@ -30,6 +29,7 @@ def active_tasks(request, slug, template="projects/active_tasks.html"):
     prj = get_object_or_404(Project, slug=slug)
     ctx = {'project':prj}
     return render_to_response(template, ctx, context_instance = RequestContext(request))
+
 
 def completed_tasks(request, slug, template="projects/completed_tasks.html"):
     prj = get_object_or_404(Project, slug=slug)

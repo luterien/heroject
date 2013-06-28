@@ -1,4 +1,5 @@
 from PIL import Image
+from django.core.mail import send_mail
 
 
 def make_square(path=None, size=(200, 200)):
@@ -21,3 +22,12 @@ def make_square(path=None, size=(200, 200)):
     img = img.crop((left, upper, right, lower))
     img.thumbnail(size, Image.ANTIALIAS)
     img.save(path, quality=80)
+
+
+def mail_sender(subject, message, sender, recipients):
+    send_mail(subject=subject,
+              message=message,
+              from_email=sender,
+              recipient_list=recipients,
+              fail_silently=False)
+    return "OK"

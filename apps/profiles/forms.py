@@ -1,8 +1,8 @@
 import re
-
 from django import forms
-from apps.profiles.models import Profile
 from django.contrib.auth.forms import AuthenticationForm
+
+from apps.profiles.models import Profile
 
 
 class RegistrationForm(forms.Form):
@@ -49,6 +49,7 @@ class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ('picture', )
+
 
 class LoginForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
