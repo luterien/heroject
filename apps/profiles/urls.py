@@ -29,6 +29,8 @@ urlpatterns = patterns(
 
     url(r'^invitations/(?P<id>[-\d]+)/$', reply_to_invitation, name="reply_to_invitation"),
 
+    url(r'^invite/$', invite_with_mail, name="invite_with_mail"),
+
     url(r'^notifications/$', notifications, name="notifications"),
 
     (r'^password/reset/$', password_reset,
