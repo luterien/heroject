@@ -35,16 +35,16 @@ class Project(models.Model):
         super(Project, self).save(*args, **kwargs)
 
     def completed_tasks(self):
-        return self.task_set.filter(is_done=True)
+        return self.task_set.filter(is_done=True).select_related()
 
     def active_tasks(self):
-        return self.task_set.filter(is_done=False)
+        return self.task_set.filter(is_done=False).select_related()
 
     def active_tasks_count(self):
         return self.active_tasks().count()
 
     def discussions(self):
-        return self.discussion_set.all()
+        return self.discussion_set.all().select_related()
 
     def progress(self):
         todo_count = self.task_set.all().count()
@@ -83,7 +83,7 @@ class Discussion(models.Model):
         super(Discussion, self).save(*args, **kwargs)
 
     def posts(self):
-        return self.discussioncomment_set.all()
+        return self.discussioncomment_set.all().select_related()
 
     def latest_post(self):
         pass#return self.discussioncomment_set.order_by('-date_started')
@@ -146,13 +146,13 @@ class Task(models.Model):
         pass
 
     def comments(self):
-        return self.taskcomment_set.all()
+        return self.taskcomment_set.all().select_related()
 
     def comment_count(self):
         return self.taskcomment_set.count()
 
     def assigned_peoples(self):
-        return self.people.all()
+        return self.people.all().select_related()
 
 
 class BaseComment(models.Model):

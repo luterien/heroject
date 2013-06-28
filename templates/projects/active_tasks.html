@@ -11,7 +11,11 @@
 		  <span>
 
 			{% for person in task.people.all %}
-			  <a><img src="{{ STATIC_URL }}img/no-img.jpg" height="20" border="1" />{{ person.username }}</a>
+                {% if person.picture %}
+			        <a><img src="{{ MEDIA_URL }}{{ user.picture }}" height="20" border="1" />{{ person.username }}</a>
+                {% else %}
+                    <a><img src="{{ STATIC_URL }}img/no-img.jpg" height="20" border="1" />{{ person.username }}</a>
+                {% endif %}
 			{% endfor %}
 
 			</span>
