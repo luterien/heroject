@@ -8,6 +8,7 @@ from apps.profiles.views import *
 from apps.actions.views import *
 
 ## TODO: 4 adet yeni html yapilacak.
+## for erhan: http://drumcoder.co.uk/blog/2010/apr/09/django-reset-password/
 
 urlpatterns = patterns(
     'apps.profiles.views',
