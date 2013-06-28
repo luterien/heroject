@@ -1,7 +1,13 @@
 from django.conf.urls import patterns, url
-from django.contrib.auth.views import password_change, password_change_done
+from django.contrib.auth.views import (password_change, password_change_done,
+                                       password_reset, password_reset_confirm,
+                                       password_reset_done,
+                                       password_reset_complete)
+
 from apps.profiles.views import *
 from apps.actions.views import *
+
+## TODO: 4 adet yeni html yapilacak.
 
 urlpatterns = patterns(
     'apps.profiles.views',
@@ -23,5 +29,15 @@ urlpatterns = patterns(
     url(r'^invitations/(?P<id>[-\d]+)/$', reply_to_invitation, name="reply_to_invitation"),
 
     url(r'^notifications/$', notifications, name="notifications"),
+
+    (r'^password/reset/$', password_reset,
+        {'post_reset_redirect': '/password/reset/done/'}),
+
+    (r'^password/reset/done/$', password_reset_done),
+
+    (r'^password/reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', password_reset_confirm,
+        {'post_reset_redirect': '/password/done/'}),
+
+    (r'^password/done/$', password_reset_complete),
 )
 
