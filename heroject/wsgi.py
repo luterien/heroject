@@ -17,18 +17,12 @@ import os, sys, site
 
 site.addsitedir('/home/ugur/heroject/local/lib/python2.7/site-packages')
 
-sys.path.append("/home/ugur/siteler/heroject")
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "heroject.settings")
-
-activate_env=os.path.expanduser("/home/ugur/heroject/bin/activate_this.py")
-execfile(activate_env, dict(__file__=activate_env))
-
-# This application object is used by any WSGI server configured to use this
-# file. This includes Django's development server, if the WSGI_APPLICATION
-# setting points here.
+from django.core.management import setup_environ
 from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
 
-# Apply WSGI middleware here.
-# from helloworld.wsgi import HelloWorldApplication
-# application = HelloWorldApplication(application)
+# Project Added
+sys.path.append("/home/ugur/siteler/heroject")
+
+from heroject import settings
+setup_environ(settings)
+application = get_wsgi_application()

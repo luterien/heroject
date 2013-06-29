@@ -4,29 +4,40 @@ import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
-#email settings
-EMAIL_USE_TLS = True
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_PORT = 587
-
-_parent = lambda x: os.path.normpath(os.path.join(x, '..'))
+_parent = lambda x: os.path.normpath(os.path.join(x,'..'))
 PROJECT_DIR = _parent(os.path.dirname(__file__))
 
+EMAIL_USE_TLS = True
+
+EMAIL_HOST = 'smtp.yandex.ru'
+
+EMAIL_HOST_USER = 'hello@heroject.com'
+
+EMAIL_HOST_PASSWORD = 'hulooo'
+
+EMAIL_PORT = 587
+
+DEFAULT_FROM_EMAIL = 'hello@heroject.com'
+
+DEFAULT_CONTENT_TYPE = 'text/html'
+
+DEFAULT_CHARSET = 'utf-8'
+
 ADMINS = (
-    # ('Your Name', 'your_email@example.com'),
+    ('Ercan', 'ercan_basa@gmail.com'),
+    ('Erhan', 'erh4n@live.com'),
+    ('Ugur', 'uguryoruk24@gmail.com'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'heroject.db',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'heroject',                      # Or path to database file if using sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': 'soylemem',                  # Not used with sqlite3.
+        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }

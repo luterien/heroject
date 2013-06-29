@@ -6,3 +6,5 @@ uploads/*
 *.db
 .DS_Store
 .idea/*
+
+heroject/wsgi.py
