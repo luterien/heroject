@@ -2,18 +2,14 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
-from projectbonus.utils import slugify
 
 ## TODO
 ## Project permissions
-## Do we need slugs ?
 
 
 class Project(models.Model):
 
     title = models.CharField(_("Title"), max_length=100)
-
-    slug = models.SlugField()
 
     description = models.TextField(_("Description"), null=True, blank=True)
 
@@ -29,10 +25,6 @@ class Project(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('project_details', (), {'pk': self.id})
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title, instance=self)
-        super(Project, self).save(*args, **kwargs)
 
     def completed_tasks(self):
         return self.task_set.filter(is_done=True).select_related()
@@ -67,8 +59,6 @@ class Discussion(models.Model):
     title = models.CharField(_("Title"), max_length=100,
                              null=True, blank=True)
 
-    slug = models.SlugField()
-
     content = models.TextField(_("Content"), null=True, blank=True)
 
     def __unicode__(self):
@@ -77,10 +67,6 @@ class Discussion(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('discussion_details', (), {'pk': self.id})
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title, instance=self)
-        super(Discussion, self).save(*args, **kwargs)
 
     def posts(self):
         return self.discussioncomment_set.all().select_related()
@@ -95,9 +81,6 @@ class Task(models.Model):
     title = models.CharField(_("Title"), max_length=200,
                              null=True, blank=True)
 
-    slug = models.SlugField()
-
-     ## remove this field
     content = models.TextField(_("Content"), null=True, blank=True)
 
     ordering = models.IntegerField(_("Ordering"))
@@ -138,10 +121,6 @@ class Task(models.Model):
     def get_absolute_url(self):
         return ('task_details', (), {'pk': self.pk})
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title, instance=self)
-        super(Task, self).save(*args, **kwargs)
-
     def deadline_status(self):
         pass
 
@@ -159,16 +138,11 @@ class BaseComment(models.Model):
     started_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Started By"))
     content = models.TextField(_("Content"), null=True, blank=True)
     title = models.CharField(_("Title"), max_length=100)
-    slug = models.SlugField()
 
     date_started = models.DateTimeField(_("Date Started"), auto_now_add=True)
 
     class Meta:
         abstract = True
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title, instance=self)
-        super(BaseComment, self).save(*args, **kwargs)
 
 
 class DiscussionComment(BaseComment):
