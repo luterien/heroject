@@ -8,8 +8,12 @@ from apps.actions.forms import InvitationForm, InvitationWithMailForm
 from apps.actions.utils import invite
 from apps.projects.models import Project
 from apps.profiles.tasks import mail_sender
-from projectbonus.local_settings import EMAIL_HOST_USER
 from django.contrib import messages
+
+try:
+    from projectbonus.local_settings import EMAIL_HOST_USER
+except:
+    from projectbonus.default_settings import EMAIL_HOST_USER
 
 
 class InviteToProject(CreateView):

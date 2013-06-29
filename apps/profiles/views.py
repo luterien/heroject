@@ -10,7 +10,11 @@ from apps.profiles.forms import *
 from apps.projects.forms import NewProjectForm
 from apps.profiles.decorators import anonymous_required
 from apps.profiles.tasks import mail_sender
-from projectbonus.local_settings import EMAIL_HOST_USER
+
+try:
+    from projectbonus.local_settings import EMAIL_HOST_USER
+except:
+    from projectbonus.default_settings import EMAIL_HOST_USER
 
 
 @login_required

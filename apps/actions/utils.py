@@ -25,11 +25,12 @@ def invite(sender, cls, object_id, receiver=None, email=None):
 
         try:
             to = cls.objects.get(id=int(object_id))
-            ivn = Invitation.objects.new(sender, to, receiver)
+            ivn, created = Invitation.objects.new(sender, to, receiver)
         except:
             to = None
 
-        action(sender, receiver, "invite", target_object=to)
+        if created:
+            action(sender, receiver, "invite", target_object=to)
         
         # when an invitation is sent, notify the user
         # send_user_notification(action)

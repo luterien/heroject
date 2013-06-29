@@ -272,28 +272,27 @@ class InvitationManager(models.Manager):
         """
         return self.filter(is_read=False)
 
-
     def new(self, sender, object, receiver=None):
         """
             create a new invitation
         """
-        inv = self.model(sender=sender,
-                         receiver=receiver,
-                         content_type=ContentType.objects.get_for_model(
-                             object.__class__),
-                         object_id=smart_unicode(object.id))
-        inv.save()
+        inv, created = self.get_or_create(
+            sender=sender, receiver=receiver,
+            content_type=ContentType.objects.get_for_model(object.__class__),
+            object_id=smart_unicode(object.id))
 
-        return inv
+        return inv, created
 
 
 class Invitation(models.Model):
     """
         Store project invitations
     """
-    sender = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="Sender")
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL,
+                               verbose_name="Sender")
 
-    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Receiver"),
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                 verbose_name=_("Receiver"),
                                  null=True, blank=True,
                                  related_name="received_invitations")
 
