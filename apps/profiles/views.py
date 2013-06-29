@@ -70,7 +70,7 @@ def register_user(request,
 
             #TODO: Erhan we need a mail template to send users to say hello
             subject = "Welcome to Heroject"
-            message = render_to_string('mail_templates/welcome_mail.html',
+            message = render_to_string('mail/welcome_mail.html',
                                        {'username': username,
                                         'password': password,
                                         'email': email})

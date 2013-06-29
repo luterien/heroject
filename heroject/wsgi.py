@@ -13,9 +13,15 @@ middleware here, or combine a Django application with an application of another
 framework.
 
 """
-import os
+import os, sys, site
 
+site.addsitedir('/home/ugur/heroject/local/lib/python2.7/site-packages')
+
+sys.path.append("/home/ugur/siteler/heroject")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "heroject.settings")
+
+activate_env=os.path.expanduser("/home/ugur/heroject/bin/activate_this.py")
+execfile(activate_env, dict(__file__=activate_env))
 
 # This application object is used by any WSGI server configured to use this
 # file. This includes Django's development server, if the WSGI_APPLICATION

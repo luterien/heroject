@@ -71,7 +71,7 @@ def reply_to_invitation(request, id,
     return redirect('invitations')
 
 
-def invite_with_mail(request, template='invite_with_mail.html'):
+def invite_with_mail(request, template='mail/invite_with_mail.html'):
     if request.method == 'POST':
         form = InvitationWithMailForm(request.POST)
         if form.is_valid():
@@ -79,7 +79,7 @@ def invite_with_mail(request, template='invite_with_mail.html'):
 
             #TODO: Erhan we need a mail template to send users to invite
             subject = "%s Has Invited You to Heroject" % inviter.username
-            message = render_to_string('mail_templates/invitation_mail.html',
+            message = render_to_string('mail/invitation_mail.html',
                                        {'username': inviter.username,
                                         'full_name': inviter.get_full_name()})
 
