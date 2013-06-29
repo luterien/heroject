@@ -10,10 +10,7 @@ from apps.projects.models import Project
 from apps.profiles.tasks import mail_sender
 from django.contrib import messages
 
-try:
-    from heroject.local_settings import EMAIL_HOST_USER
-except:
-    from heroject.default_settings import EMAIL_HOST_USER
+from heroject.settings import EMAIL_HOST_USER
 
 
 class InviteToProject(CreateView):

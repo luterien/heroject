@@ -11,10 +11,7 @@ from apps.projects.forms import NewProjectForm
 from apps.profiles.decorators import anonymous_required
 from apps.profiles.tasks import mail_sender
 
-try:
-    from heroject.local_settings import EMAIL_HOST_USER
-except:
-    from heroject.default_settings import EMAIL_HOST_USER
+from heroject.settings import EMAIL_HOST_USER
 
 
 @login_required
