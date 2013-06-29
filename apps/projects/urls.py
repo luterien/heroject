@@ -22,8 +22,8 @@ urlpatterns = patterns(
     
     url(r'^tasks/(?P<task_id>[-\d]+)/comments/', CreateTaskComment.as_view(), name="create_task_comment"),
 
-    url(r'^(?P<slug>[-\w]+)/completed_tasks/$', completed_tasks, name="completed_tasks"),
-    url(r'^(?P<slug>[-\w]+)/active_tasks/$', active_tasks, name="active_tasks"),
+    url(r'^(?P<pk>[-\d]+)/completed_tasks/$', completed_tasks, name="completed_tasks"),
+    url(r'^(?P<pk>[-\d]+)/active_tasks/$', active_tasks, name="active_tasks"),
     
     # post urls
     url(r'^discussion/(?P<discussion_id>[-\d]+)/post/create/$', CreateDiscussionComment.as_view(), name="create_post"),

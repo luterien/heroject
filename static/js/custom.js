@@ -50,10 +50,10 @@ $(document).ready(function(){
         });
     };
 	
-	function reload_task_list(slug){
+	function reload_task_list(id){
 
-		var active_tasks_url = "/project/" + slug + "/active_tasks/";
-		var completed_tasks_url = "/project/" + slug + "/completed_tasks/";
+		var active_tasks_url = "/project/" + id + "/active_tasks/";
+		var completed_tasks_url = "/project/" + id + "/completed_tasks/";
 	
 		$('#project-active-tasks').load(active_tasks_url);
 		$('#project-completed-tasks').load(completed_tasks_url, function(data) {
@@ -69,7 +69,7 @@ $(document).ready(function(){
 	function update_task_status(that, checked){
 
 		var task_id = $(that).val();
-		var slug = $('#project_slug').val();
+		var id = $('#project_slug').val();
 
 		if (checked==true){
 			task_is_done = 1
@@ -83,7 +83,7 @@ $(document).ready(function(){
 			data : {'is_done': task_is_done, 'task_id': task_id}
 
 		}).success(function(r){
-			reload_task_list(slug);
+			reload_task_list(id);
 			//$('.progress').load('.progress', function(){$(this).children().unwrap()});
 			//location.reload();
 		})
