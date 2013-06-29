@@ -1,4 +1,4 @@
-# Django settings for projectbonus project.
+# Django settings for heroject project.
 import os
 
 DEBUG = True
@@ -109,10 +109,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'projectbonus.urls'
+ROOT_URLCONF = 'heroject.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'projectbonus.wsgi.application'
+WSGI_APPLICATION = 'heroject.wsgi.application'
 
 TEMPLATE_DIRS = ( os.path.join(PROJECT_DIR, 'templates'), )
 

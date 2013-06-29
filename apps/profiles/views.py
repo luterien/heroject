@@ -12,9 +12,9 @@ from apps.profiles.decorators import anonymous_required
 from apps.profiles.tasks import mail_sender
 
 try:
-    from projectbonus.local_settings import EMAIL_HOST_USER
+    from heroject.local_settings import EMAIL_HOST_USER
 except:
-    from projectbonus.default_settings import EMAIL_HOST_USER
+    from heroject.default_settings import EMAIL_HOST_USER
 
 
 @login_required
