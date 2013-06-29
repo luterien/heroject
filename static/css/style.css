@@ -108,9 +108,10 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 #lrform .lost-pass:hover 	{color: #777;}
 
 /*		Page : Index 	*/
-#leftside li a {width: 218px; padding: 10px; display:block; font-weight: normal; border-bottom: 1px solid #ccc; border-top: 1px solid #fff; font-size: 14px; background: #e7ebf0;}
+#leftside li a { overflow:hidden; padding: 10px; display:block; font-weight: normal; border-bottom: 1px solid #ccc; border-top: 1px solid #fff; font-size: 14px; background: #e7ebf0;}
 #leftside li:first-child a {border-top: 0;}
 #leftside li .act-todo {float: right; background: #c9d2dd; color: #495a6b; padding: 5px; font-size: 10px; border: 1px solid #ccc; border-radius: 3px; margin-top: -4px;}
+#leftside li .act-name { float:left; display:block; width:195px; word-wrap: break-word; }
 
 #leftside .notproject 		{width: 200px; margin: 0 auto; text-align: center; margin-top: 30px;}
 #leftside .notproject .btn 	{height: 30px; line-height: 34px; font-size: 14px; margin-top: 10px;}
@@ -130,7 +131,7 @@ body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; backgro
 
 /*		Page : Project	*/
 .p-head .top 		{ background: #565658; padding: 10px 0; border-bottom: 1px solid #ccc;}
-.p-head .top h2 	{ width: 440px; float: left; color: #fff; font-size: 14px; text-indent: 10px; padding-top: 5px;}
+.p-head .top h2 	{ width: 440px; float: left; color: #fff; font-size: 14px; padding-top: 5px; word-wrap: break-word; padding-left: 10px; }
 .p-head .top form {width: 200px; float:right;}
 .p-head .top form span {float: left; font-family: 'font300',sans-serif; color: #fff; margin-top: 8px; margin-right: 8px;}
 .p-head .top form input {height: 23px; border-radius: 3px; border: 0; text-indent: 10px;}

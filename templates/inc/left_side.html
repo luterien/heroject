@@ -5,7 +5,7 @@
             <li data-projectid="{{ project.id }}">
                   <h3 class="project-title">
                     <a href="{% url 'project_details' project.id %}">
-                      {{ project.title }}
+                      <span class="act-name">{{ project.title }}</span>
                       <span class="act-todo">{{ project.active_tasks_count }}</span>
                     </a>
                   </h3>
