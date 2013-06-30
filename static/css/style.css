@@ -83,7 +83,7 @@ input[type="checkbox"] {display: none;}
 body 		{font-family: 'font500',sans-serif; color: #333; font-size: 14px; background: url(../img/body-bg.jpg) no-repeat center center fixed;  -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover; }
 
 #logo  		{text-align: center; margin: 20px 0;}
-#logo a 	{color: #fff; font-size: 36px;}
+#logo a 	{color: #fff; font-size: 36px;display:block;}
 #logo small {font-size: 18px; font-family: 'font100',sans-serif; display: block;}
 
 /*		Page : Login - Register 		*/
