@@ -1,6 +1,7 @@
 *.log
 *.pot
 *.pyc
+*.swp
 settings_local.py
 uploads/*
 *.db
