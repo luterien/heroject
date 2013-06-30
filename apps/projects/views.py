@@ -166,7 +166,7 @@ class CreateTask(CreateView):
         self.object.project_id = self.kwargs['project_id']
         # started by
         self.object.started_by = self.request.user
-        self.object.ordering = 1 # temporary fix
+        self.object.ordering = 1  # temporary fix
         self.object.save()
         # create an action
         # will be celery task
