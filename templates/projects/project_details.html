@@ -41,6 +41,13 @@
           </div>
         </div>
         <div class="p-cont">
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
 
         <form class="add-todo-form full-block" action="{% url 'create_task' project.id %}" method="POST">{% csrf_token %}
             {{ new_task_form.as_p }}

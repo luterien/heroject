@@ -2,6 +2,9 @@ from django.views.generic.edit import CreateView
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
+from django.contrib.sites.models import get_current_site
+from django.contrib import messages
+from django.utils.translation import ugettext as _
 
 from apps.actions.models import Invitation
 from apps.actions.forms import InvitationForm, InvitationWithMailForm
@@ -31,6 +34,9 @@ class InviteToProject(CreateView):
         ## will be celery task
         invite(self.request.user, Project, self.kwargs['project_id'],
                form.instance.receiver)
+        messages.add_message(
+            self.request, messages.SUCCESS,
+            _("Your invitation has successfully sended to recepient."))
 
         return redirect(self.get_success_url())
 
@@ -73,11 +79,12 @@ def invite_with_mail(request, template='mail/invite_with_mail.html'):
         form = InvitationWithMailForm(request.POST)
         if form.is_valid():
             inviter = request.user
+            current_site = get_current_site(request)
 
             #TODO: Erhan we need a mail template to send users to invite
             subject = "%s Has Invited You to Heroject" % inviter.username
             message = render_to_string('mail/invitation_mail.html',
-                                       {'username': inviter.username,
+                                       {'site': current_site.domain,
                                         'full_name': inviter.get_full_name()})
 
             sender = EMAIL_HOST_USER
@@ -87,7 +94,7 @@ def invite_with_mail(request, template='mail/invite_with_mail.html'):
                         sender=sender, recipients=recipients)
             messages.add_message(
                 request, messages.SUCCESS,
-                "Your invitation has successfully sended to recepient.")
+                _("Your invitation has successfully sended to recepient."))
 
             form = InvitationWithMailForm()
 
