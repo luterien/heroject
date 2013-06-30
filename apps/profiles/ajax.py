@@ -1,10 +1,11 @@
+import json
 from django.http import HttpResponse
-from django.utils import simplejson
 from django.shortcuts import render, get_object_or_404
 
 from apps.projects.models import Task
 from apps.profiles.models import Profile
 from apps.actions.tasks import action
+
 
 def assign_user(request):
     user_id = request.GET.get('user_id')
@@ -19,7 +20,7 @@ def assign_user(request):
 
     result = {'user_id': u.id, 'username': u.username}
 
-    return HttpResponse(simplejson.dumps(result), mimetype="application/json")
+    return HttpResponse(json.dumps(result), mimetype="application/json")
 
 
 def remove_user(request):
@@ -35,7 +36,7 @@ def remove_user(request):
         
     result = {}
 
-    return HttpResponse(simplejson.dumps(result), mimetype="application/json")
+    return HttpResponse(json.dumps(result), mimetype="application/json")
 
 
 def task_people(request, task_id, template="projects/assigned_people.html"):
