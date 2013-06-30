@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 
 from apps.projects.models import Task
 from apps.profiles.models import Profile
-from apps.actions.utils import action
+from apps.actions.tasks import action
 
 def assign_user(request):
     user_id = request.GET.get('user_id')
@@ -15,7 +15,7 @@ def assign_user(request):
 
     if u in t.project.people.all() and u not in t.people.all():
         t.people.add(u)
-        action(request.user, u, "assigntotask", t)
+        action.delay(request.user, u, "assigntotask", t)
 
     result = {'user_id': u.id, 'username': u.username}
 
@@ -31,7 +31,7 @@ def remove_user(request):
 
     if p in t.project.people.all() and p in t.people.all():
         t.people.remove(p)
-        action(request.user, p, "removefromtask", t)
+        action.delay(request.user, p, "removefromtask", t)
         
     result = {}
 

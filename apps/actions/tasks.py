@@ -1,7 +1,9 @@
 from django.contrib.contenttypes.models import ContentType
 from apps.actions.models import Action, Invitation, Notification, Follow
+from celery.decorators import task
 
 
+@task
 def action(user, action_object, action_key,
            target_object=None, send_notification=True):
     """ 
@@ -11,9 +13,10 @@ def action(user, action_object, action_key,
                                        action_key, target_object)
 
     if target_object and send_notification:
-        notify_followers(action)
+        notify_followers.delay(action)
 
 
+@task
 def invite(sender, cls, object_id, receiver=None, email=None):
     """
         if the receiver parameter is provided
@@ -39,6 +42,7 @@ def invite(sender, cls, object_id, receiver=None, email=None):
         pass
 
 
+@task
 def start_following(user, follow_object):
     """
         Start following the target_object
@@ -65,6 +69,7 @@ def notification_from_action(action, receiver):
     n.save()
 
 
+@task
 def notify_followers(action, flws=None):
     """
         Create a notification from the given action,

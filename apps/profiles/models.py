@@ -24,7 +24,7 @@ class Profile(AbstractUser):
     def save(self, *args, **kwargs):
         super(Profile, self).save(*args, **kwargs)
         if self.picture:
-            make_square(self.picture.path)
+            make_square.delay(self.picture.path)
 
     @property
     def projects(self):

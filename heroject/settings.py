@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*- 
 import os
+import djcelery
+
+djcelery.setup_loader()
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -120,6 +123,8 @@ INSTALLED_APPS = (
     'apps.projects',
     'apps.profiles',
     'apps.actions',
+    # Third Party
+    'djcelery',
 )
 
 

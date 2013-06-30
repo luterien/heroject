@@ -1,7 +1,9 @@
 from PIL import Image
 from django.core.mail import send_mail
+from celery.decorators import task
 
 
+@task
 def make_square(path=None, size=(200, 200)):
     img = Image.open(path)
     width, height = img.size
@@ -24,6 +26,7 @@ def make_square(path=None, size=(200, 200)):
     img.save(path, quality=80)
 
 
+@task
 def mail_sender(subject, message, sender, recipients):
     send_mail(subject=subject,
               message=message,

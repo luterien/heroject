@@ -75,7 +75,8 @@ def register_user(request,
             sender = EMAIL_HOST_USER
             recipients = [email]
 
-            mail_sender(subject=subject, message=message, sender=sender, recipients=recipients)
+            mail_sender.delay(subject=subject, message=message,
+                              sender=sender, recipients=recipients)
 
             auth_usr = authenticate(username=username,
                                     password=password)

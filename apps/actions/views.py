@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 
 from apps.actions.models import Invitation
 from apps.actions.forms import InvitationForm, InvitationWithMailForm
-from apps.actions.utils import invite
+from apps.actions.tasks import invite
 from apps.projects.models import Project
 from apps.profiles.tasks import mail_sender
 from django.contrib import messages
@@ -30,9 +30,7 @@ class InviteToProject(CreateView):
         ## currently users are displayed in a select box,
         ## find a suitable widget later
 
-        ## todo
-        ## will be celery task
-        invite(self.request.user, Project, self.kwargs['project_id'],
+        invite.delay(self.request.user, Project, self.kwargs['project_id'],
                form.instance.receiver)
         messages.add_message(
             self.request, messages.SUCCESS,
@@ -90,8 +88,8 @@ def invite_with_mail(request, template='mail/invite_with_mail.html'):
             sender = EMAIL_HOST_USER
             recipients = [form.cleaned_data['email']]
 
-            mail_sender(subject=subject, message=message,
-                        sender=sender, recipients=recipients)
+            mail_sender.delay(subject=subject, message=message,
+                              sender=sender, recipients=recipients)
             messages.add_message(
                 request, messages.SUCCESS,
                 _("Your invitation has successfully sended to recepient."))

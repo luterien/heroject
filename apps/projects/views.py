@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 
 from apps.actions.forms import *
 from apps.projects.forms import *
-from apps.actions.utils import action, start_following
+from apps.actions.tasks import action, start_following
 from apps.profiles.models import Profile
 from apps.projects.decorators import has_access_project
 
@@ -68,7 +68,7 @@ def create_project(request, template="new_project.html"):
             prj.people.add(request.user)
 
             if prj:
-                action(request.user, prj, "create")
+                action.delay(request.user, prj, "create")
             
             return redirect(prj)
 
@@ -115,8 +115,8 @@ class CreateDiscussion(CreateView):
         self.object.save()
         # create an action
         # will be celery task
-        action(self.request.user, self.object, "create", self.object.project)
-        start_following(self.request.user, self.object)
+        action.delay(self.request.user, self.object, "create", self.object.project)
+        start_following.delay(self.request.user, self.object)
         return super(CreateDiscussion, self).form_valid(form)
 
     @method_decorator(login_required())
@@ -142,7 +142,7 @@ class CreateDiscussionComment(CreateView):
         self.object.save()
         # create an action
         # will be celery task
-        action(self.request.user, self.object,
+        action.delay(self.request.user, self.object,
                "comment", self.object.discussion)
         return super(CreateDiscussionComment, self).form_valid(form)
 
@@ -170,7 +170,7 @@ class CreateTask(CreateView):
         self.object.save()
         # create an action
         # will be celery task
-        action(self.request.user, self.object, "create", self.object.project)
+        action.delay(self.request.user, self.object, "create", self.object.project)
         return super(CreateTask, self).form_valid(form)
 
     @method_decorator(login_required())
@@ -196,7 +196,7 @@ class CreateTaskComment(CreateView):
         self.object.save()
         # will be celery task
         # create an action
-        action(self.request.user, self.object, "comment", self.object.task)
+        action.delay(self.request.user, self.object, "comment", self.object.task)
         return super(CreateTaskComment, self).form_valid(form)
 
     @method_decorator(login_required())
